@@ -1,0 +1,29 @@
+目录结构分析
+	login
+		AdminAuthenticationEntryPoint ----- 没有登录触发这个类----------
+
+		AdminAuthenticationFailureHandler------登录失败会触发！比如密码错误---ok
+
+		AdminAuthenticationProvider---------验证登录的类---------
+
+		CusAuthenticationManager---------这个是在登录验证才触发的----
+
+		AdminAuthenticationSuccessHandler----登录成功触发这个类-------
+
+
+
+	filter
+
+		AdminAuthenticationProcessingFilter-----这个触发在登录前---ok
+
+		MyAuthenticationFilter------这个是每个请求都会触发这个类的---
+
+	url
+		UrlAccessDeniedHandler-----认证url权限 - 登录后访问接口无权限 - 自定义403无权限响应内容
+
+		UrlAccessDecisionManager---AccessDecisionManager进行授权管理的
+
+		UrlFilterInvocationSecurityMetadataSource-----
+
+		注意：由于使用UrlFilterInvocationSecurityMetadataSource和UrlAccessDecisionManager
+		那么springsecurity内置的权限验证会失效
