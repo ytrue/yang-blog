@@ -144,7 +144,7 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
 //                requestStrBuilder.append(inputStr);
 //            }
 //            // 将json字符串转化为jsonbean对象
-////            User user = JSON.parseObject(requestStrBuilder.toString(), User.class);
+////            Admin user = JSON.parseObject(requestStrBuilder.toString(), Admin.class);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

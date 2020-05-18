@@ -1,7 +1,7 @@
 package com.yang.blog.security.dto;
 
+import com.yang.blog.entity.Admin;
 import com.yang.blog.entity.Role;
-import com.yang.blog.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +22,7 @@ public class SecurityUser implements UserDetails {
     /**
      * 当前登录用户
      */
-    private transient User currentUserInfo;
+    private transient Admin currentUserInfo;
     /**
      * 角色
      */
@@ -30,13 +30,13 @@ public class SecurityUser implements UserDetails {
 
     public SecurityUser() { }
 
-    public SecurityUser(User user) {
+    public SecurityUser(Admin user) {
         if (user != null) {
             this.currentUserInfo = user;
         }
     }
 
-    public SecurityUser(User user, List<Role> roleList) {
+    public SecurityUser(Admin user, List<Role> roleList) {
         if (user != null) {
             this.currentUserInfo = user;
             this.roleList = roleList;

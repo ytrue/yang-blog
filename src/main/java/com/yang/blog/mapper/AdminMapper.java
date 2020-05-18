@@ -1,13 +1,14 @@
 package com.yang.blog.mapper;
 
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yang.blog.entity.Admin;
 
+
 /**
- * @author：yangyi
- * @date：2020/5/16 13:20
- * @description：管理员mapper
+ * <p> 系统管理-用户基础信息表 Mapper 接口 </p>
+ *
+ * @author: zhengqing
+ * @date: 2019-08-19
  */
 public interface AdminMapper extends BaseMapper<Admin> {
 

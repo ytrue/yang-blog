@@ -1,7 +1,7 @@
 package com.yang.blog.security.login;
 
-import com.yang.blog.entity.User;
-import com.yang.blog.mapper.UserMapper;
+import com.yang.blog.entity.Admin;
+import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.security.dto.SecurityUser;
 import com.yang.blog.service.impl.UserDetailsServiceImpl;
 import com.yang.blog.util.PasswordUtils;
@@ -26,7 +26,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
     @Autowired
-    private UserMapper userMapper;
+    private AdminMapper userMapper;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -45,7 +45,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         // 前后端分离情况下 处理逻辑...
         // 更新登录令牌
         String token = PasswordUtils.encodePassword(System.currentTimeMillis() + userInfo.getCurrentUserInfo().getSalt(), userInfo.getCurrentUserInfo().getSalt());
-        User user = userMapper.selectById(userInfo.getCurrentUserInfo().getId());
+        Admin user = userMapper.selectById(userInfo.getCurrentUserInfo().getId());
         user.setToken(token);
         userMapper.updateById(user);
         userInfo.getCurrentUserInfo().setToken(token);

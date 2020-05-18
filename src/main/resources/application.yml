@@ -5,7 +5,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yang-blog?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://47.107.127.70:3306/yang-blog?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
     # Hikari 连接池配置
@@ -37,6 +37,9 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:mybatis/mapper/*.xml
   #config-location: classpath*:mybatis/*.xml
+  configuration:
+    call-setters-on-nulls: true
+    #return-instance-for-empty-row: true
 logging:
   level:
     com.yang.blog: debug

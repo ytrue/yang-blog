@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 
 @TableName("sys_user_role")
-public class UserRole {
+public class AdminRole {
 
     private static final long serialVersionUID = 1L;
 

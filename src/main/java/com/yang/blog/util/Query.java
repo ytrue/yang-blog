@@ -23,7 +23,7 @@ public class Query<T> {
      * @param params
      * @return
      */
-    public IPage<T> getPage(QueryCondition params) {
+    public Page<T> getPage(QueryCondition params) {
         return this.getPage(params, null, false);
     }
 
@@ -34,7 +34,7 @@ public class Query<T> {
      * @param isAsc
      * @return
      */
-    public IPage<T> getPage(QueryCondition params, String defaultOrderField, boolean isAsc) {
+    public Page<T> getPage(QueryCondition params, String defaultOrderField, boolean isAsc) {
         //分页参数
         long curPage = 1;
         long limit = 10;

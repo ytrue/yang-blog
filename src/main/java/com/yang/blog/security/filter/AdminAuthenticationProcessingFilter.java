@@ -2,7 +2,7 @@ package com.yang.blog.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.yang.blog.entity.User;
+import com.yang.blog.entity.Admin;
 import com.yang.blog.security.login.AdminAuthenticationFailureHandler;
 import com.yang.blog.security.login.AdminAuthenticationSuccessHandler;
 import com.yang.blog.security.login.CusAuthenticationManager;
@@ -52,7 +52,7 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
         try {
             MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(request);
             // 将前端传递的数据转换成jsonBean数据格式
-            User user = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), User.class);
+            Admin user = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), Admin.class);
 
             authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), null);
 

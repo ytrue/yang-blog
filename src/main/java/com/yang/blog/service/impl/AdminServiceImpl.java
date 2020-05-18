@@ -1,8 +1,8 @@
 package com.yang.blog.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.mapper.AdminMapper;
@@ -16,99 +16,45 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-
-/**
- * <p>
- * 服务实现类
- * </p>
- *
- * @author yang
- * @since 2020-05-16
- */
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
 
-    @Override
-    public PageVo queryPage(QueryCondition params) {
-        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
-        IPage<Admin> page = this.page(
-                new Query<Admin>().getPage(params),
-                queryWrapper.select(
-                        "id",
-                        "username",
-                        "createtime"
-                )
-        );
-        return new PageVo(page);
-    }
-
-    @Override
-    public ResponseData<Object> add(Admin admin, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
-        if (!errorList.isEmpty()) {
-            return ResponseData.fail(2, "error", errorList);
-        }
-        try {
-            admin.setCreatetime(System.currentTimeMillis());
-            //密码加密
-            admin.setPassword(admin.getUsername());
-
-            save(admin);
-            return ResponseData.success(null);
-        } catch (Exception e) {
-            return ResponseData.fail(e.getMessage());
-        }
-    }
-
-    @Override
-    public ResponseData<Object> update1(Admin admin, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
-        if (!errorList.isEmpty()) {
-            return ResponseData.fail(2, "error", errorList);
-        }
-
-        //判断账户是否存在
-        if (!exist(admin.getUsername(), admin.getId())) {
-            return ResponseData.fail(2, "error", errorList);
-        }
-
-        String userPwd = admin.getUsername();
-        if (userPwd == null || userPwd.isEmpty()) {
-            admin.setPassword(null);
-        } else {
-            //这里要加密的
-            admin.setPassword(admin.getUsername());
-        }
-
-        try {
-            updateById(admin);
-            return ResponseData.success(null);
-        } catch (Exception e) {
-            return ResponseData.fail("数据修改失败！");
-        }
-    }
-
     /**
-     * id查询
+     * 分页查询
      *
-     * @param id
+     * @param params
      * @return
      */
     @Override
-    public ResponseData<Admin> find(Long id) {
-        Admin admin = getOne(new QueryWrapper<Admin>().
-                eq("id", id).
-                select(
-                        "id",
-                        "username"
-                )
+    public Object queryPage(QueryCondition params) {
+//        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+//        IPage<Admin> page = this.page(
+//                new Query<Admin>().getPage(params),
+//                queryWrapper.select(
+//                        "id",
+//                        "username",
+//                        "create_time"
+//                )
+//        );
+//        return new PageVo(page);
+
+        Page<Map<String, Object>> page = pageMaps(
+                new Page<>(1, 5),
+                new QueryWrapper<Admin>().
+                        select(
+                                "id",
+                                "username",
+                                "create_time"
+                        )
         );
-        return ResponseData.success(admin);
+        return page;
     }
 
     /**
-     * 查询指定数据
+     * 判断是否存在
      *
      * @param username
      * @param id
@@ -123,5 +69,92 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return admin == null;
     }
 
+    /**
+     * 添加数据
+     *
+     * @param admin
+     * @param bindingResult
+     * @return
+     */
+    @Override
+    public ResponseData<Object> add(Admin admin, BindingResult bindingResult) {
+        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        if (!errorList.isEmpty()) {
+            return ResponseData.fail(2, "error", errorList);
+        }
+        try {
+            //admin.setCreateTime(System.currentTimeMillis());
+            //密码加密
+            admin.setPassword(admin.getPassword());
 
+            save(admin);
+            return ResponseData.success(null);
+        } catch (Exception e) {
+            return ResponseData.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 修改数据
+     *
+     * @param admin
+     * @param bindingResult
+     * @return
+     */
+    @Override
+    public ResponseData<Object> update1(Admin admin, BindingResult bindingResult) {
+        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        if (!errorList.isEmpty()) {
+            return ResponseData.fail(2, "error", errorList);
+        }
+        //判断账户是否存在
+        if (!exist(admin.getUsername(), admin.getId())) {
+            return ResponseData.fail(2, "error", errorList);
+        }
+
+        String userPwd = admin.getUsername();
+        if (userPwd == null || userPwd.isEmpty()) {
+            admin.setPassword(null);
+        } else {
+            //这里要加密的
+            admin.setPassword(admin.getUsername());
+        }
+        try {
+            updateById(admin);
+            return ResponseData.success(null);
+        } catch (Exception e) {
+            return ResponseData.fail("数据修改失败！");
+        }
+    }
+
+    /**
+     * id查找
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseData<Map<String, Object>> find(Long id) {
+        Map<String, Object> map = getMap(
+                new QueryWrapper<Admin>().
+                eq("id", id).
+                select(
+                        "id",
+                        "username",
+                        "nick_name",
+                        "create_time"
+                )
+        );
+        return ResponseData.success(map);
+    }
+
+    @Override
+    public ResponseData<Object> del(List<Long> ids) {
+        try {
+            removeByIds(ids);
+            return ResponseData.success("数据删除成功！");
+        } catch (Exception e) {
+            return ResponseData.fail(e.getMessage());
+        }
+    }
 }

@@ -2,16 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efe539b9-8c3c-47ef-a3d5-e10e00dd540b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/mapper/Admin1Mapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/YangBlogApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/YangBlogApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/controller/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/controller/IndexController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/AdminSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/url/UrlAccessDecisionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/url/UrlAccessDecisionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/blog/YangBlogApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yang/blog/YangBlogApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/blog/controller/IndexController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yang/blog/controller/IndexController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/blog/security/SecurityConfig$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/blog/security/SecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/yang/blog/security/url/UrlAccessDecisionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/yang/blog/security/url/UrlAccessDecisionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/controller/admin/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/controller/admin/Admin1Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/entity/Admin1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/entity/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/entity/AdminRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/mapper/AdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/mapper/AdminMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/mapper/UserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/mapper/UserRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/mapper/AdminRoleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/AdminSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/AdminSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/dto/SecurityUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/dto/SecurityUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/filter/AdminAuthenticationProcessingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/filter/AdminAuthenticationProcessingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/login/AdminAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/login/AdminAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/login/AdminAuthenticationSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/security/login/AdminAuthenticationSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/service/IAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/service/IAdmin1Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/service/impl/Admin1ServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/service/impl/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/service/impl/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/util/MultiReadHttpServletRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/util/MultiReadHttpServletRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/yang/blog/util/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/yang/blog/util/Query.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +84,13 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/com/yang/blog/YangBlogApplication.java" root0="SKIP_INSPECTION" />
   </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\javaCode\yang-blog\.idea" />
+      </set>
+    </option>
+  </component>
   <component name="JRebelWorkspace">
     <option name="jrebelEnabledAutocompile" value="true" />
   </component>
@@ -118,7 +136,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="F:/tmp java code/1/ssm_project/atcrowdfundingadmin0parent" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/yang/blog/controller/admin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -134,20 +152,18 @@
     <selection>jr</selection>
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\security" />
-      <recent name="C:\javaCode\yang-blog\src\main\resources\resources\js" />
-      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\entity" />
-    </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="com.yang.blog.service.impl" />
     </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.yang.blog.validate" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\controller\admin" />
+      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\service\impl" />
+      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\service" />
       <recent name="C:\javaCode\yang-blog\src\main\resources\templates" />
       <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\security\url" />
-      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\mapper" />
-      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\entity" />
-      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\util" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.yang.blog.security" />
@@ -156,8 +172,10 @@
       <recent name="com.yang.blog.security.login" />
       <recent name="com.yang.blog.util" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.yang.blog.validate" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\security" />
+      <recent name="C:\javaCode\yang-blog\src\main\resources\resources\js" />
+      <recent name="C:\javaCode\yang-blog\src\main\java\com\yang\blog\entity" />
     </key>
   </component>
   <component name="RunManager">
@@ -206,6 +224,9 @@
       <workItem from="1589593046733" duration="8521000" />
       <workItem from="1589606348644" duration="7170000" />
       <workItem from="1589671259219" duration="17409000" />
+      <workItem from="1589706435268" duration="31000" />
+      <workItem from="1589798482058" duration="2932000" />
+      <workItem from="1589802097009" duration="875000" />
     </task>
     <servers />
   </component>
@@ -225,54 +246,58 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="525" y="230" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.834@0.0.1536.834" timestamp="1589606479083" />
-    <state x="574" y="138" key="#com.intellij.ide.util.MemberChooser" timestamp="1589625993456">
+    <state x="574" y="138" key="#com.intellij.ide.util.MemberChooser" timestamp="1589802207202">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="574" y="138" key="#com.intellij.ide.util.MemberChooser/0.0.1536.834@0.0.1536.834" timestamp="1589625993456" />
+    <state x="574" y="138" key="#com.intellij.ide.util.MemberChooser/0.0.1536.834@0.0.1536.834" timestamp="1589802207202" />
     <state x="808" y="440" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1589598373498">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="808" y="440" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.834@0.0.1536.834" timestamp="1589598373498" />
-    <state x="499" y="169" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589596279021">
+    <state x="24" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1589801841112">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="499" y="169" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.834@0.0.1536.834" timestamp="1589596279021" />
+    <state x="24" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.834@0.0.1536.834" timestamp="1589801841112" />
+    <state x="499" y="169" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589802126997">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="499" y="169" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.834@0.0.1536.834" timestamp="1589802126997" />
     <state x="549" y="177" key="FileChooserDialogImpl" timestamp="1589672337156">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="549" y="177" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1589672337156" />
-    <state width="1493" height="565" key="GridCell.Tab.0.bottom" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.0.bottom" timestamp="1589802975282">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.0.center" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1589802975282" />
+    <state width="1493" height="543" key="GridCell.Tab.0.center" timestamp="1589802975281">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.0.left" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1589802975281" />
+    <state width="1493" height="543" key="GridCell.Tab.0.left" timestamp="1589802975281">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.0.right" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1589802975281" />
+    <state width="1493" height="543" key="GridCell.Tab.0.right" timestamp="1589802975282">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.1.bottom" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1589802975282" />
+    <state width="1493" height="543" key="GridCell.Tab.1.bottom" timestamp="1589802975284">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.1.bottom/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.1.center" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.1.bottom/0.0.1536.834@0.0.1536.834" timestamp="1589802975284" />
+    <state width="1493" height="543" key="GridCell.Tab.1.center" timestamp="1589802975283">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.1.center/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.1.left" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.1.center/0.0.1536.834@0.0.1536.834" timestamp="1589802975283" />
+    <state width="1493" height="543" key="GridCell.Tab.1.left" timestamp="1589802975282">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.1.left/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
-    <state width="1493" height="565" key="GridCell.Tab.1.right" timestamp="1589705540632">
+    <state width="1493" height="543" key="GridCell.Tab.1.left/0.0.1536.834@0.0.1536.834" timestamp="1589802975282" />
+    <state width="1493" height="543" key="GridCell.Tab.1.right" timestamp="1589802975283">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1493" height="565" key="GridCell.Tab.1.right/0.0.1536.834@0.0.1536.834" timestamp="1589705540632" />
+    <state width="1493" height="543" key="GridCell.Tab.1.right/0.0.1536.834@0.0.1536.834" timestamp="1589802975283" />
     <state x="277" y="62" key="SettingsEditor" timestamp="1589678998722">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
@@ -285,9 +310,9 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="425" y="189" key="run.anything.popup/0.0.1536.834@0.0.1536.834" timestamp="1589673271289" />
-    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1589674691121">
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1589801952205">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1589674691121" />
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1589801952205" />
   </component>
 </project>

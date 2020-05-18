@@ -1,9 +1,7 @@
 package com.yang.blog.controller.admin;
 
-
-import com.yang.blog.entity.Admin;
-import com.yang.blog.mapper.AdminMapper;
-import com.yang.blog.service.IAdminService;
+import com.yang.blog.entity.Admin1;
+import com.yang.blog.service.IAdmin1Service;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +11,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
+/**
+ * @author：yangyi
+ * @date：2020/5/16 10:07
+ * @description：管理员控制器
+ */
 @Controller
-@RequestMapping("admin")
-public class AdminController {
-
+public class Admin1Controller {
     @Autowired
-    public IAdminService adminService;
+    public IAdmin1Service adminService;
 
-    @Autowired
-    private AdminMapper adminMapper;
 
     /**
      * 排序分页查询
@@ -33,10 +31,10 @@ public class AdminController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/admin/list")
-    public ResponseData<Object> list(QueryCondition queryCondition) {
+    public Object list(QueryCondition queryCondition) {
+
         Object page = adminService.queryPage(queryCondition);
         return ResponseData.success(page);
-
     }
 
     /**
@@ -49,7 +47,7 @@ public class AdminController {
     @PostMapping("/auth/admin/add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated({Admin.AdminAdd.class}) Admin admin,
+            @Validated({Admin1.AdminAdd.class}) Admin1 admin,
             BindingResult bindingResult
     ) {
         return adminService.add(admin, bindingResult);
@@ -63,7 +61,7 @@ public class AdminController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/admin/find/{id}")
-    public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
+    public ResponseData<Admin1> find(@PathVariable("id") Long id) {
         return adminService.find(id);
     }
 
@@ -77,8 +75,8 @@ public class AdminController {
     @ResponseBody
     @PutMapping("/auth/admin/update")
     public ResponseData<Object> update(
-            @Validated(Admin.AdminEdit.class)
-            @RequestBody Admin admin,
+            @Validated(Admin1.AdminEdit.class)
+            @RequestBody Admin1 admin,
             BindingResult bindingResult
     ) {
         return adminService.update1(admin, bindingResult);
@@ -94,6 +92,7 @@ public class AdminController {
     @ResponseBody
     @DeleteMapping("/auth/admin/delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
-        return adminService.del(ids);
+        return adminService.removeByIds(ids) ? ResponseData.success("数据删除成功！") : ResponseData.fail("数据删除失败！");
     }
+
 }
