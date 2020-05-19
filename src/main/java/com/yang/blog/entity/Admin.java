@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.yang.blog.validate.IsEmptyPwd;
+import com.yang.blog.validate.Scene;
 import com.yang.blog.validate.Unique;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -40,16 +41,16 @@ public class Admin {
 
     @TableField("username")
     @NotBlank(message = "账户不得为空！")
-    @Unique(table = "admin", field = "username", message = "此账户已存在！", groups = {Admin1.AdminAdd.class})
+    @Unique(table = "sys_admin", field = "username", message = "此账户已存在！", groups = {Scene.Add.class})
     private String username;
     /**
      * 登录密码
      */
 
     @TableField("password")
-    @NotBlank(message = "密码不得为空！", groups = {Admin1.AdminAdd.class})
-    @Length(min = 6, message = "密码长度至少是6位！", groups = {Admin1.AdminAdd.class})
-    @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！", groups = {Admin1.AdminEdit.class})
+    @NotBlank(message = "密码不得为空！", groups = {Scene.Add.class})
+    @Length(min = 6, message = "密码长度至少是6位！", groups = {Scene.Add.class})
+    @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！", groups = {Scene.Update.class})
     private String password;
     /**
      * 昵称
@@ -70,16 +71,16 @@ public class Admin {
     @TableField("token")
     private String token;
 
+    /**
+     * 创建时间
+     */
     @TableField("create_time")
     private Long createTime;
 
+    /**
+     * 更新时间
+     */
     @TableField("update_time")
     private Long updateTime;
-
-    public interface AdminEdit {
-    }
-
-    public interface AdminAdd {
-    }
 
 }

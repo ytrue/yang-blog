@@ -1,12 +1,10 @@
 package com.yang.blog.controller.admin;
 
-
 import com.yang.blog.entity.Admin;
-import com.yang.blog.mapper.AdminMapper;
-import com.yang.blog.service.IAdminService;
+import com.yang.blog.entity.Role;
+import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.Scene;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("admin")
-public class AdminController {
+@RequestMapping("/admin")
+public class RoleController {
 
     @Autowired
-    public IAdminService adminService;
+    private IRoleService roleService;
 
     /**
      * 排序分页查询
@@ -30,9 +28,9 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/admin/list")
+    @GetMapping(value = "/auth/role/list")
     public ResponseData<Object> list(QueryCondition queryCondition) {
-        Object page = adminService.queryPage(queryCondition);
+        Object page = roleService.queryPage(queryCondition);
         return ResponseData.success(page);
 
     }
@@ -40,17 +38,17 @@ public class AdminController {
     /**
      * 添加数据
      *
-     * @param admin
+     * @param role
      * @return
      */
     @ResponseBody
-    @PostMapping("/auth/admin/add")
+    @PostMapping("/auth/role/add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated({Scene.Add.class}) Admin admin,
+            @Validated Role role,
             BindingResult bindingResult
     ) {
-        return adminService.add(admin, bindingResult);
+        return roleService.add(role, bindingResult);
     }
 
     /**
@@ -60,26 +58,26 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/admin/find/{id}")
+    @GetMapping(value = "/auth/role/find/{id}")
     public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
-        return adminService.find(id);
+        return roleService.find(id);
     }
 
 
     /**
      * 修改数据
      *
-     * @param admin
+     * @param role
      * @return
      */
     @ResponseBody
-    @PutMapping("/auth/admin/update")
+    @PutMapping("/auth/role/update")
     public ResponseData<Object> update(
-            @Validated(Scene.Update.class)
-            @RequestBody Admin admin,
+            @Validated
+            @RequestBody Role role,
             BindingResult bindingResult
     ) {
-        return adminService.update1(admin, bindingResult);
+        return roleService.update1(role, bindingResult);
     }
 
 
@@ -90,8 +88,8 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @DeleteMapping("/auth/admin/delete")
+    @DeleteMapping("/auth/role/delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
-        return adminService.del(ids);
+        return roleService.del(ids);
     }
 }

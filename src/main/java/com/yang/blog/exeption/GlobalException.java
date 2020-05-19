@@ -11,17 +11,17 @@ import java.io.IOException;
  * @date：2020/5/17 7:24
  * @description：
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalException {
 
-    @ExceptionHandler({Exception.class, RuntimeException.class})
-    public void handleArithmeticException(
-            Exception exception,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-
-        System.out.println("触发全局异常！！！！！");
-    }
+//    @ExceptionHandler({Exception.class, RuntimeException.class})
+//    public void handleArithmeticException(
+//            Exception exception,
+//            HttpServletRequest request,
+//            HttpServletResponse response
+//    ) throws IOException {
+//
+//        System.out.println("触发全局异常！！！！！");
+//    }
 
 }
