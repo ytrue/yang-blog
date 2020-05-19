@@ -1,11 +1,14 @@
 package com.yang.blog.util;
 
 
+import lombok.Data;
+
 /**
  * @author：yangyi
  * @date：2020/4/16 20:43
  * @description：
  */
+@Data
 public class ResponseData<T> {
 
     private Integer code;
@@ -87,31 +90,6 @@ public class ResponseData<T> {
     public ResponseData<T> code(Integer code) {
         this.setCode(code);
         return this;
-    }
-
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
     }
 
 //    public static <T> ResponseData<T> verificationResults(T data) {

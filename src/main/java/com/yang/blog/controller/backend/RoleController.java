@@ -1,6 +1,5 @@
-package com.yang.blog.controller.admin;
+package com.yang.blog.controller.backend;
 
-import com.yang.blog.entity.Admin;
 import com.yang.blog.entity.Role;
 import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.QueryCondition;
