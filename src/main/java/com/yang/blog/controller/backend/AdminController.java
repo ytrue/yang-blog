@@ -96,17 +96,17 @@ public class AdminController {
 
     @GetMapping("/auth/admin/index")
     public String indexView() {
-        return "admin/index";
+        return "backend/auth/admin/index";
     }
 
     @GetMapping("/auth/admin/save")
     public String saveView() {
-        return "admin/save";
+        return "backend/auth/admin/save";
     }
 
     @GetMapping("/auth/admin/edit")
     public String editView() {
-        return "admin/edit";
+        return "backend/auth/admin/edit";
     }
 
 }

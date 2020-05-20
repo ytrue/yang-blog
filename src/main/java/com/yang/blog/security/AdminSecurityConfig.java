@@ -120,8 +120,8 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.GET,
                 "/favicon.ico",
                 "/*.html",
-                "/**/*.css",
-                "/**/*.js");
+                "/backend/**/*.css",
+                "/backend/**/*.js");
     }
 
 

@@ -1,5 +1,5 @@
 server:
-  port: 9998
+  port: 1234
 # 数据库配置
 spring:
   datasource:
@@ -26,22 +26,17 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
 
-  #重写配置
+  # 重写配置
   main:
     allow-bean-definition-overriding: true
-#  security:
-#    user:
-#      name: admin
-#      password: admin
-
+# mybatis plus配置
 mybatis-plus:
   mapper-locations: classpath*:mybatis/mapper/*.xml
   #config-location: classpath*:mybatis/*.xml
   configuration:
     call-setters-on-nulls: true
-    #return-instance-for-empty-row: true
+
 logging:
   level:
     com.yang.blog: debug
-
 debug: true

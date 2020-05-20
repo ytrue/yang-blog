@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/header">
+</html>
+
+<div class="container-fluid">
+    <div class="row">
+        <html xmlns:th="http://www.thymeleaf.org"
+              th:replace="backend/layout/menu">
+        </html>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" th:include="::content">
+        </div>
+
+    </div>
+</div>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/jsscript">
+</html>
