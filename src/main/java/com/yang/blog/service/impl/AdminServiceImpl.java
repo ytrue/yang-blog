@@ -29,26 +29,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public Object queryPage(QueryCondition params) {
-//        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
-//        IPage<Admin> page = this.page(
-//                new Query<Admin>().getPage(params),
-//                queryWrapper.select(
-//                        "id",
-//                        "username",
-//                        "create_time"
-//                )
-//        );
-//        return new PageVo(page);
-
-        Page<Map<String, Object>> page = pageMaps(
-                new Page<>(1, 5),
+    public Page<Map<String, Object>>  queryPage(QueryCondition params) {
+        Page<Map<String, Object>> page;
+        page = pageMaps(
+                new Page<>(params.getPage(), params.getLimit()),
                 new QueryWrapper<Admin>().
-                        select(
-                                "id",
-                                "username",
-                                "create_time"
-                        )
+                        orderByDesc("id")
+                        .select("id", "username", "nick_name", "create_time")
         );
         return page;
     }
@@ -137,13 +124,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public ResponseData<Map<String, Object>> find(Long id) {
         Map<String, Object> map = getMap(
                 new QueryWrapper<Admin>().
-                eq("id", id).
-                select(
-                        "id",
-                        "username",
-                        "nick_name",
-                        "create_time"
-                )
+                        eq("id", id).
+                        select(
+                                "id",
+                                "username",
+                                "nick_name",
+                                "create_time"
+                        )
         );
         return ResponseData.success(map);
     }

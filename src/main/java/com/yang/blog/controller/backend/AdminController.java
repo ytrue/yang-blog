@@ -1,6 +1,7 @@
 package com.yang.blog.controller.backend;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.QueryCondition;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +32,24 @@ public class AdminController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/admin/list")
-    public ResponseData<Object> list(QueryCondition queryCondition) {
-        Object page = adminService.queryPage(queryCondition);
-        return ResponseData.success(page);
+    public Map<String, Object> list(QueryCondition queryCondition) {
+        //Object page = adminService.queryPage(queryCondition);
+        //return ResponseData.success(page);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        int count = adminService.count();
+        List<Map<String, Object>> mapList = adminService.
+                listMaps(
+                        new QueryWrapper<Admin>()
+                                .select("id", "username", "nick_name", "create_time")
+                );
+
+
+        System.out.println(queryCondition);
+
+        hashMap.put("rows", mapList);
+        hashMap.put("total", count);
+
+        return hashMap;
 
     }
 
