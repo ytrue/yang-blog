@@ -2,7 +2,6 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Admin;
-import com.yang.blog.util.PageVo;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import org.springframework.validation.BindingResult;
@@ -13,12 +12,12 @@ import java.util.Map;
 public interface IAdminService extends IService<Admin> {
 
     /**
-     * 分页
+     * 分页查询
      *
      * @param params
      * @return
      */
-    Object queryPage(QueryCondition params);
+    Map<String, Object> queryPage(QueryCondition params);
 
     /**
      * 判断是否存在

@@ -3,6 +3,9 @@ package com.yang.blog.util;
 
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author：yangyi
  * @date：2020/4/16 20:43
@@ -30,6 +33,21 @@ public class ResponseData<T> {
         this.data = data;
     }
 
+
+    /**
+     * 列表返回数据
+     *
+     * @param total
+     * @param rows
+     * @param <T>
+     * @return
+     */
+    public static <T> Map<String, T> list(T total, T rows) {
+        HashMap<String, T> map = new HashMap<>();
+        map.put("total", total);
+        map.put("rows", rows);
+        return map;
+    }
 
     public static <T> ResponseData<T> success(T data) {
         ResponseData<T> resp = new ResponseData<T>(data);

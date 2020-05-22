@@ -1,6 +1,8 @@
 package com.yang.blog.util;
 
+import lombok.Data;
 
+@Data
 public class QueryCondition {
 
 
@@ -15,94 +17,19 @@ public class QueryCondition {
     private Long limit;
 
     /**
-     * 排序的字段
+     * 返回拼接的sql语句
+     *
+     * @return String
      */
-    private String sidx;
+    public String getPageSql() {
 
-    /**
-     * 排序的顺序
-     */
-    private String order;
+        if (null == page) {
+            page = 1L;
+        }
 
-    /**
-     * 系统默认排序
-     */
-    private String asc = "desc";
-
-    /**
-     * 搜索字段
-     */
-    private String key;
-
-    public QueryCondition() {
-    }
-
-    public QueryCondition(Long page, Long limit, String sidx, String order, String asc, String key) {
-        this.page = page;
-        this.limit = limit;
-        this.sidx = sidx;
-        this.order = order;
-        this.asc = asc;
-        this.key = key;
-    }
-
-    public Long getPage() {
-        return page;
-    }
-
-    public void setPage(Long page) {
-        this.page = page;
-    }
-
-    public Long getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Long limit) {
-        this.limit = limit;
-    }
-
-    public String getSidx() {
-        return sidx;
-    }
-
-    public void setSidx(String sidx) {
-        this.sidx = sidx;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
-    }
-
-    public String getAsc() {
-        return asc;
-    }
-
-    public void setAsc(String asc) {
-        this.asc = asc;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    @Override
-    public String toString() {
-        return "QueryCondition{" +
-                "page=" + page +
-                ", limit=" + limit +
-                ", sidx='" + sidx + '\'' +
-                ", order='" + order + '\'' +
-                ", asc='" + asc + '\'' +
-                ", key='" + key + '\'' +
-                '}';
+        if (null == limit) {
+            limit = 10L;
+        }
+        return "limit " + (page - 1) * limit + "," + limit;
     }
 }

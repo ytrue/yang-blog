@@ -1,14 +1,11 @@
 package com.yang.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.service.IAdminService;
-import com.yang.blog.util.PageVo;
-import com.yang.blog.util.Query;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.validate.VerificationJudgement;
@@ -29,15 +26,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public Page<Map<String, Object>>  queryPage(QueryCondition params) {
-        Page<Map<String, Object>> page;
-        page = pageMaps(
-                new Page<>(params.getPage(), params.getLimit()),
-                new QueryWrapper<Admin>().
-                        orderByDesc("id")
+    public Map<String, Object> queryPage(QueryCondition params) {
+
+        List<Map<String, Object>> rows = listMaps(
+                new QueryWrapper<Admin>()
                         .select("id", "username", "nick_name", "create_time")
+                        .last(params.getPageSql())
         );
-        return page;
+
+        return ResponseData.list(count(), rows);
     }
 
     /**
