@@ -10,6 +10,11 @@ $(function () {
 
 });
 
+$(".yangyi").click(function () {
+    let index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+})
+
 function operateFormatter(value, row, index) {
     return [
         '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="fa fa-pencil"></i></button> ',
@@ -122,10 +127,12 @@ let ButtonInit = function () {
                 shadeClose: true,
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
-                area: ['893px', '600px'],
-                content: '//fly.layui.com/'
+                area: ['900px', '600px'],
+                content: '/admin/auth/admin/save'
             });
+
         });
+
 
         $(".btn-edit").click(function () {
             let arrselections = $("#table").bootstrapTable('getSelections');
