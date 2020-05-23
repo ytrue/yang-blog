@@ -1,26 +1,34 @@
 <div class="col-sm-3 col-md-2 sidebar">
     <div class="tree">
         <ul style="padding-left:0px;" class="list-group">
-            <li class="list-group-item tree-closed" >
-                <a href="/"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a>
-            </li>
             <li class="list-group-item tree-closed">
-                <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span>
-                <ul style="margin-top:10px;">
-                    <li style="height:30px;">
-                        <a href="/admin/index"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
-                    </li>
-                    <li style="height:30px;">
-                        <a href="/role/index"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
-                    </li>
-                    <li style="height:30px;">
-                        <a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 许可维护</a>
+                <a href="/">
+                    <i class="glyphicon glyphicon-dashboard"></i>
+                    控制面板
+                </a>
+            </li>
+
+            <li class="list-group-item tree-closed" th:each="value : ${menu}">
+                    <i class="glyphicon glyphicon glyphicon-tasks"></i>
+                    <a th:text="${value.name}">
+                        [[${val.name}]]
+                    </a>
+                <ul style="margin-top:10px;" hidden>
+                    <li style="height:30px;" th:each="val :${value.childrenList}">
+                        <a th:href="${val.url}">
+                            [[${val.name}]]
+                            <i class="glyphicon glyphicon-user"></i>
+                        </a>
                     </li>
                 </ul>
             </li>
 
-            <li class="list-group-item tree-closed" >
-                <a href="param.html"><i class="glyphicon glyphicon-list-alt"></i> 参数管理</a>
+
+            <li class="list-group-item tree-closed">
+                <a href="param.html">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    参数管理
+                </a>
             </li>
         </ul>
     </div>

@@ -1,12 +1,10 @@
 package com.yang.blog.controller.backend;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.SQLFilter;
 import com.yang.blog.validate.Scene;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,16 +12,24 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-@Controller
+
 @RequestMapping("admin")
-public class AdminController {
+@Controller
+public class AdminController extends BasicController {
 
     @Autowired
     public IAdminService adminService;
+
+
+    public AdminController() {
+        super.loadUrlArr = new String[]{
+                "/admin/auth/admin/index",
+                "/admin/auth/admin/save",
+                "/admin/auth/admin/edit"
+        };
+    }
 
     /**
      * 排序分页查询
@@ -33,9 +39,10 @@ public class AdminController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/admin/list")
-    public Map<String, Object> list(QueryCondition queryCondition) {
+    public Object list(QueryCondition queryCondition) {
         return adminService.queryPage(queryCondition);
     }
+
 
     /**
      * 添加数据
