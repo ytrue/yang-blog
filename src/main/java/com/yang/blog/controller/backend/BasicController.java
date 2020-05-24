@@ -3,6 +3,7 @@ package com.yang.blog.controller.backend;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Permission;
 import com.yang.blog.service.IPermissionService;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,7 +23,10 @@ public class BasicController {
     @Autowired
     private IPermissionService permissionService;
 
-    protected String[] loadUrlArr;
+    /**
+     * 侧栏查询放行
+     */
+    protected List<String> loadUrlList = Lists.newArrayList("index", "save", "edit");
 
     /**
      * 加载公共数据
@@ -31,12 +35,9 @@ public class BasicController {
      */
     @ModelAttribute
     public void loadCommon(HttpServletRequest request, Model model) {
-        String uri = request.getRequestURI();
-        List<String> asList = Arrays.asList(loadUrlArr);
-        boolean b = asList.contains(uri);
-        System.out.println(b);
 
-        if (b) {
+        System.out.println(loadUrlList);
+        if (urlJudge(request.getRequestURI())) {
             List<Permission> permissionList = permissionService.list(
                     new QueryWrapper<>()
             );
@@ -71,4 +72,11 @@ public class BasicController {
         return arr;
     }
 
+
+    private Boolean urlJudge(String uri) {
+        String[] uriArr = uri.split("\\/");
+        int urlArrLength = uriArr.length;
+        String lastUriString = uriArr[urlArrLength - 1];
+        return loadUrlList.contains(lastUriString);
+    }
 }

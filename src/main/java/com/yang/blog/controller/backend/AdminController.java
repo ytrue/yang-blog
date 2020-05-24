@@ -24,11 +24,7 @@ public class AdminController extends BasicController {
 
 
     public AdminController() {
-        super.loadUrlArr = new String[]{
-                "/admin/auth/admin/index",
-                "/admin/auth/admin/save",
-                "/admin/auth/admin/edit"
-        };
+        super.loadUrlList.add("123");
     }
 
     /**
