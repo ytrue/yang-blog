@@ -16,7 +16,13 @@ public interface IRoleService extends IService<Role> {
      * @param params
      * @return
      */
-    Object queryPage(QueryCondition params);
+    Map<String, Object> queryPage(QueryCondition params);
+
+    /**
+     * 获得所有数据
+     * @return
+     */
+    List<Map<String, Object>> all();
 
     /**
      * 判断是否存在

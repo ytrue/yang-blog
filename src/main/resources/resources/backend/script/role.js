@@ -8,23 +8,23 @@ window.operateEvents = {
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
             area: ['900px', '600px'],
-            content: '/admin/auth/admin/edit?id=' + id,
+            content: '/admin/auth/role/edit?id=' + id,
         });
     },
     'click .btn-del-one': function (e, value, row, index) {
         let id = row.id;
-        deleteData("/admin/auth/admin/delete", [id]);
+        deleteData("/admin/auth/role/delete", [id]);
     },
-    'click .btn-assign': function (e, value, row, index) {
+    'click .btn-find-one': function (e, value, row, index) {
         let id = row.id;
         layer.open({
             type: 2,
-            title: '编辑',
+            title: '详情',
             shadeClose: true,
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
             area: ['900px', '600px'],
-            content: '/admin/auth/admin/assign?id=' + id,
+            content: '/admin/auth/role/details?id=' + id,
         });
     }
 };
@@ -96,12 +96,12 @@ new Vue({
             },
             {field: 'id', title: "ID"},
             {
-                field: 'username',
-                title: '账号'
+                field: 'code',
+                title: '角色编码'
             },
             {
-                field: 'nick_name',
-                title: '名称'
+                field: 'name',
+                title: '角色名称'
             },
             {
                 field: 'create_time',
@@ -114,7 +114,7 @@ new Vue({
                 events: operateEvents,
                 formatter: function (value, row, index) {
                     return [
-                        '<button  class="btn btn-xs btn-info btn-assign" title="分配角色"><i class="glyphicon glyphicon-user"></i></button> ',
+                        '<button  class="btn btn-xs btn-info btn-find-one" title="详情"><i class="glyphicon glyphicon-eye-open"></i></button> ',
                         '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="fa fa-pencil"></i></button> ',
                         '<button  class="btn btn-xs btn-danger btn-del-one" title="删除"><i class="glyphicon glyphicon-trash"></i></button>'
                     ].join('');
@@ -123,7 +123,7 @@ new Vue({
         ],
         data: [],
         options: {
-            url: '/admin/auth/admin/list',         //请求后台的URL（*）
+            url: '/admin/auth/role/list',         //请求后台的URL（*）
             pk: "id",
             method: 'get',                      //请求方式（*）
             dataType: 'json',
@@ -166,7 +166,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/auth/admin/save'
+                content: '/admin/auth/role/save'
             });
         },
         btnEdit: function () {
@@ -192,7 +192,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/auth/admin/edit?id=' + id,
+                content: '/admin/auth/role/edit?id=' + id,
             });
         },
         btnDel: function () {
@@ -208,7 +208,7 @@ new Vue({
             for (let i = 0; i < arrselections.length; i++) {
                 delArr.push(arrselections[i]['id'])
             }
-            deleteData("/admin/auth/admin/delete", delArr);
+            deleteData("/admin/auth/role/delete", delArr);
         },
         btnRest: function () {
             $("#table").bootstrapTable('refresh');

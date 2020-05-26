@@ -4,6 +4,7 @@ import com.yang.blog.entity.Role;
 import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
+import com.yang.blog.validate.Scene;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
-public class RoleController {
+public class RoleController extends BasicController {
 
     @Autowired
     private IRoleService roleService;
@@ -28,10 +29,17 @@ public class RoleController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/role/list")
-    public ResponseData<Object> list(QueryCondition queryCondition) {
-        Object page = roleService.queryPage(queryCondition);
-        return ResponseData.success(page);
+    public Map<String, Object> list(QueryCondition queryCondition) {
+        return roleService.queryPage(queryCondition);
+    }
 
+    /**
+     * 获得所有的角色
+     */
+    @ResponseBody
+    @GetMapping(value = "/auth/role/all")
+    public List<Map<String, Object>> all() {
+        return roleService.all();
     }
 
     /**
@@ -44,7 +52,7 @@ public class RoleController {
     @PostMapping("/auth/role/add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated Role role,
+            @Validated({Scene.Add.class}) Role role,
             BindingResult bindingResult
     ) {
         return roleService.add(role, bindingResult);
@@ -90,5 +98,26 @@ public class RoleController {
     @DeleteMapping("/auth/role/delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
         return roleService.del(ids);
+    }
+
+
+    @GetMapping("/auth/role/index")
+    public String indexView() {
+        return "backend/auth/role/index";
+    }
+
+    @GetMapping("/auth/role/save")
+    public String saveView() {
+        return "backend/auth/role/save";
+    }
+
+    @GetMapping("/auth/role/edit")
+    public String editView() {
+        return "backend/auth/role/edit";
+    }
+
+    @GetMapping("/auth/role/details")
+    public String findView() {
+        return "backend/auth/role/find";
     }
 }

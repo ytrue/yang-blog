@@ -54,5 +54,20 @@ public interface IAdminService extends IService<Admin> {
      */
     ResponseData<Map<String, Object>> find(Long id);
 
+    /**
+     * id查找角色和全部角色
+     *
+     * @param id
+     * @return
+     */
+    ResponseData<Object> myRole(Integer id);
+
+
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     */
     ResponseData<Object> del(List<Long> ids);
 }

@@ -2,6 +2,7 @@ package com.yang.blog.controller.backend;
 
 
 import com.yang.blog.entity.Admin;
+import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
@@ -21,11 +22,11 @@ import java.util.concurrent.TimeUnit;
 public class AdminController extends BasicController {
 
     @Autowired
-    public IAdminService adminService;
+    private IAdminService adminService;
 
 
     public AdminController() {
-        super.loadUrlList.add("123");
+        super.loadUrlList.add("assign");
     }
 
     /**
@@ -36,8 +37,17 @@ public class AdminController extends BasicController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/admin/list")
-    public Object list(QueryCondition queryCondition) {
+    public Map<String, Object> list(QueryCondition queryCondition) {
         return adminService.queryPage(queryCondition);
+    }
+
+    /**
+     * 根据id获得角色
+     */
+    @ResponseBody
+    @GetMapping(value = "/auth/admin/test")
+    public ResponseData<Object> myRole() {
+        return adminService.myRole(2);
     }
 
 
@@ -112,6 +122,11 @@ public class AdminController extends BasicController {
     @GetMapping("/auth/admin/edit")
     public String editView() {
         return "backend/auth/admin/edit";
+    }
+
+    @GetMapping("/auth/admin/assign")
+    public String assignView() {
+        return "backend/auth/admin/assign";
     }
 
 }

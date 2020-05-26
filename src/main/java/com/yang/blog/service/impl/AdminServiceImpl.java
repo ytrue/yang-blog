@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.service.IAdminService;
+import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.validate.VerificationJudgement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -16,6 +18,12 @@ import java.util.*;
 
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
+
+    @Autowired
+    private AdminMapper adminMapper;
+
+    @Autowired
+    private IRoleService roleService;
 
     /**
      * 分页查询
@@ -48,8 +56,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         QueryWrapper<Admin> query = new QueryWrapper<>();
         query.eq("username", username);
         query.ne("id", id);
-        Admin admin = getOne(query);
-        return admin == null;
+        return count(query) == 0;
     }
 
     /**
@@ -132,6 +139,31 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return ResponseData.success(map);
     }
 
+    /**
+     * id查找角色和全部角色
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseData<Object> myRole(Integer id) {
+        //获得所有的role
+        List<Map<String, Object>> allRole = roleService.all();
+        //根据id获得自己的角色
+        List<Map<String, Object>> myRole = adminMapper.roleFindByIdAdmin(id);
+
+        HashMap<String, List<Map<String, Object>>> rstMap = new HashMap<>();
+        rstMap.put("my_role", myRole);
+        rstMap.put("all_role", allRole);
+        return ResponseData.success(rstMap);
+    }
+
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     */
     @Override
     public ResponseData<Object> del(List<Long> ids) {
         try {

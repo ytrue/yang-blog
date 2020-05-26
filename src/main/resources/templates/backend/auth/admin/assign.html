@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/meta">
+</html>
+
+<div id="app" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-5">
+            <select name="from" id="select1" class="form-control" size="10">
+                <option value="1">Item 1</option>
+                <option value="2">Item 2</option>
+                <option value="3">Item 3</option>
+                <option value="4">Item 4</option>
+                <option value="5">Item 5</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2">
+            <button type="button" id="rightAll" class="btn btn-block"><i class="glyphicon glyphicon-forward"></i>
+            </button>
+            <button type="button" id="rightSelected" class="btn btn-block"><i
+                    class="glyphicon glyphicon-chevron-right"></i></button>
+            <button type="button" id="leftSelected" class="btn btn-block"><i
+                    class="glyphicon glyphicon-chevron-left"></i></button>
+            <button type="button" id="leftAll" class="btn btn-block"><i class="glyphicon glyphicon-backward"></i>
+            </button>
+        </div>
+
+        <div class="col-xs-5">
+            <select name="to" id="select2" class="form-control" size="10"></select>
+        </div>
+</div>
+
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/jsscript">
+</html>
+<div th:fragment="footer-js">
+    <script>
+        $(function () {
+            select_init();
+        });
+
+        function select_init() {
+            //将左边所有选项添加到右边
+            $('#rightAll').click(function () {
+                $('#select1 option').appendTo('#select2');
+            })
+            //将左边选中的选项添加到右边
+            $('#rightSelected').click(function () {
+                $('#select1 option:selected').appendTo('#select2');
+            })
+
+            //将右边所有选项添加到左边
+            $('#leftAll').click(function () {
+                console.log("点击右边")
+                $('#select2 option').appendTo('#select1');
+            })
+            //将左边选中的选项添加到右边
+            $('#leftSelected').click(function () {
+                $('#select2 option:selected').appendTo('#select1');
+            })
+
+            //双击左边选项直接添加到右边的效果
+            $('#select1').dblclick(function (event) {
+                $("option:selected", this).appendTo('#select2')
+            });
+            //双击右边选项直接添加到左边的效果
+            $('#select2').dblclick(function (event) {
+                $("option:selected", this).appendTo('#select1')
+            });
+        }
+
+
+    </script>
+</div>
+
+
+

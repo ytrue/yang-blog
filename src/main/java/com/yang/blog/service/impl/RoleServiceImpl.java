@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -34,18 +35,29 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      * @return
      */
     @Override
-    public Object queryPage(QueryCondition params) {
-        Page<Map<String, Object>> page = pageMaps(
-                new Page<>(1, 5),
-                new QueryWrapper<Role>().
-                        select(
-                                "id",
-                                "code",
-                                "name",
-                                "create_time"
-                        )
+    public Map<String, Object> queryPage(QueryCondition params) {
+        List<Map<String, Object>> rows = listMaps(
+                new QueryWrapper<Role>()
+                        .select("id", "code", "name", "create_time")
+                        .orderByDesc("id")
+                        .last(params.getPageSql())
         );
-        return page;
+
+        return ResponseData.list(count(), rows);
+    }
+
+    /**
+     * 获得所有
+     *
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> all() {
+        return listMaps(
+                new QueryWrapper<Role>()
+                        .select("id", "code", "name", "create_time")
+                        .orderByDesc("id")
+        );
     }
 
     /**
@@ -60,8 +72,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         QueryWrapper<Role> query = new QueryWrapper<>();
         query.eq("code", code);
         query.ne("id", id);
-        Role role = getOne(query);
-        return role == null;
+        return count(query) == 0;
     }
 
     /**
@@ -99,10 +110,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             return ResponseData.fail(2, "error", errorList);
         }
         //判断否存在
-        if (!exist(role.getName(), role.getId())) {
-            return ResponseData.fail(2, "error", errorList);
+        if (!exist(role.getCode(), role.getId())) {
+            return ResponseData.fail(2, "error", Collections.singletonList("此角色编码已存在！"));
         }
-
         try {
             updateById(role);
             return ResponseData.success(null);
