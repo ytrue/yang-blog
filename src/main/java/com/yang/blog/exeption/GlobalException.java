@@ -8,28 +8,27 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author：yangyi
  * @date：2020/5/17 7:24
  * @description：
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalException {
 
-    @ExceptionHandler({Exception.class, RuntimeException.class})
-    public void handleArithmeticException(
-            Exception exception,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-
-        //403异常
-//        if (exception instanceof HttpRequestMethodNotSupportedException){
+//    @ExceptionHandler({Exception.class, RuntimeException.class})
+//    public void handleArithmeticException(
+//            Exception exception,
+//            HttpServletRequest request,
+//            HttpServletResponse response
+//    ) throws IOException {
 //
-//        }
-
-        System.out.println("触发全局异常！！！！！"+exception.getMessage());
-    }
+//
+//
+//        System.out.println("触发全局异常！！！！！"+exception.getMessage());
+//    }
 
 }

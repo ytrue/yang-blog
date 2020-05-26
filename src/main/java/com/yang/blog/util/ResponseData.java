@@ -49,6 +49,16 @@ public class ResponseData<T> {
         return map;
     }
 
+
+
+    public static <T> ResponseData<T> success() {
+        ResponseData<T> resp = new ResponseData<T>(null);
+        //操作成功
+        resp.setCode(0);
+        resp.setMsg("success");
+        return resp;
+    }
+
     public static <T> ResponseData<T> success(T data) {
         ResponseData<T> resp = new ResponseData<T>(data);
         //操作成功

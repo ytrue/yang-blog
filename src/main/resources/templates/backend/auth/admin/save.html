@@ -1,49 +1,133 @@
-<!DOCTYPE html>
-<html lang="GB18030">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <link rel="stylesheet" href="/backend/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/backend/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/backend/css/main.css">
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/meta">
+</html>
 
-<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="content">
-            <div id="add-form" class="form-horizontal nice-validator n-default n-bootstrap" role="form"
-                  data-toggle="validator" method="POST" action="" novalidate="novalidate">
+<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" id="app">
+    <div class="content">
+        <div id="add-form" class="form-horizontal nice-validator n-default n-bootstrap" role="form"
+             data-toggle="validator" method="POST" action="" novalidate="novalidate">
 
-                <div class="form-group has-error">
-                    <label class="control-label col-xs-12 col-sm-2">车牌前缀:</label>
-                    <div class="col-xs-12 col-sm-8">
-                        <input id="c-prefix" class="form-control" name="row[prefix]" type="text"
-                               aria-invalid="true">
-                    </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">账号:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="username" class="form-control" v-model='username' name="username" type="text">
                 </div>
+            </div>
 
-                <div class="form-group layer-footer">
-                    <label class="control-label col-xs-12 col-sm-2"></label>
-                    <div class="col-xs-12 col-sm-8">
-                        <button type="submit" class="btn btn-success btn-embossed yangyi">确定</button>
-                        <button type="reset" class="btn btn-default btn-embossed">重置</button>
-                    </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">昵称:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="nick_name" class="form-control" v-model='nick_name' name="nick_name" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">密码:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="password" class="form-control" v-model='password' name="password" type="text">
+                </div>
+            </div>
+
+            <div class="form-group layer-footer">
+                <label class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-embossed" @click='submit'>确定</button>
+                    <button type="reset" class="btn btn-default btn-embossed" @click='reset'>重置</button>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
-
-<script src="/backend/jquery/jquery-2.1.1.min.js"></script>
-<script src="/backend/bootstrap/js/bootstrap.min.js"></script>
-<script src="/backend/plus/vue/vue.min.js"></script>
-<script src="/backend/plus/vue/axios.min.js"></script>
-<script src="/backend/plus/layer/layer.js"></script>
-<script src="/backend/script/admin.js"></script>
-
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/jsscript">
 </html>
+<div th:fragment="footer-js">
+    <script>
+        axios.interceptors.request.use(function (config) {
+            layer.load(1, {
+                shade: [0.2, '#fff'] //0.1透明度的白色背景
+            });
+            return config;
+        }, function (err) {
+            layer.alert('未知错误，请刷新重试！');
+        });
+
+        new Vue({
+            el: "#app",
+            data: {
+                username: '',
+                nick_name: '',
+                password: '',
+            },
+            methods: {
+                submit: function () {
+                    axios({
+                        url: "/admin/auth/admin/add",
+                        method: "post",
+                        headers: {
+                            //自动转化的，可以不加
+                            //'Content-Type': 'application/json;charset=UTF-8',
+                            'token': 123
+                        },
+                        data: {
+                            username: this.username,
+                            nickName: this.nick_name,
+                            password: this.password,
+                        }
+                    }).then(function (response) {
+                        let data = response.data;
+                        let index = parent.layer.getFrameIndex(window.name);
+
+                        if (data.code === 2) {
+                            layer.closeAll('loading'); //关闭加载层
+                            let errorMessage = data.data;
+                            let stringMessage = '';
+                            for (let i = 0; i < errorMessage.length; i++) {
+                                stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
+                            }
+
+                            layer.alert(stringMessage, {
+                                icon: 2,
+                            })
+                        } else if (data.code === 0) {
+                            layer.closeAll('loading'); //关闭加载层
+                            //初体验
+                            layer.alert('数据交互成功！', {
+                                icon: 1,
+                            }, function () {
+                                parent.layer.close(index); //再执行关闭
+                                window.parent.reset();
+                            })
+                        } else if (data.code === 1) {
+                            layer.closeAll('loading'); //关闭加载层
+                            layer.alert(data.msg, {
+                                icon: 2,
+                            }, function () {
+                                parent.layer.close(index); //再执行关闭
+                                window.parent.reset();
+                            })
+                        }
+
+                    }).catch(function (error) {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(error.response.data.msg,
+                            {
+                                icon: 2,
+                            }
+                        )
+                    })
+                },
+                reset: function () {
+                    this.username = '';
+                    this.nick_name = '';
+                    this.password = '';
+                }
+
+            }
+        });
+    </script>
+</div>
+
 
 

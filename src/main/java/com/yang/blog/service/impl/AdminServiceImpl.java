@@ -12,9 +12,7 @@ import com.yang.blog.validate.VerificationJudgement;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
@@ -31,6 +29,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Admin>()
                         .select("id", "username", "nick_name", "create_time")
+                        .orderByDesc("id")
                         .last(params.getPageSql())
         );
 
@@ -70,6 +69,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             //admin.setCreateTime(System.currentTimeMillis());
             //密码加密
             admin.setPassword(admin.getPassword());
+            admin.setSalt("123");
 
             save(admin);
             return ResponseData.success(null);
@@ -93,7 +93,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
         //判断账户是否存在
         if (!exist(admin.getUsername(), admin.getId())) {
-            return ResponseData.fail(2, "error", errorList);
+            return ResponseData.fail(2, "error", Collections.singletonList("此账户已存在！"));
         }
 
         String userPwd = admin.getUsername();
@@ -136,7 +136,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public ResponseData<Object> del(List<Long> ids) {
         try {
             removeByIds(ids);
-            return ResponseData.success("数据删除成功！");
+            return ResponseData.success();
         } catch (Exception e) {
             return ResponseData.fail(e.getMessage());
         }

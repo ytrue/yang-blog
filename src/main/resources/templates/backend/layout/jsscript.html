@@ -7,26 +7,8 @@
 <script th:src="@{/backend/script/docs.min.js}"></script>
 <script th:src="@{/backend/bootstrap/js/bootstrap-table.min.js}"></script>
 <script th:src="@{/backend/bootstrap/js/bootstrap-table-zh-CN.min.js}"></script>
-<script type="text/javascript">
-    $(function () {
-        $(".list-group-item").click(function () {
-            if ($(this).find("ul")) {
-                $(this).toggleClass("tree-closed");
+<script th:src="@{/backend/bootstrap/js/bootstrap-table-vue.min.js}"></script>
+<script th:src="@{/backend/script/menu.js}"></script>
 
-                if ($(this).hasClass("tree-closed")) {
-                    $("ul", this).hide("fast");
-                } else {
-                    $("ul", this).show("fast");
-                }
-            }
-        });
-    });
-
-    $("tbody .btn-success").click(function () {
-        window.location.href = "assignPermission.html";
-    });
-</script>
-<div th:include="::footer-js">
-</div>
 </body>
 </html>

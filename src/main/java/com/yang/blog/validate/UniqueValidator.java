@@ -1,6 +1,7 @@
 package com.yang.blog.validate;
 
 import com.yang.blog.mapper.CommonMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public class UniqueValidator implements ConstraintValidator<Unique, String> {
 
+    @Autowired
     private CommonMapper commonMapper;
 
     private String table;
