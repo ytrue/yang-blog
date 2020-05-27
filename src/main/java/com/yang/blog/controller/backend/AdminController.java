@@ -2,7 +2,6 @@ package com.yang.blog.controller.backend;
 
 
 import com.yang.blog.entity.Admin;
-import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
@@ -14,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
 @RequestMapping("admin")
@@ -45,9 +43,9 @@ public class AdminController extends BasicController {
      * 根据id获得角色
      */
     @ResponseBody
-    @GetMapping(value = "/auth/admin/test")
-    public ResponseData<Object> myRole() {
-        return adminService.myRole(2);
+    @GetMapping(value = "/auth/admin/my_role/{id}")
+    public ResponseData<Object> myRole(@PathVariable("id") Long id) {
+        return adminService.myRole(id);
     }
 
 
@@ -107,6 +105,22 @@ public class AdminController extends BasicController {
     @DeleteMapping("/auth/admin/delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
         return adminService.del(ids);
+    }
+
+    /**
+     * 分配角色
+     *
+     * @param roleId
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/auth/admin/assign")
+    public ResponseData<Object> assignRole(
+            @RequestParam(value = "roleId") String roleId,
+            @RequestParam(value = "id") Long id
+    ) {
+        return adminService.assignRole(roleId,id);
     }
 
     @GetMapping("/auth/admin/index")

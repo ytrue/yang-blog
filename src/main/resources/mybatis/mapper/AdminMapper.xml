@@ -20,7 +20,9 @@
 		on
 			sys_user_role.role_id = sys_role.id
 		where
-			sys_user_role.user_id =#{roleFindByIdAdmin};
+			sys_user_role.user_id =#{id}
+		order by
+			id
     </select>
 
 </mapper>

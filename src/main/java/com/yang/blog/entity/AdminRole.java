@@ -40,5 +40,16 @@ public class AdminRole {
     @TableField("role_id")
     private Integer roleId;
 
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private Long createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private Long updateTime;
 
 }

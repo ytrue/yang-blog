@@ -15,5 +15,5 @@ import java.util.Map;
  */
 public interface AdminMapper extends BaseMapper<Admin> {
 
-    List<Map<String, Object>> roleFindByIdAdmin(int id);
+    List<Map<String, Object>> roleFindByIdAdmin(Long id);
 }

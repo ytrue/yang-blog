@@ -19,11 +19,11 @@ window.operateEvents = {
         let id = row.id;
         layer.open({
             type: 2,
-            title: '编辑',
+            title: '分配角色',
             shadeClose: true,
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
-            area: ['900px', '600px'],
+            area: ['1000px', '600px'],
             content: '/admin/auth/admin/assign?id=' + id,
         });
     }

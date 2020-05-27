@@ -60,7 +60,7 @@ public interface IAdminService extends IService<Admin> {
      * @param id
      * @return
      */
-    ResponseData<Object> myRole(Integer id);
+    ResponseData<Object> myRole(Long id);
 
 
     /**
@@ -70,4 +70,11 @@ public interface IAdminService extends IService<Admin> {
      * @return
      */
     ResponseData<Object> del(List<Long> ids);
+
+    /**
+     * 分配角色
+     * @param roleId
+     * @param id
+     */
+    ResponseData<Object> assignRole(String roleId, Long id);
 }

@@ -29,12 +29,15 @@ spring:
   # 重写配置
   main:
     allow-bean-definition-overriding: true
+  transaction:
+    rollback-on-commit-failure: true
 # mybatis plus配置
 mybatis-plus:
   mapper-locations: classpath*:mybatis/mapper/*.xml
   #config-location: classpath*:mybatis/*.xml
   configuration:
     call-setters-on-nulls: true
+
 
 logging:
   level:

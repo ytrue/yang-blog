@@ -3,6 +3,7 @@ package com.yang.blog;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author：yangyi
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.yang.blog.mapper")
+@EnableTransactionManagement
 public class YangBlogApplication {
 
     public static void main(String[] args) {
