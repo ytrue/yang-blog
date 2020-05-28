@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class RoleController extends BasicController {
 
     @Autowired
@@ -44,12 +44,12 @@ public class RoleController extends BasicController {
 
     /**
      * 添加数据
-     *
      * @param role
+     * @param bindingResult
      * @return
      */
     @ResponseBody
-    @PostMapping("/auth/role/add")
+    @PostMapping(value = "/auth/role/add")
     public ResponseData<Object> save(
             @RequestBody
             @Validated({Scene.Add.class}) Role role,

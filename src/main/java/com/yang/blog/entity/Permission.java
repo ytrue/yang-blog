@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 
+import com.yang.blog.validate.Scene;
+import com.yang.blog.validate.Unique;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 
@@ -33,18 +37,24 @@ public class Permission {
      */
 
     @TableField("url")
+    @Unique(table = "sys_permission", field = "url", message = "菜单规则已存在！", groups = {Scene.Add.class})
+    @NotBlank(message = "菜单规则不能为空")
+    @Length(max = 125, message = "菜单规则不能超过125个字符")
     private String url;
 
     /**
      * 名称
      */
     @TableField("name")
+    @NotBlank(message = "菜单名称不能为空")
+    @Length(max = 20, message = "菜单名称不能超过20个字符")
     private String name;
 
     /**
      * 父id
      */
     @TableField("pid")
+    @NotBlank(message = "pid不能为空")
     private Integer pid;
 
     @TableField("icon")
@@ -54,10 +64,14 @@ public class Permission {
      * 是否菜单
      */
     @TableField("ismenu")
+    @NotBlank(message = "isMenu不能为空")
     private Integer ismenu;
+
 
     @TableField(exist = false) //表示该属性不为数据库表字段，但又是必须使用的。
     private List<Permission> childrenList;
 
+    @TableField(exist = false) //表示该属性不为数据库表字段，但又是必须使用的。
+    private Integer level;
 
 }

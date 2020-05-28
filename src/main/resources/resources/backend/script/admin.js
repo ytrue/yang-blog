@@ -115,7 +115,7 @@ new Vue({
                 formatter: function (value, row, index) {
                     return [
                         '<button  class="btn btn-xs btn-info btn-assign" title="分配角色"><i class="glyphicon glyphicon-user"></i></button> ',
-                        '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="fa fa-pencil"></i></button> ',
+                        '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="glyphicon glyphicon-pencil"></i></button> ',
                         '<button  class="btn btn-xs btn-danger btn-del-one" title="删除"><i class="glyphicon glyphicon-trash"></i></button>'
                     ].join('');
                 }
