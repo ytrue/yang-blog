@@ -83,11 +83,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return ResponseData.fail(2, "error", errorList);
         }
         try {
-            //admin.setCreateTime(System.currentTimeMillis());
             //密码加密
             admin.setPassword(admin.getPassword());
             admin.setSalt("123");
-
             save(admin);
             return ResponseData.success();
         } catch (Exception e) {

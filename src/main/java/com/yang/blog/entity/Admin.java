@@ -1,9 +1,6 @@
 package com.yang.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import com.yang.blog.validate.IsEmptyPwd;
 import com.yang.blog.validate.Scene;
@@ -12,6 +9,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 
 /**
@@ -74,13 +72,14 @@ public class Admin {
     /**
      * 创建时间
      */
-    @TableField("create_time")
-    private Long createTime;
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    @TableField("update_time")
-    private Long updateTime;
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    private Date updateTime;
 
 }

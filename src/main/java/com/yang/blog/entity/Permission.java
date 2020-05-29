@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,4 +75,16 @@ public class Permission {
     @TableField(exist = false) //表示该属性不为数据库表字段，但又是必须使用的。
     private Integer level;
 
+    /**
+     * 创建时间
+     */
+
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    private Date updateTime;
 }
