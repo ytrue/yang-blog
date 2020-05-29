@@ -11,6 +11,7 @@ import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.service.IAdminRoleService;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.service.IRoleService;
+import com.yang.blog.util.PasswordUtils;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.validate.VerificationJudgement;
@@ -84,8 +85,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
         try {
             //密码加密
-            admin.setPassword(admin.getPassword());
-            admin.setSalt("123");
+            String salt = PasswordUtils.generateSalt(3, 3);
+            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(),salt));
+            admin.setSalt(salt);
+
             save(admin);
             return ResponseData.success();
         } catch (Exception e) {
@@ -111,12 +114,14 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return ResponseData.fail(2, "error", Collections.singletonList("此账户已存在！"));
         }
 
-        String userPwd = admin.getUsername();
+        String userPwd = admin.getPassword();
         if (userPwd == null || userPwd.isEmpty()) {
             admin.setPassword(null);
         } else {
             //这里要加密的
-            admin.setPassword(admin.getUsername());
+            String salt = PasswordUtils.generateSalt(3, 3);
+            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(),salt));
+            admin.setSalt(salt);
         }
         try {
             updateById(admin);
