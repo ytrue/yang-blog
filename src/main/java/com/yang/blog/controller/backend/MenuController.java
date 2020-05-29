@@ -24,7 +24,7 @@ public class MenuController extends BasicController {
      * 获得所有的权限
      */
     @ResponseBody
-    @GetMapping(value = "/auth/menu/all")
+    @PostMapping(value = "/auth/menu/all")
     public Map<String, Object> all() {
         return permissionService.all();
     }
@@ -92,12 +92,12 @@ public class MenuController extends BasicController {
         return "backend/auth/menu/index";
     }
 
-    @GetMapping("/auth/menu/save")
+    @GetMapping("/auth/menu/add")
     public String saveView() {
-        return "backend/auth/menu/save";
+        return "backend/auth/menu/add";
     }
 
-    @GetMapping("/auth/menu/edit")
+    @GetMapping("/auth/menu/update")
     public String editView() {
         return "backend/auth/menu/edit";
     }

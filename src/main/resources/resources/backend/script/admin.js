@@ -8,7 +8,7 @@ window.operateEvents = {
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
             area: ['900px', '600px'],
-            content: '/admin/auth/admin/edit?id=' + id,
+            content: '/admin/auth/admin/update?id=' + id,
         });
     },
     'click .btn-del-one': function (e, value, row, index) {
@@ -123,9 +123,9 @@ new Vue({
         ],
         data: [],
         options: {
-            url: '/admin/auth/admin/list',         //请求后台的URL（*）
+            url: '/admin/auth/admin/index',         //请求后台的URL（*）
             pk: "id",
-            method: 'get',                      //请求方式（*）
+            method: 'post',                      //请求方式（*）
             dataType: 'json',
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -166,7 +166,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/auth/admin/save'
+                content: '/admin/auth/admin/add'
             });
         },
         btnEdit: function () {
@@ -192,7 +192,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/auth/admin/edit?id=' + id,
+                content: '/admin/auth/admin/update?id=' + id,
             });
         },
         btnDel: function () {

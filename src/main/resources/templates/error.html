@@ -1,1 +1,27 @@
- error
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>error: [[${code}]]</title>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/backend/bootstrap/css/bootstrap.min.css}">
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center animated fadeInDown">
+    <h1 th:text="${code}"></h1>
+    <h3 class="font-bold" th:text="${error}"></h3>
+
+    <div class="error-desc">
+        [[${message}]]
+    </div>
+</div>
+
+<!-- 全局js -->
+<script th:src="@{/backend/jquery/jquery-2.1.1.min.js}"></script>
+<script th:src="@{/backend/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

@@ -27,8 +27,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public Map<String, Object> all() {
         //tree处理
-
-        int yang = 10 / 0;
         List<Permission> children = getChildren(list(), 0, 0);
         return ResponseData.list(0, children);
     }
@@ -53,9 +51,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 }
                 permission.setName(str + permission.getName());
                 arr.add(permission);
-                if (level < 1) {
+                //if (level < 1) {
                     arr.addAll(getChildren(list, permission.getId(), level + 1));
-                }
+               // }
 
             }
         }

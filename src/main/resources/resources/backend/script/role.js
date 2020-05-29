@@ -8,7 +8,7 @@ window.operateEvents = {
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
             area: ['900px', '600px'],
-            content: '/admin/auth/role/edit?id=' + id,
+            content: '/admin/auth/role/update?id=' + id,
         });
     },
     'click .btn-del-one': function (e, value, row, index) {
@@ -115,7 +115,7 @@ new Vue({
                 formatter: function (value, row, index) {
                     return [
                         '<button  class="btn btn-xs btn-info btn-find-one" title="详情"><i class="glyphicon glyphicon-eye-open"></i></button> ',
-                        '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="fa fa-pencil"></i></button> ',
+                        '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="glyphicon glyphicon-pencil"></i></button> ',
                         '<button  class="btn btn-xs btn-danger btn-del-one" title="删除"><i class="glyphicon glyphicon-trash"></i></button>'
                     ].join('');
                 }
@@ -123,9 +123,9 @@ new Vue({
         ],
         data: [],
         options: {
-            url: '/admin/auth/role/list',         //请求后台的URL（*）
+            url: '/admin/auth/role/index',         //请求后台的URL（*）
             pk: "id",
-            method: 'get',                      //请求方式（*）
+            method: 'post',                      //请求方式（*）
             dataType: 'json',
             toolbar: '#toolbar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -166,7 +166,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/auth/role/save'
+                content: '/admin/auth/role/add'
             });
         },
         btnEdit: function () {
@@ -192,7 +192,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/auth/role/edit?id=' + id,
+                content: '/admin/auth/role/update?id=' + id,
             });
         },
         btnDel: function () {

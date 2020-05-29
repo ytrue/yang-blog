@@ -28,19 +28,11 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/role/list")
+    @PostMapping(value = "/auth/role/index")
     public Map<String, Object> list(QueryCondition queryCondition) {
         return roleService.queryPage(queryCondition);
     }
 
-    /**
-     * 获得所有的角色
-     */
-    @ResponseBody
-    @GetMapping(value = "/auth/role/all")
-    public List<Map<String, Object>> all() {
-        return roleService.all();
-    }
 
     /**
      * 添加数据
@@ -106,12 +98,12 @@ public class RoleController extends BasicController {
         return "backend/auth/role/index";
     }
 
-    @GetMapping("/auth/role/save")
+    @GetMapping("/auth/role/add")
     public String saveView() {
-        return "backend/auth/role/save";
+        return "backend/auth/role/add";
     }
 
-    @GetMapping("/auth/role/edit")
+    @GetMapping("/auth/role/update")
     public String editView() {
         return "backend/auth/role/edit";
     }

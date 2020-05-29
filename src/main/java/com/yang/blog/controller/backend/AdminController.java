@@ -34,7 +34,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/admin/list")
+    @PostMapping(value = "/auth/admin/index")
     public Map<String, Object> list(QueryCondition queryCondition) {
         return adminService.queryPage(queryCondition);
     }
@@ -120,7 +120,7 @@ public class AdminController extends BasicController {
             @RequestParam(value = "roleId") String roleId,
             @RequestParam(value = "id") Long id
     ) {
-        return adminService.assignRole(roleId,id);
+        return adminService.assignRole(roleId, id);
     }
 
     @GetMapping("/auth/admin/index")
@@ -128,12 +128,12 @@ public class AdminController extends BasicController {
         return "backend/auth/admin/index";
     }
 
-    @GetMapping("/auth/admin/save")
+    @GetMapping("/auth/admin/add")
     public String saveView() {
-        return "backend/auth/admin/save";
+        return "backend/auth/admin/add";
     }
 
-    @GetMapping("/auth/admin/edit")
+    @GetMapping("/auth/admin/update")
     public String editView() {
         return "backend/auth/admin/edit";
     }
