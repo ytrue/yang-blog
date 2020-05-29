@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin/auth/menu")
 public class MenuController extends BasicController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class MenuController extends BasicController {
      * 获得所有的权限
      */
     @ResponseBody
-    @PostMapping(value = "/auth/menu/all")
+    @PostMapping(value = "all")
     public Map<String, Object> all() {
         return permissionService.all();
     }
@@ -36,7 +36,7 @@ public class MenuController extends BasicController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/role/menu/{id}")
+    @GetMapping(value = "menu/{id}")
     public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
         return permissionService.find(id);
     }
@@ -48,7 +48,7 @@ public class MenuController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/auth/menu/add")
+    @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
             @Validated({Scene.Add.class}) Permission permission,
@@ -65,7 +65,7 @@ public class MenuController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PutMapping("/auth/menu/update")
+    @PutMapping("update")
     public ResponseData<Object> update(
             @Validated
             @RequestBody Permission permission,
@@ -82,22 +82,22 @@ public class MenuController extends BasicController {
      * @return
      */
     @ResponseBody
-    @DeleteMapping("/auth/menu/delete")
+    @DeleteMapping("delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
         return permissionService.del(ids);
     }
 
-    @GetMapping("/auth/menu/index")
+    @GetMapping("index")
     public String indexView() {
         return "backend/auth/menu/index";
     }
 
-    @GetMapping("/auth/menu/add")
+    @GetMapping("add")
     public String saveView() {
         return "backend/auth/menu/add";
     }
 
-    @GetMapping("/auth/menu/update")
+    @GetMapping("update")
     public String editView() {
         return "backend/auth/menu/edit";
     }

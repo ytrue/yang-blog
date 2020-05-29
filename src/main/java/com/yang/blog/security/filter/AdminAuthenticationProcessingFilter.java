@@ -36,7 +36,7 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
      * @param adminAuthenticationFailureHandler: 认证失败处理
      */
     public AdminAuthenticationProcessingFilter(CusAuthenticationManager authenticationManager, AdminAuthenticationSuccessHandler adminAuthenticationSuccessHandler, AdminAuthenticationFailureHandler adminAuthenticationFailureHandler) {
-        super(new AntPathRequestMatcher("/login", "POST"));
+        super(new AntPathRequestMatcher("/admin/login", "POST"));
         this.setAuthenticationManager(authenticationManager);
         this.setAuthenticationSuccessHandler(adminAuthenticationSuccessHandler);
         this.setAuthenticationFailureHandler(adminAuthenticationFailureHandler);
@@ -47,6 +47,8 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
         if (request.getContentType() == null || !request.getContentType().contains("application/json")) {
             throw new AuthenticationServiceException("请求头类型不支持: " + request.getContentType());
         }
+
+        log.info("触发AdminAuthenticationProcessingFilter....");
 
         UsernamePasswordAuthenticationToken authRequest;
         try {

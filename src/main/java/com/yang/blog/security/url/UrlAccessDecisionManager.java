@@ -1,6 +1,7 @@
 package com.yang.blog.security.url;
 
 import com.yang.blog.security.UrlAuthConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -23,6 +24,7 @@ import java.util.Collection;
  * @date : 2019/10/15 14:21
  */
 @Component
+@Slf4j
 public class UrlAccessDecisionManager implements AccessDecisionManager {
 
     /**
@@ -34,18 +36,17 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> collection) throws AccessDeniedException, AuthenticationException {
 
+        log.info("UrlAccessDecisionManager 触发！！！");
 
         // 遍历角色
         for (ConfigAttribute ca : collection) {
             // ① 当前url请求需要的权限
             String needRole = ca.getAttribute();
-
-            System.out.println("needRole----------" + needRole);
-
-
+            log.info("needRole----------" + needRole);
             if ("role_login".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
                     throw new BadCredentialsException("未登录!");
+                    //这里要判断url
                 } else {
                     // 获取当前请求url
                     String requestUrl = ((FilterInvocation) object).getRequestUrl();

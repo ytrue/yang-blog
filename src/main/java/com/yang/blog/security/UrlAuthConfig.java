@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class UrlAuthConfig {
     public static List<String> permitAll() {
-        return Arrays.asList("/index", "/test");
+        return Arrays.asList("/admin/login", "/admin/auth/admin/test");
     }
 
     public static List<String> authenticated() {

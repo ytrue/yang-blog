@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 
-@RequestMapping("admin")
+@RequestMapping("admin/auth/admin")
 @Controller
 public class AdminController extends BasicController {
 
@@ -34,7 +34,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping(value = "/auth/admin/index")
+    @PostMapping(value = "index")
     public Map<String, Object> list(QueryCondition queryCondition) {
         return adminService.queryPage(queryCondition);
     }
@@ -43,7 +43,7 @@ public class AdminController extends BasicController {
      * 根据id获得角色
      */
     @ResponseBody
-    @GetMapping(value = "/auth/admin/my_role/{id}")
+    @GetMapping(value = "my_role/{id}")
     public ResponseData<Object> myRole(@PathVariable("id") Long id) {
         return adminService.myRole(id);
     }
@@ -56,7 +56,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/auth/admin/add")
+    @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
             @Validated({Scene.Add.class}) Admin admin,
@@ -72,7 +72,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/admin/find/{id}")
+    @GetMapping(value = "find/{id}")
     public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
         return adminService.find(id);
     }
@@ -85,7 +85,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PutMapping("/auth/admin/update")
+    @PutMapping("update")
     public ResponseData<Object> update(
             @Validated(Scene.Update.class)
             @RequestBody Admin admin,
@@ -102,7 +102,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @DeleteMapping("/auth/admin/delete")
+    @DeleteMapping("delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
         return adminService.del(ids);
     }
@@ -115,7 +115,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/auth/admin/assign")
+    @PostMapping("assign")
     public ResponseData<Object> assignRole(
             @RequestParam(value = "roleId") String roleId,
             @RequestParam(value = "id") Long id
@@ -123,22 +123,22 @@ public class AdminController extends BasicController {
         return adminService.assignRole(roleId, id);
     }
 
-    @GetMapping("/auth/admin/index")
+    @GetMapping("index")
     public String indexView() {
         return "backend/auth/admin/index";
     }
 
-    @GetMapping("/auth/admin/add")
+    @GetMapping("add")
     public String saveView() {
         return "backend/auth/admin/add";
     }
 
-    @GetMapping("/auth/admin/update")
+    @GetMapping("update")
     public String editView() {
         return "backend/auth/admin/edit";
     }
 
-    @GetMapping("/auth/admin/assign")
+    @GetMapping("assign")
     public String assignView() {
         return "backend/auth/admin/assign";
     }

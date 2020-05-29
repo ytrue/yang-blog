@@ -5,6 +5,7 @@ import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.security.dto.SecurityUser;
 import com.yang.blog.service.impl.UserDetailsServiceImpl;
 import com.yang.blog.util.PasswordUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
  * @date : 2019/10/12 14:49
  */
 @Component
+@Slf4j
 public class AdminAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
@@ -33,6 +35,10 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         // 获取前端表单中输入后返回的用户名、密码
         String userName = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
+
+
+        log.info(userName);
+
 
         SecurityUser userInfo = (SecurityUser) userDetailsService.loadUserByUsername(userName);
 

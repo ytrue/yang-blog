@@ -66,7 +66,7 @@ public class MyAuthenticationFilter extends OncePerRequestFilter {
          * 检查url，查看匿名可通过的url
          */
 
-
+        log.info("MyAuthenticationFilter 触发！");
         String token = wrappedRequest.getHeader("X-Token");
 
         if (StringUtils.isNotBlank(token)) {
@@ -81,6 +81,7 @@ public class MyAuthenticationFilter extends OncePerRequestFilter {
             // 全局注入角色权限信息和登录用户基本信息
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
         filterChain.doFilter(wrappedRequest, wrappedResponse);
     }
 }

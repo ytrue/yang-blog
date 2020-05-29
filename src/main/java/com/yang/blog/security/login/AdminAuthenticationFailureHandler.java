@@ -51,7 +51,6 @@ public class AdminAuthenticationFailureHandler implements AuthenticationFailureH
         //返回数据
         ResponseUtils.out(response, json);
     }
-
     private ResponseData<Object> jsonData(int code, String message) {
         return ResponseData.fail(code, message);
     }

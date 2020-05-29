@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("admin")
+@RequestMapping("admin/auth/role/")
 public class RoleController extends BasicController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping(value = "/auth/role/index")
+    @PostMapping("index")
     public Map<String, Object> list(QueryCondition queryCondition) {
         return roleService.queryPage(queryCondition);
     }
@@ -41,7 +41,7 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping(value = "/auth/role/add")
+    @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
             @Validated({Scene.Add.class}) Role role,
@@ -57,7 +57,7 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "/auth/role/find/{id}")
+    @GetMapping("find/{id}")
     public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
         return roleService.find(id);
     }
@@ -70,7 +70,7 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PutMapping("/auth/role/update")
+    @PutMapping("update")
     public ResponseData<Object> update(
             @Validated
             @RequestBody Role role,
@@ -87,28 +87,28 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @DeleteMapping("/auth/role/delete")
+    @DeleteMapping("delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
         return roleService.del(ids);
     }
 
 
-    @GetMapping("/auth/role/index")
+    @GetMapping("index")
     public String indexView() {
         return "backend/auth/role/index";
     }
 
-    @GetMapping("/auth/role/add")
+    @GetMapping("add")
     public String saveView() {
         return "backend/auth/role/add";
     }
 
-    @GetMapping("/auth/role/update")
+    @GetMapping("update")
     public String editView() {
         return "backend/auth/role/edit";
     }
 
-    @GetMapping("/auth/role/details")
+    @GetMapping("details")
     public String findView() {
         return "backend/auth/role/find";
     }

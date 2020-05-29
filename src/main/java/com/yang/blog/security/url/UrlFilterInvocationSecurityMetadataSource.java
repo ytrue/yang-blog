@@ -8,6 +8,7 @@ import com.yang.blog.mapper.PermissionMapper;
 import com.yang.blog.mapper.RoleMapper;
 import com.yang.blog.mapper.RolePermissionMapper;
 import com.yang.blog.security.UrlAuthConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -29,6 +30,7 @@ import java.util.List;
  * 获取访问该url所需要的角色权限信息
  */
 @Component
+@Slf4j
 public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
 
@@ -56,6 +58,9 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         if ("/login".equals(requestUrl) || requestUrl.contains("logout")) {
             return null;
         }
+
+
+        log.info("UrlFilterInvocationSecurityMetadataSource 触发，请求url："+requestUrl);
 
         if (UrlAuthConfig.permitAll().contains(requestUrl)) {
             return null;
