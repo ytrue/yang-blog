@@ -1,5 +1,5 @@
 server:
-  port: 4444
+  port: 1234
 # 数据库配置
 spring:
   datasource:

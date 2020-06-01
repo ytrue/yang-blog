@@ -36,6 +36,7 @@ public class RoleController extends BasicController {
 
     /**
      * 添加数据
+     *
      * @param role
      * @param bindingResult
      * @return
@@ -111,5 +112,10 @@ public class RoleController extends BasicController {
     @GetMapping("details")
     public String findView() {
         return "backend/auth/role/find";
+    }
+
+    @GetMapping("test")
+    public String test() {
+        return "backend/auth/role/test";
     }
 }

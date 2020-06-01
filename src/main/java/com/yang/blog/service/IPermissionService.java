@@ -30,7 +30,7 @@ public interface IPermissionService extends IService<Permission> {
     /**
      * 添加
      *
-     * @param admin
+     * @param permission
      * @param bindingResult
      * @return
      */
@@ -39,7 +39,7 @@ public interface IPermissionService extends IService<Permission> {
     /**
      * 修改
      *
-     * @param admin
+     * @param permission
      * @param bindingResult
      * @return
      */
