@@ -10,6 +10,22 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRoleService extends IService<Role> {
+
+
+    /**
+     * 分配权限
+     *
+     * @return
+     */
+    ResponseData<Object> assign(String menuId, Long id);
+
+    /**
+     * 获得my权限列表
+     *
+     * @return
+     */
+    List<Map<String, Object>> myMenu();
+
     /**
      * 分页
      *
@@ -20,6 +36,7 @@ public interface IRoleService extends IService<Role> {
 
     /**
      * 获得所有数据
+     *
      * @return
      */
     List<Map<String, Object>> all();
@@ -59,5 +76,11 @@ public interface IRoleService extends IService<Role> {
      */
     ResponseData<Map<String, Object>> find(Long id);
 
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     */
     ResponseData<Object> del(List<Long> ids);
 }

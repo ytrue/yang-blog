@@ -2,7 +2,9 @@ package com.yang.blog.controller.backend;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Permission;
+import com.yang.blog.entity.RoleMenu;
 import com.yang.blog.service.IPermissionService;
+import com.yang.blog.service.IRoleMenuService;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.validate.Scene;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Controller
 @RequestMapping("admin/auth/menu")
@@ -22,6 +23,9 @@ public class MenuController extends BasicController {
 
     @Autowired
     private IPermissionService permissionService;
+
+    @Autowired
+    private IRoleMenuService roleMenuService;
 
     /**
      * 获得所有的权限
@@ -32,40 +36,6 @@ public class MenuController extends BasicController {
         return permissionService.all();
     }
 
-    @ResponseBody
-    @PostMapping(value = "test")
-    public Object test() {
-        //获得全部
-        List<Map<String, Object>> maps = permissionService.listMaps(
-                new QueryWrapper<Permission>()
-                        .select("id", "pid", "name")
-        );
-
-
-        ArrayList<Map<String, Object>> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("id", i);
-            hashMap.put("name", "yang" + i);
-            list.add(hashMap);
-        }
-
-        ArrayList<Map<String, Object>> list1 = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            HashMap<String, Object> hashMap1 = new HashMap<>();
-            hashMap1.put("id", i);
-            hashMap1.put("name", "yang" + 1);
-            list1.add(hashMap1);
-        }
-
-        list.removeAll(list1);
-
-        System.out.println(list);
-
-
-        return null;
-        //return permissionService.list();
-    }
 
     /**
      * 根据id查询数据

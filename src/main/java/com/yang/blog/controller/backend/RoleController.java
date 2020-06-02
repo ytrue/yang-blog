@@ -29,7 +29,7 @@ public class RoleController extends BasicController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> list(QueryCondition queryCondition) {
+    public Map<String, Object> index(QueryCondition queryCondition) {
         return roleService.queryPage(queryCondition);
     }
 
@@ -80,6 +80,28 @@ public class RoleController extends BasicController {
         return roleService.update1(role, bindingResult);
     }
 
+    /**
+     * 分配权限
+     *
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("assign")
+    public ResponseData<Object> assign(
+            @RequestParam(value = "menuId") String menuId,
+            @RequestParam(value = "id") Long id
+    ) {
+        //获得数组的集合，想删除一样,获得自身的id
+        return roleService.assign(menuId, id);
+    }
+
+
+    //获得menu
+    @ResponseBody
+    @PostMapping("menu")
+    public List<Map<String, Object>> myMenu() {
+        return roleService.myMenu();
+    }
 
     /**
      * id 删除
@@ -114,8 +136,9 @@ public class RoleController extends BasicController {
         return "backend/auth/role/find";
     }
 
-    @GetMapping("test")
-    public String test() {
-        return "backend/auth/role/test";
+    @GetMapping("assign")
+    public String assignView() {
+        return "backend/auth/role/assign";
     }
+
 }

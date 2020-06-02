@@ -1,5 +1,7 @@
 package com.yang.blog.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
@@ -86,7 +88,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         try {
             //密码加密
             String salt = PasswordUtils.generateSalt(3, 3);
-            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(),salt));
+            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(), salt));
             admin.setSalt(salt);
 
             save(admin);
@@ -120,7 +122,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         } else {
             //这里要加密的
             String salt = PasswordUtils.generateSalt(3, 3);
-            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(),salt));
+            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(), salt));
             admin.setSalt(salt);
         }
         try {
@@ -207,10 +209,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseData<Object> assignRole(String roleId, Long id) {
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<Long>>() {
-        }.getType();
-        ArrayList<Long> roleIdList = gson.fromJson(roleId, type);
+        ArrayList<Long> roleIdList = JSON.parseObject(roleId, new TypeReference<ArrayList<Long>>() {});
         try {
             //获得角色id，获得权限id,先删除角色所有的id，再添加进去
             adminRoleService.remove(new QueryWrapper<AdminRole>().eq("user_id", id));
@@ -219,9 +218,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
                 AdminRole adminRole = new AdminRole();
                 adminRole.setRoleId(rid.intValue());
                 adminRole.setUserId(id.intValue());
-                long time = new Date().getTime();
-                //adminRole.setCreateTime(time);
-                //adminRole.setUpdateTime(time);
                 adminRoles.add(adminRole);
             });
             adminRoleService.saveBatch(adminRoles);

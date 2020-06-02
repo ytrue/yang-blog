@@ -39,8 +39,8 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping(value = "index")
-    public Map<String, Object> list(QueryCondition queryCondition) {
+    @PostMapping("index")
+    public Map<String, Object> index(QueryCondition queryCondition) {
         return adminService.queryPage(queryCondition);
     }
 
@@ -48,7 +48,7 @@ public class AdminController extends BasicController {
      * 根据id获得角色
      */
     @ResponseBody
-    @GetMapping(value = "my_role/{id}")
+    @GetMapping("my_role/{id}")
     public ResponseData<Object> myRole(@PathVariable("id") Long id) {
         return adminService.myRole(id);
     }
