@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.entity.AdminRole;
 import com.yang.blog.entity.Role;
@@ -23,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.BindingResult;
 
-import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
@@ -168,8 +166,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         if (myRole.isEmpty()) {
             notOwnedRole = roleService.all();
         } else {
-            ArrayList<Object> ids = new ArrayList<>();
-            myRole.forEach(map -> ids.add(map.get("id")));
+            //通过stream流取出map中的id
+            List<Object> ids = myRole.stream().map(map -> map.get("id")).collect(Collectors.toList());
             notOwnedRole = roleService.listMaps(
                     new QueryWrapper<Role>()
                             .notIn("id", ids)
@@ -209,8 +207,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseData<Object> assignRole(String roleId, Long id) {
-        ArrayList<Long> roleIdList = JSON.parseObject(roleId, new TypeReference<ArrayList<Long>>() {});
         try {
+            ArrayList<Long> roleIdList = JSON.parseObject(roleId, new TypeReference<ArrayList<Long>>() {
+            });
             //获得角色id，获得权限id,先删除角色所有的id，再添加进去
             adminRoleService.remove(new QueryWrapper<AdminRole>().eq("user_id", id));
             ArrayList<AdminRole> adminRoles = new ArrayList<>();

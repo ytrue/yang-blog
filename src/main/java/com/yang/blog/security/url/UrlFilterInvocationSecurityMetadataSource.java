@@ -17,10 +17,10 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author：yangyi
@@ -43,6 +43,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     @Autowired
     RoleMapper roleMapper;
 
+
     /***
      * 返回该url所需要的用户权限信息
      *
@@ -55,12 +56,12 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
 
         // TODO 忽略url请放在此处进行过滤放行
-        if ("/login".equals(requestUrl) || requestUrl.contains("logout")) {
+        if ("/admin/login".equals(requestUrl) || requestUrl.contains("/admin/logout")) {
             return null;
         }
 
 
-        log.info("UrlFilterInvocationSecurityMetadataSource 触发，请求url："+requestUrl);
+        log.info("UrlFilterInvocationSecurityMetadataSource 触发，请求url：" + requestUrl);
 
         if (UrlAuthConfig.permitAll().contains(requestUrl)) {
             return null;
@@ -69,6 +70,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         // 数据库中所有url
         List<Permission> permissionList = permissionMapper.selectList(null);
 
+        HashSet<String> roles = new HashSet<>();
         for (Permission permission : permissionList) {
             // 获取该url所对应的权限
             if (requestUrl.equals(permission.getUrl())) {
@@ -76,19 +78,18 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                 QueryWrapper<RoleMenu> queryWrapper = new QueryWrapper<>();
                 queryWrapper.eq("permission_id", permission.getId());
                 List<RoleMenu> permissions = rolePermissionMapper.selectList(queryWrapper);
-
-                List<String> roles = new LinkedList<>();
+                //通过role id获得role code
                 if (!CollectionUtils.isEmpty(permissions)) {
-                    Integer roleId = permissions.get(0).getRoleId();
-                    Role role = roleMapper.selectById(roleId);
-                    roles.add(role.getCode());
+                    List<Integer> roleIds = permissions.stream().map(RoleMenu::getRoleId).collect(Collectors.toList());
+                    List<Role> roleList = roleMapper.selectList(new QueryWrapper<Role>().in("id", roleIds));
+                    System.out.println(roleList);
+                    roleList.forEach(role -> roles.add(role.getCode()));
                 }
-                // 保存该url对应角色权限信息
-                return SecurityConfig.createList(roles.toArray(new String[roles.size()]));
             }
         }
-        //
-        return SecurityConfig.createList("role_login");
+        // 保存该url对应角色权限信息
+        return !roles.isEmpty() ? SecurityConfig.createList(roles.toArray(new String[0]))
+                : SecurityConfig.createList("role_login");
     }
 
     @Override

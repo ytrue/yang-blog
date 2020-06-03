@@ -2,7 +2,6 @@ package com.yang.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.gson.internal.$Gson$Preconditions;
 import com.yang.blog.entity.Permission;
 import com.yang.blog.mapper.PermissionMapper;
 import com.yang.blog.service.IPermissionService;
@@ -51,10 +50,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 }
                 permission.setName(str + permission.getName());
                 arr.add(permission);
-                //if (level < 1) {
+                if (level < 1) {
                     arr.addAll(getChildren(list, permission.getId(), level + 1));
-               // }
-
+                }
             }
         }
         return arr;

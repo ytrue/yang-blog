@@ -1,8 +1,6 @@
 package com.yang.blog.controller.backend;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Permission;
-import com.yang.blog.entity.RoleMenu;
 import com.yang.blog.service.IPermissionService;
 import com.yang.blog.service.IRoleMenuService;
 import com.yang.blog.util.ResponseData;

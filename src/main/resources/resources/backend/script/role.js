@@ -19,12 +19,12 @@ window.operateEvents = {
         let id = row.id;
         layer.open({
             type: 2,
-            title: '详情',
+            title: '权限分配',
             shadeClose: true,
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
-            area: ['900px', '600px'],
-            content: '/admin/auth/role/details?id=' + id,
+            area: ['300px', '600px'],
+            content: '/admin/auth/role/assign?id=' + id,
         });
     }
 };
@@ -114,7 +114,7 @@ new Vue({
                 events: operateEvents,
                 formatter: function (value, row, index) {
                     return [
-                        '<button  class="btn btn-xs btn-info btn-find-one" title="详情"><i class="glyphicon glyphicon-eye-open"></i></button> ',
+                        '<button  class="btn btn-xs btn-info btn-find-one" title="权限分配"><i class="glyphicon glyphicon-lock"></i></button> ',
                         '<button  class="btn btn-xs btn-success btn-edit-one" title="编辑"><i class="glyphicon glyphicon-pencil"></i></button> ',
                         '<button  class="btn btn-xs btn-danger btn-del-one" title="删除"><i class="glyphicon glyphicon-trash"></i></button>'
                     ].join('');

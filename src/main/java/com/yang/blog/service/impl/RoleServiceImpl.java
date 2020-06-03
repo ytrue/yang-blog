@@ -3,22 +3,29 @@ package com.yang.blog.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yang.blog.entity.*;
+import com.yang.blog.entity.Permission;
+import com.yang.blog.entity.Role;
+import com.yang.blog.entity.RoleMenu;
 import com.yang.blog.mapper.RoleMapper;
-import com.yang.blog.service.*;
+import com.yang.blog.service.IAdminRoleService;
+import com.yang.blog.service.IPermissionService;
+import com.yang.blog.service.IRoleMenuService;
+import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.validate.VerificationJudgement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
@@ -33,20 +40,39 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     private IRoleMenuService roleMenuService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseData<Object> assign(String menuId, Long id) {
-        List<Long> menuIdList = JSON.parseObject(menuId, new TypeReference<List<Long>>() {
-        });
+        try {
+            List<Long> menuIdList = JSON.parseObject(menuId, new TypeReference<List<Long>>() {
+            });
+            //获得角色id，获得权限id,先删除角色所有的id，再添加进去
+            roleMenuService.remove(new QueryWrapper<RoleMenu>().eq("role_id", id));
+            //再插入
+            ArrayList<RoleMenu> roleMenus = new ArrayList<>();
+            menuIdList.forEach(menuId1 -> {
+                RoleMenu roleMenu = new RoleMenu();
+                roleMenu.setRoleId(id.intValue());
+                roleMenu.setPermissionId(menuId1.intValue());
+                roleMenus.add(roleMenu);
+            });
+            roleMenuService.saveBatch(roleMenus);
+            return ResponseData.success();
+        } catch (Exception e) {
+            //手动回滚，处理try失效问题
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResponseData.fail(e.getMessage());
+        }
 
-        return null;
     }
 
     /**
      * 获得my menu列表
      *
+     * @param id
      * @return
      */
     @Override
-    public List<Map<String, Object>> myMenu() {
+    public List<Map<String, Object>> myMenu(Long id) {
         //获得全部
         List<Map<String, Object>> menuAll = permissionService.listMaps(
                 new QueryWrapper<Permission>()
@@ -54,36 +80,30 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         );
 
         //通过role id获得该有的
-        List<Map<String, Object>> menuIdMap =
-                roleMenuService.listMaps(
-                        new QueryWrapper<RoleMenu>()
-                                .eq("role_id", 1)
-                                .select("permission_id")
-                );
+        List<Map<String, Object>> menuIdList = roleMenuService.listMaps(
+                new QueryWrapper<RoleMenu>()
+                        .eq("role_id", id)
+                        .select("permission_id")
+        );
 
-        ArrayList<Long> menuIds = new ArrayList<>();
         List<Map<String, Object>> myMenu = new ArrayList<>();
-
-        if (!menuIdMap.isEmpty()) {
-            menuIdMap.forEach(map -> menuIds.add(Long.valueOf(String.valueOf(map.get("permission_id")))));
+        if (!menuIdList.isEmpty()) {
+            List<Object> menuIds = menuIdList.stream().map(map -> map.get("permission_id")).collect(Collectors.toList());
             myMenu = permissionService.listMaps(
                     new QueryWrapper<Permission>()
                             .in("id", menuIds)
                             .select("id", "pid", "name")
             );
         }
-        //获得差集
-        menuAll.removeAll(myMenu);
-        //循环
-        menuAll.forEach(map -> {
+
+        for (Map<String, Object> map : menuAll) {
+            for (Map<String, Object> m : myMenu) {
+                if (m.get("id").equals(map.get("id"))) {
+                    map.put("checked", true);
+                }
+            }
             map.put("open", true);
-            map.put("checked", false);
-        });
-        //循环
-        myMenu.forEach(map -> {
-            map.put("checked", true);
-        });
-        menuAll.addAll(myMenu);
+        }
         return menuAll;
     }
 

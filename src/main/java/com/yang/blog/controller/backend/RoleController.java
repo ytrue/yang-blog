@@ -86,21 +86,21 @@ public class RoleController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping("assign")
+    @PutMapping("assign")
     public ResponseData<Object> assign(
             @RequestParam(value = "menuId") String menuId,
             @RequestParam(value = "id") Long id
     ) {
         //获得数组的集合，想删除一样,获得自身的id
-        return roleService.assign(menuId, id);
+        return roleService.assign(menuId,id);
     }
 
 
     //获得menu
     @ResponseBody
-    @PostMapping("menu")
-    public List<Map<String, Object>> myMenu() {
-        return roleService.myMenu();
+    @PostMapping("assign/{id}")
+    public List<Map<String, Object>> myMenu(@PathVariable("id") Long id) {
+        return roleService.myMenu(id);
     }
 
     /**

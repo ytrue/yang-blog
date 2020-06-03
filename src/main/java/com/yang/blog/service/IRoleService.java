@@ -23,8 +23,9 @@ public interface IRoleService extends IService<Role> {
      * 获得my权限列表
      *
      * @return
+     * @param id
      */
-    List<Map<String, Object>> myMenu();
+    List<Map<String, Object>> myMenu(Long id);
 
     /**
      * 分页
