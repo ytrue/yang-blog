@@ -1,7 +1,10 @@
 package com.yang.blog.security.url;
 
-import com.yang.blog.security.UrlAuthConfig;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yang.blog.entity.Permission;
+import com.yang.blog.service.IPermissionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -14,6 +17,8 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p> 对访问url进行权限认证处理 </p>
@@ -26,6 +31,9 @@ import java.util.Collection;
 @Slf4j
 public class UrlAccessDecisionManager implements AccessDecisionManager {
 
+    @Autowired
+    private IPermissionService permissionService;
+
     /**
      * @param authentication: 当前登录用户的角色信息
      * @param object:         请求url信息
@@ -37,24 +45,24 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
 
         log.info("UrlAccessDecisionManager 触发！！！");
 
+        // 获取当前请求url
+        String requestUrl = ((FilterInvocation) object).getRequestUrl();
+
+        //在这里查询，节省查询次数
+        List<Permission> permissionList = permissionService.list(new QueryWrapper<Permission>().select("url"));
+        List<String> allUrl = permissionList.stream().map(Permission::getUrl).collect(Collectors.toList());
+
         // 遍历角色
         for (ConfigAttribute ca : collection) {
             // ① 当前url请求需要的权限
             String needRole = ca.getAttribute();
-            log.info("needRole----------" + needRole);
             if ("role_login".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
                     throw new BadCredentialsException("未登录!");
-                    //这里要判断url
-                } else {
-                    // 获取当前请求url
-                    String requestUrl = ((FilterInvocation) object).getRequestUrl();
-                    //这里再判断一次
-                    if (UrlAuthConfig.authenticated().contains(requestUrl)) {
-                        return;
-                    } else {
-                        throw new AccessDeniedException("未授权该url！");
-                    }
+                }
+                //这里去获得所有的权限，，和当前url对比一下，如果当前url对比没有就放，有的话就下一步
+                if (!allUrl.contains(requestUrl)){
+                    return;
                 }
             }
 

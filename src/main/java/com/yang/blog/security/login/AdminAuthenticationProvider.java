@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -55,7 +56,9 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         user.setToken(token);
         userMapper.updateById(user);
         userInfo.getCurrentUserInfo().setToken(token);
-        return new UsernamePasswordAuthenticationToken(userInfo, password, userInfo.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication1= new UsernamePasswordAuthenticationToken(userInfo, password, userInfo.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return authentication1;
     }
 
     @Override

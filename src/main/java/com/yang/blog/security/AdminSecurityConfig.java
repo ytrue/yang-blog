@@ -1,7 +1,6 @@
 package com.yang.blog.security;
 
 import com.yang.blog.security.filter.AdminAuthenticationProcessingFilter;
-import com.yang.blog.security.filter.MyAuthenticationFilter;
 import com.yang.blog.security.login.AdminAuthenticationEntryPoint;
 import com.yang.blog.security.url.UrlAccessDecisionManager;
 import com.yang.blog.security.url.UrlAccessDeniedHandler;
@@ -15,10 +14,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author：yangyi
@@ -31,10 +28,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /**
-     * 访问鉴权 - 认证token、签名...
-     */
-    private final MyAuthenticationFilter myAuthenticationFilter;
     /**
      * 访问权限认证异常处理
      */
@@ -59,8 +52,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private final UrlAccessDeniedHandler urlAccessDeniedHandler;
 
-    public AdminSecurityConfig(MyAuthenticationFilter myAuthenticationFilter, AdminAuthenticationEntryPoint adminAuthenticationEntryPoint, AdminAuthenticationProcessingFilter adminAuthenticationProcessingFilter, UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource, UrlAccessDeniedHandler urlAccessDeniedHandler, UrlAccessDecisionManager urlAccessDecisionManager) {
-        this.myAuthenticationFilter = myAuthenticationFilter;
+    public AdminSecurityConfig(AdminAuthenticationEntryPoint adminAuthenticationEntryPoint, AdminAuthenticationProcessingFilter adminAuthenticationProcessingFilter, UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource, UrlAccessDeniedHandler urlAccessDeniedHandler, UrlAccessDecisionManager urlAccessDecisionManager) {
         this.adminAuthenticationEntryPoint = adminAuthenticationEntryPoint;
         this.adminAuthenticationProcessingFilter = adminAuthenticationProcessingFilter;
         this.urlFilterInvocationSecurityMetadataSource = urlFilterInvocationSecurityMetadataSource;
@@ -79,7 +71,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //设置一下
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
-                registry = http.antMatcher("/test/**").authorizeRequests();
+                registry = http.antMatcher("/admin/**").authorizeRequests();
 
         // 禁用CSRF 开启跨域
         http.csrf().disable().cors();
@@ -88,7 +80,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         // 登录过后访问无权限的接口时自定义403响应内容
         http.exceptionHandling().accessDeniedHandler(urlAccessDeniedHandler);
         // 不创建会话 - 即通过前端传token到后台过滤器中验证是否存在访问权限
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // url权限认证处理
         registry.withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
             @Override
@@ -103,8 +95,8 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         // 防止iframe 造成跨域
         registry.and().headers().frameOptions().disable();
         // 自定义过滤器在登录时认证用户名、密码
-        http.addFilterAt(adminAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(myAuthenticationFilter, BasicAuthenticationFilter.class);
+        http.addFilterAt(adminAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
+               // .addFilterBefore(myAuthenticationFilter, BasicAuthenticationFilter.class);
     }
 
     /**
@@ -122,7 +114,6 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/backend/**/*.css",
                 "/backend/**/*.js");
     }
-
 
 
 }

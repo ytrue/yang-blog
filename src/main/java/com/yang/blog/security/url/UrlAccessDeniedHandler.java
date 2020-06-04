@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,15 +26,15 @@ import java.io.IOException;
 public class UrlAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws ServletException, IOException {
+
         if (IsAjaxUtils.isAjax(request)) {
             //返回错误提示
             log.info("UrlAccessDeniedHandler触发：返回json！");
             ResponseUtils.out(response, ResponseData.fail(403, e.getMessage()));
         } else {
-            //挑战到登录页面
-            log.info("UrlAccessDeniedHandler触发：跳转登录页！");
-            response.sendRedirect("/admin/login");
+            request.getRequestDispatcher("/403.html").forward(request,response);
         }
+
     }
 }
