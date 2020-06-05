@@ -33,7 +33,7 @@
 <div th:fragment="footer-js">
     <script th:src="@{/backend/bootstrap/js/doublebox-bootstrap.js}"></script>
     <script type="text/javascript">
-
+        axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
         new Vue({
             el: "#app",
             data: {
@@ -42,11 +42,15 @@
             },
             methods: {
                 initData: function (id) {
+                    let qs = Qs;
                     let demo = $('.demo');
                     let that = this;
                     axios({
-                        url: "/admin/auth/admin/my_role/" + id,
-                        method: "get",
+                        url: "/admin/auth/admin/assign/",
+                        method: "post",
+                        data: qs.stringify({
+                            id: id,
+                        })
                     }).then(function (response) {
                         layer.closeAll('loading'); //关闭加载层
                         let data = response.data;
@@ -64,10 +68,10 @@
                             optionText: "name",
                             doubleMove: true,
                         });
-                    }).catch(function () {
+                    }).catch(function (error) {
                         layer.closeAll('loading'); //关闭加载层
                         //初体验
-                        layer.alert('数据交互失败！', {
+                        layer.alert(error.response.data.msg, {
                             icon: 2,
                         })
                     })
@@ -84,7 +88,7 @@
                     let qs = Qs;
                     axios({
                         url: "/admin/auth/admin/assign",
-                        method: "post",
+                        method: "put",
                         headers: {
                             //自动转化的，可以不加
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

@@ -1,7 +1,5 @@
 package com.yang.blog.security.login;
 
-import com.yang.blog.entity.Admin;
-import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.security.dto.SecurityUser;
 import com.yang.blog.service.impl.UserDetailsServiceImpl;
 import com.yang.blog.util.PasswordUtils;
@@ -16,10 +14,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
- *  <p> 自定义认证处理 </p>
+ * <p> 自定义认证处理 </p>
  *
- * @description :
  * @author : zhengqing
+ * @description :
  * @date : 2019/10/12 14:49
  */
 @Component
@@ -28,8 +26,6 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private AdminMapper userMapper;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -38,25 +34,14 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
 
-        log.info(userName);
-
-
         SecurityUser userInfo = (SecurityUser) userDetailsService.loadUserByUsername(userName);
-
         boolean isValid = PasswordUtils.isValidPassword(password, userInfo.getPassword(), userInfo.getCurrentUserInfo().getSalt());
         // 验证密码
         if (!isValid) {
             throw new BadCredentialsException("密码错误！");
         }
 
-        // 前后端分离情况下 处理逻辑...
-        // 更新登录令牌
-        String token = PasswordUtils.encodePassword(System.currentTimeMillis() + userInfo.getCurrentUserInfo().getSalt(), userInfo.getCurrentUserInfo().getSalt());
-        Admin user = userMapper.selectById(userInfo.getCurrentUserInfo().getId());
-        user.setToken(token);
-        userMapper.updateById(user);
-        userInfo.getCurrentUserInfo().setToken(token);
-        UsernamePasswordAuthenticationToken authentication1= new UsernamePasswordAuthenticationToken(userInfo, password, userInfo.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication1 = new UsernamePasswordAuthenticationToken(userInfo, password, userInfo.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authentication1;
     }

@@ -72,12 +72,13 @@
                 console.log("节点id:" + nodes[i].id + "节点名称" + v); //获取选中节点的值
             }
         }*/
-
+        axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
         new Vue({
             el: "#app",
             data: {},
             methods: {
                 initData: function (id) {
+                    let qs = Qs;
                     let setting = {
                         check: {
                             chkStyle: "checkbox",//复选框类型
@@ -86,7 +87,8 @@
                         async: {
                             enable: true,
                             type: "post",
-                            url: "/admin/auth/role/assign/" + id,
+                            url: "/admin/auth/role/assign",
+                            otherParam: {"id": id},
                         },
                         data: {
                             simpleData: {

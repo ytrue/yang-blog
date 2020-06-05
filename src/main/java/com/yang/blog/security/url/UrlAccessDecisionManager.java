@@ -16,6 +16,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,10 +45,21 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> collection) throws AccessDeniedException, AuthenticationException {
 
+
         log.info("UrlAccessDecisionManager 触发！！！");
 
         // 获取当前请求url
-        String requestUrl = ((FilterInvocation) object).getRequestUrl();
+        String requestUrl = "";
+        String fullRequestUrl = ((FilterInvocation) object).getFullRequestUrl();
+        try {
+            URL url = new URL(fullRequestUrl);
+            requestUrl = url.getPath();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        log.info(requestUrl);
+
 
         //在这里查询，节省查询次数
         List<Permission> permissionList = permissionService.list(new QueryWrapper<Permission>().select("url"));
@@ -56,12 +69,13 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
         for (ConfigAttribute ca : collection) {
             // ① 当前url请求需要的权限
             String needRole = ca.getAttribute();
+            System.out.println(needRole);
             if ("role_login".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
                     throw new BadCredentialsException("未登录!");
                 }
                 //这里去获得所有的权限，，和当前url对比一下，如果当前url对比没有就放，有的话就下一步
-                if (!allUrl.contains(requestUrl)){
+                if (!allUrl.contains(requestUrl)) {
                     return;
                 }
             }

@@ -1,8 +1,6 @@
 package com.yang.blog.security.login;
 
 
-import com.yang.blog.entity.Admin;
-import com.yang.blog.security.dto.SecurityUser;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.ResponseUtils;
 import org.springframework.security.core.Authentication;
@@ -26,10 +24,7 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
-        Admin user = new Admin();
-        SecurityUser securityUser = ((SecurityUser) auth.getPrincipal());
-        user.setToken(securityUser.getCurrentUserInfo().getToken());
         //返回数据
-        ResponseUtils.out(response,ResponseData.success(user));
+        ResponseUtils.out(response,ResponseData.success());
     }
 }

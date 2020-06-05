@@ -98,8 +98,8 @@ public class RoleController extends BasicController {
 
     //获得menu
     @ResponseBody
-    @PostMapping("assign/{id}")
-    public List<Map<String, Object>> myMenu(@PathVariable("id") Long id) {
+    @PostMapping("assign")
+    public List<Map<String, Object>> myMenu(@RequestParam("id") Long id) {
         return roleService.myMenu(id);
     }
 
@@ -131,7 +131,7 @@ public class RoleController extends BasicController {
         return "backend/auth/role/edit";
     }
 
-    @GetMapping("details")
+    @GetMapping("find")
     public String findView() {
         return "backend/auth/role/find";
     }

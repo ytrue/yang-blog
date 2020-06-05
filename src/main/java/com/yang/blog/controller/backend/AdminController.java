@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
@@ -22,6 +23,16 @@ public class AdminController extends BasicController {
     @Autowired
     private IAdminService adminService;
 
+
+    @ResponseBody
+    @RequestMapping("test")
+    public String yang(HttpServletRequest request) {
+        String header = request.getHeader("X-Requested-With");
+
+        System.out.println(header);
+
+        return "test";
+    }
 
     public AdminController() {
         super.loadUrlList.add("assign");
@@ -43,8 +54,9 @@ public class AdminController extends BasicController {
      * 根据id获得角色
      */
     @ResponseBody
-    @GetMapping("my_role/{id}")
-    public ResponseData<Object> myRole(@PathVariable("id") Long id) {
+    @PostMapping("assign")
+    public ResponseData<Object> myRole(@RequestParam Long id) {
+        System.out.println(id);
         return adminService.myRole(id);
     }
 
@@ -62,7 +74,7 @@ public class AdminController extends BasicController {
             @Validated({Scene.Add.class}) Admin admin,
             BindingResult bindingResult
     ) {
-       return adminService.add(admin, bindingResult);
+        return adminService.add(admin, bindingResult);
     }
 
 
@@ -116,7 +128,7 @@ public class AdminController extends BasicController {
      * @return
      */
     @ResponseBody
-    @PostMapping("assign")
+    @PutMapping("assign")
     public ResponseData<Object> assignRole(
             @RequestParam(value = "roleId") String roleId,
             @RequestParam(value = "id") Long id

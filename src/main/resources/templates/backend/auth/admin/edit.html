@@ -45,6 +45,7 @@
 </html>
 <div th:fragment="footer-js">
     <script>
+        axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
         axios.interceptors.request.use(function (config) {
             layer.load(1, {
                 shade: [0.2, '#fff'] //0.1透明度的白色背景
@@ -66,6 +67,7 @@
                 initData: function (id) {
                     let that = this;
                     axios({
+                        //url: "/admin/auth/admin/find/" + id,
                         url: "/admin/auth/admin/find/" + id,
                         method: "get",
                     }).then(function (response) {

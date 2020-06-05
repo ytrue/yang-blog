@@ -35,6 +35,7 @@ public class GlobalException implements ErrorController {
     @ResponseBody
     //@ExceptionHandler({Exception.class, RuntimeException.class})
     public Object error(HttpServletRequest request, HttpServletResponse response, Exception exception, WebRequest req) {
+
         //获得状态码
         /**
          * javax.servlet.error.status_code             类型为Integer        错误状态代码

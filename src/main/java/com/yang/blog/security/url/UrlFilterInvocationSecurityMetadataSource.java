@@ -17,6 +17,8 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +55,14 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         // 获取当前请求url
-        String requestUrl = ((FilterInvocation) object).getRequestUrl();
+        String requestUrl = "";
+        String fullRequestUrl = ((FilterInvocation) object).getFullRequestUrl();
+        try {
+            URL url = new URL(fullRequestUrl);
+            requestUrl = url.getPath();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         // TODO 忽略url请放在此处进行过滤放行
         if ("/admin/login".equals(requestUrl) || requestUrl.contains("/admin/logout")) {
