@@ -13,7 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 @RequestMapping("admin/auth/admin")
@@ -100,7 +101,7 @@ public class AdminController extends BasicController {
     @ResponseBody
     @PutMapping("update")
     public ResponseData<Object> update(
-            @Validated(Scene.Update.class)
+            @Validated({Scene.Update.class})
             @RequestBody Admin admin,
             BindingResult bindingResult
     ) {

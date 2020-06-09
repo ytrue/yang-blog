@@ -38,7 +38,7 @@ public class Admin {
      */
 
     @TableField("username")
-    @NotBlank(message = "账户不得为空！")
+    @NotBlank(message = "账户不得为空！", groups = {Scene.Add.class, Scene.Update.class})
     @Unique(table = "sys_admin", field = "username", message = "此账户已存在！", groups = {Scene.Add.class})
     private String username;
     /**
@@ -55,6 +55,7 @@ public class Admin {
      */
 
     @TableField("nick_name")
+    @NotBlank(message = "昵称不得为空！", groups = {Scene.Add.class, Scene.Update.class})
     private String nickName;
     /**
      * 盐值

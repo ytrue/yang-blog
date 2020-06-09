@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="backend/layout/meta">
+      th:replace="backend/layout/head">
 </html>
-
-<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" id="app">
+<body style="background: white">
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
     <div class="content">
         <div id="add-form" class="form-horizontal nice-validator n-default n-bootstrap" role="form"
              data-toggle="validator" method="POST" action="" novalidate="novalidate">
@@ -38,97 +38,91 @@
         </div>
     </div>
 </div>
+</body>
 
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="backend/layout/jsscript">
+      th:replace="backend/layout/js">
 </html>
-<div th:fragment="footer-js">
-    <script>
-        axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
-        axios.interceptors.request.use(function (config) {
-            layer.load(1, {
-                shade: [0.2, '#fff'] //0.1透明度的白色背景
-            });
-            return config;
-        }, function (err) {
-            layer.alert('未知错误，请刷新重试！');
+<script>
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+    axios.interceptors.request.use(function (config) {
+        layer.load(1, {
+            shade: [0.2, '#fff'] //0.1透明度的白色背景
         });
+        return config;
+    }, function (err) {
+        layer.alert('未知错误，请刷新重试！');
+    });
 
-        new Vue({
-            el: "#app",
-            data: {
-                username: '',
-                nick_name: '',
-                password: '',
-            },
-            methods: {
-                submit: function () {
-                    axios({
-                        url: "/admin/auth/admin/add",
-                        method: "post",
-                        headers: {
-                            //自动转化的，可以不加
-                            //'Content-Type': 'application/json;charset=UTF-8',
-                            'token': 123
-                        },
-                        data: {
-                            username: this.username,
-                            nickName: this.nick_name,
-                            password: this.password,
-                        }
-                    }).then(function (response) {
-                        let data = response.data;
-                        let index = parent.layer.getFrameIndex(window.name);
+    new Vue({
+        el: "#app",
+        data: {
+            username: '',
+            nick_name: '',
+            password: '',
+        },
+        methods: {
+            submit: function () {
+                axios({
+                    url: "/admin/auth/admin/add",
+                    method: "post",
+                    data: {
+                        username: this.username,
+                        nickName: this.nick_name,
+                        password: this.password,
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    let index = parent.layer.getFrameIndex(window.name);
 
-                        if (data.code === 2) {
-                            layer.closeAll('loading'); //关闭加载层
-                            let errorMessage = data.data;
-                            let stringMessage = '';
-                            for (let i = 0; i < errorMessage.length; i++) {
-                                stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
-                            }
-
-                            layer.alert(stringMessage, {
-                                icon: 2,
-                            })
-                        } else if (data.code === 0) {
-                            layer.closeAll('loading'); //关闭加载层
-                            //初体验
-                            layer.alert('数据交互成功！', {
-                                icon: 1,
-                            }, function () {
-                                parent.layer.close(index); //再执行关闭
-                                window.parent.reset();
-                            })
-                        } else if (data.code === 1) {
-                            layer.closeAll('loading'); //关闭加载层
-                            layer.alert(data.msg, {
-                                icon: 2,
-                            }, function () {
-                                parent.layer.close(index); //再执行关闭
-                                window.parent.reset();
-                            })
-                        }
-
-                    }).catch(function (error) {
+                    if (data.code === 2) {
                         layer.closeAll('loading'); //关闭加载层
-                        layer.alert(error.response.data.msg,
-                            {
-                                icon: 2,
-                            }
-                        )
-                    })
-                },
-                reset: function () {
-                    this.username = '';
-                    this.nick_name = '';
-                    this.password = '';
-                }
+                        let errorMessage = data.data;
+                        let stringMessage = '';
+                        for (let i = 0; i < errorMessage.length; i++) {
+                            stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
+                        }
 
+                        layer.alert(stringMessage, {
+                            icon: 2,
+                        })
+                    } else if (data.code === 0) {
+                        layer.closeAll('loading'); //关闭加载层
+                        //初体验
+                        layer.alert('数据交互成功！', {
+                            icon: 1,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    } else if (data.code === 1) {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    }
+
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(error.response.data.msg,
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
+            },
+            reset: function () {
+                this.username = '';
+                this.nick_name = '';
+                this.password = '';
             }
-        });
-    </script>
-</div>
 
+        }
+    });
 
-
+</script>
+</body>
+</html>

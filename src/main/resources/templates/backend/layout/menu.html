@@ -1,35 +1,75 @@
-<div class="col-sm-3 col-md-2 sidebar">
-    <div class="tree">
-        <ul style="padding-left:0px;" class="list-group">
-            <li class="list-group-item tree-closed">
-                <a href="/">
-                    <i class="glyphicon glyphicon-dashboard"></i>
-                    控制面板
-                </a>
+<!--左侧导航开始-->
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span><img alt="image" class="img-circle" style="border-radius: 50%;background: #f0f4f7;width: 75px;height: 75px" src="/backend/img/profile_small.jpg"/></span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs"><strong class="font-bold">yang</strong></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a class="J_menuItem" href="profile.html">个人资料</a></li>
+                        <li><a href="login.html">安全退出</a></li>
+                    </ul>
+                </div>
             </li>
 
-            <li class="list-group-item tree-closed" th:each="value : ${menu}">
-                    <i class="glyphicon glyphicon glyphicon-tasks"></i>
-                    <a th:text="${value.name}">
-                        [[${val.name}]]
-                    </a>
-                <ul style="margin-top:10px;" hidden>
-                    <li style="height:30px;" th:each="val :${value.childrenList}">
-                        <a th:href="${val.url}">
-                            [[${val.name}]]
-                            <i class="glyphicon glyphicon-user"></i>
-                        </a>
+            <li  th:each="value : ${menu}" >
+                <a href="#">
+                    <i th:class="${value.icon}"></i>
+                    <span class="nav-label">[(${value.name})]</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li th:each="val :${value.childrenList}">
+                        <a class="J_menuItem" th:href="${val.url}">
+                            <i th:class="${val.icon}"></i>
+                            [[${val.name}]]</a>
                     </li>
                 </ul>
             </li>
 
-
-            <li class="list-group-item tree-closed">
-                <a href="param.html">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                    参数管理
-                </a>
-            </li>
         </ul>
     </div>
+</nav>
+
+
+
+<div id="page-wrapper" class="gray-bg dashbard-1">
+    <div class="row content-tabs">
+        <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+        </button>
+        <nav class="page-tabs J_menuTabs">
+            <div class="page-tabs-content">
+                <a href="javascript:;" class="active J_menuTab" data-id="index_v1.html">首页</a>
+            </div>
+        </nav>
+        <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
+        </button>
+        <div class="btn-group roll-nav roll-right">
+            <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+
+            </button>
+            <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                </li>
+                <li class="divider"></li>
+                <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                </li>
+                <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                </li>
+            </ul>
+        </div>
+        <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+    </div>
+    <div class="row J_mainContent" id="content-main">
+        <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v1.html?v=4.0" frameborder="0"
+                data-id="index_v1.html" seamless></iframe>
+    </div>
 </div>
+<!--左侧导航结束-->

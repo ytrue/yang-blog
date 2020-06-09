@@ -3721,7 +3721,7 @@ nav.page-tabs .page-tabs-content {
 }
 
 #content-main {
-    height: calc(100% - 140px);
+    height: calc(100% - 50px);
     overflow: hidden;
 }
 
@@ -7890,3 +7890,5 @@ body.skin-3 {
         font-size: 12px
     }
 }
+
+

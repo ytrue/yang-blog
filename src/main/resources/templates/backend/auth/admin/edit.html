@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="backend/layout/meta">
+      th:replace="backend/layout/head">
 </html>
-
-<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" id="app">
+<body style="background: white">
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
     <div class="content">
         <div id="add-form" class="form-horizontal nice-validator n-default n-bootstrap" role="form"
              data-toggle="validator" method="POST" action="" novalidate="novalidate">
@@ -41,124 +41,122 @@
 </div>
 
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="backend/layout/jsscript">
+      th:replace="backend/layout/js">
 </html>
-<div th:fragment="footer-js">
-    <script>
-        axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
-        axios.interceptors.request.use(function (config) {
-            layer.load(1, {
-                shade: [0.2, '#fff'] //0.1透明度的白色背景
-            });
-            return config;
-        }, function (err) {
-            layer.alert('未知错误，请刷新重试！');
+<script>
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+    axios.interceptors.request.use(function (config) {
+        layer.load(1, {
+            shade: [0.2, '#fff'] //0.1透明度的白色背景
         });
+        return config;
+    }, function (err) {
+        layer.alert('未知错误，请刷新重试！');
+    });
 
-        new Vue({
-            el: "#app",
-            data: {
-                username: '',
-                nick_name: '',
-                password: '',
-                id: "",
+    new Vue({
+        el: "#app",
+        data: {
+            username: '',
+            nick_name: '',
+            password: '',
+            id: "",
+        },
+        methods: {
+            initData: function (id) {
+                let that = this;
+                axios({
+                    //url: "/admin/auth/admin/find/" + id,
+                    url: "/admin/auth/admin/find/" + id,
+                    method: "get",
+                }).then(function (response) {
+                    layer.closeAll('loading'); //关闭加载层
+                    let data = response.data;
+                    that.username = data.data.username;
+                    that.nick_name = data.data.nick_name;
+                    that.password = '';
+                    that.id = data.data.id;
+                }).catch(function () {
+                    layer.closeAll('loading'); //关闭加载层
+                    //初体验
+                    layer.alert('数据交互失败！', {
+                        icon: 2,
+                    })
+                })
             },
-            methods: {
-                initData: function (id) {
-                    let that = this;
-                    axios({
-                        //url: "/admin/auth/admin/find/" + id,
-                        url: "/admin/auth/admin/find/" + id,
-                        method: "get",
-                    }).then(function (response) {
+            submit: function () {
+                axios({
+                    url: "/admin/auth/admin/update",
+                    method: "put",
+                    headers: {
+                        //自动转化的，可以不加
+                        //'Content-Type': 'application/json;charset=UTF-8',
+                        'token': 123
+                    },
+                    data: {
+                        id: this.id,
+                        username: this.username,
+                        nickName: this.nick_name,
+                        password: this.password,
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    let index = parent.layer.getFrameIndex(window.name);
+
+                    if (data.code === 2) {
                         layer.closeAll('loading'); //关闭加载层
-                        let data = response.data;
-                        that.username = data.data.username;
-                        that.nick_name = data.data.nick_name;
-                        that.password = '';
-                        that.id = data.data.id;
-                    }).catch(function () {
-                        layer.closeAll('loading'); //关闭加载层
-                        //初体验
-                        layer.alert('数据交互失败！', {
+                        let errorMessage = data.data;
+                        let stringMessage = '';
+                        for (let i = 0; i < errorMessage.length; i++) {
+                            stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
+                        }
+
+                        layer.alert(stringMessage, {
                             icon: 2,
                         })
-                    })
-                },
-                submit: function () {
-                    axios({
-                        url: "/admin/auth/admin/update",
-                        method: "put",
-                        headers: {
-                            //自动转化的，可以不加
-                            //'Content-Type': 'application/json;charset=UTF-8',
-                            'token': 123
-                        },
-                        data: {
-                            id: this.id,
-                            username: this.username,
-                            nickName: this.nick_name,
-                            password: this.password,
-                        }
-                    }).then(function (response) {
-                        let data = response.data;
-                        let index = parent.layer.getFrameIndex(window.name);
-
-                        if (data.code === 2) {
-                            layer.closeAll('loading'); //关闭加载层
-                            let errorMessage = data.data;
-                            let stringMessage = '';
-                            for (let i = 0; i < errorMessage.length; i++) {
-                                stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
-                            }
-
-                            layer.alert(stringMessage, {
-                                icon: 2,
-                            })
-                        } else if (data.code === 0) {
-                            layer.closeAll('loading'); //关闭加载层
-                            //初体验
-                            layer.alert('数据交互成功！', {
-                                icon: 1,
-                            }, function () {
-                                parent.layer.close(index); //再执行关闭
-                                window.parent.reset();
-                            })
-                        } else if (data.code === 1) {
-                            layer.closeAll('loading'); //关闭加载层
-                            layer.alert(data.msg, {
-                                icon: 2,
-                            }, function () {
-                                parent.layer.close(index); //再执行关闭
-                                window.parent.reset();
-                            })
-                        }
-
-                    }).catch(function (error) {
+                    } else if (data.code === 0) {
                         layer.closeAll('loading'); //关闭加载层
-                        layer.alert(error.response.data.msg,
-                            {
-                                icon: 2,
-                            }
-                        )
-                    })
-                },
-                reset: function () {
-                    let id = this.getUrlKey("id");
-                    this.initData(id)
-                },
-                getUrlKey: function (name) {
-                    return decodeURIComponent(
-                        (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
-                }
+                        //初体验
+                        layer.alert('数据交互成功！', {
+                            icon: 1,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+
+                        })
+                    } else if (data.code === 1) {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    }
+
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(error.response.data.msg,
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
             },
-            mounted: function () {
+            reset: function () {
                 let id = this.getUrlKey("id");
                 this.initData(id)
+            },
+            getUrlKey: function (name) {
+                return decodeURIComponent(
+                    (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
             }
-        });
-    </script>
-</div>
-
-
-
+        },
+        mounted: function () {
+            let id = this.getUrlKey("id");
+            this.initData(id)
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="backend/layout/meta">
+      th:replace="backend/layout/head">
 </html>
+<link rel="stylesheet" th:href="@{/backend/js/plugins/doublebox/doublebox-bootstrap.css}">
 <style>
     .ue-container {
         width: 100%;
@@ -10,138 +11,133 @@
         background: #fff;
     }
 </style>
-
-
-<!-- 页面结构 -->
+<body style="background: white">
 <div id="app">
     <div class="ue-container col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <select style="height: 100%" multiple="multiple" size="10" name="doublebox" class="demo"></select>
     </div>
+    </br>
     <div class="form-group layer-footer">
-
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <button type="submit" class="btn btn-success btn-embossed" @click='submit'>确定</button>
             <button type="reset" class="btn btn-default btn-embossed" @click='reset'>重置</button>
         </div>
     </div>
 </div>
-
-
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="backend/layout/jsscript">
+      th:replace="backend/layout/js">
 </html>
-<div th:fragment="footer-js">
-    <script th:src="@{/backend/bootstrap/js/doublebox-bootstrap.js}"></script>
-    <script type="text/javascript">
-        axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
-        new Vue({
-            el: "#app",
-            data: {
-                my_role: '',
-                not_owned_role: '',
-            },
-            methods: {
-                initData: function (id) {
-                    let qs = Qs;
-                    let demo = $('.demo');
-                    let that = this;
-                    axios({
-                        url: "/admin/auth/admin/assign/",
-                        method: "post",
-                        data: qs.stringify({
-                            id: id,
-                        })
-                    }).then(function (response) {
-                        layer.closeAll('loading'); //关闭加载层
-                        let data = response.data;
-                        that.my_role = data.data.my_role;
-                        that.not_owned_role = data.data.not_owned_role;
+<script th:src="@{/backend/js/plugins/doublebox/doublebox-bootstrap.js}"></script>
+<script>
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+    new Vue({
+        el: "#app",
+        data: {
+            my_role: '',
+            not_owned_role: '',
+        },
+        methods: {
+            initData: function (id) {
+                let qs = Qs;
+                let demo = $('.demo');
+                let that = this;
+                axios({
+                    url: "/admin/auth/admin/assign/",
+                    method: "post",
+                    data: qs.stringify({
+                        id: id,
+                    })
+                }).then(function (response) {
+                    layer.closeAll('loading'); //关闭加载层
+                    let data = response.data;
+                    that.my_role = data.data.my_role;
+                    that.not_owned_role = data.data.not_owned_role;
 
-                        demo.doublebox({
-                            nonSelectedListLabel: '选择角色',
-                            selectedListLabel: '授权用户角色',
-                            preserveSelectionOnMove: 'moved',
-                            moveOnSelect: false,
-                            nonSelectedList: that.not_owned_role,
-                            selectedList: that.my_role,
-                            optionValue: "id",
-                            optionText: "name",
-                            doubleMove: true,
-                        });
-                    }).catch(function (error) {
+                    demo.doublebox({
+                        nonSelectedListLabel: '选择角色',
+                        selectedListLabel: '授权用户角色',
+                        preserveSelectionOnMove: 'moved',
+                        moveOnSelect: false,
+                        nonSelectedList: that.not_owned_role,
+                        selectedList: that.my_role,
+                        optionValue: "id",
+                        optionText: "name",
+                        doubleMove: true,
+                    });
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    //初体验
+                    layer.alert(error.response.data.msg, {
+                        icon: 2,
+                    })
+                })
+            },
+            submit: function () {
+                let nos;
+                nos = [];
+                $(".demo option:selected").each(function () {
+                    if ($(this).is(':checked')) {
+                        nos.push($(this).val());
+                    }
+                });
+
+                let qs = Qs;
+                axios({
+                    url: "/admin/auth/admin/assign",
+                    method: "put",
+                    headers: {
+                        //自动转化的，可以不加
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'token': 123
+                    },
+                    data: qs.stringify({
+                        id: this.getUrlKey("id"),
+                        roleId: JSON.stringify(nos),
+                    })
+                }).then(function (response) {
+                    let data = response.data;
+                    let index = parent.layer.getFrameIndex(window.name);
+                    if (data.code === 0) {
                         layer.closeAll('loading'); //关闭加载层
                         //初体验
-                        layer.alert(error.response.data.msg, {
-                            icon: 2,
+                        layer.alert('数据交互成功！', {
+                            icon: 1,
+                        }, function () {
+                            parent.layer.close(index); //再执行关闭
+                            window.parent.reset();
                         })
-                    })
-                },
-                submit: function () {
-                    let nos;
-                    nos = [];
-                    $(".demo option:selected").each(function () {
-                        if ($(this).is(':checked')) {
-                            nos.push($(this).val());
-                        }
-                    });
-
-                    let qs = Qs;
-                    axios({
-                        url: "/admin/auth/admin/assign",
-                        method: "put",
-                        headers: {
-                            //自动转化的，可以不加
-                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                            'token': 123
-                        },
-                        data: qs.stringify({
-                            id: this.getUrlKey("id"),
-                            roleId: JSON.stringify(nos),
-                        })
-                    }).then(function (response) {
-                        let data = response.data;
-                        let index = parent.layer.getFrameIndex(window.name);
-                        if (data.code === 0) {
-                            layer.closeAll('loading'); //关闭加载层
-                            //初体验
-                            layer.alert('数据交互成功！', {
-                                icon: 1,
-                            }, function () {
-                                parent.layer.close(index); //再执行关闭
-                                window.parent.reset();
-                            })
-                        } else {
-                            layer.closeAll('loading'); //关闭加载层
-                            layer.alert(data.msg, {
-                                icon: 2,
-                            }, function () {
-                                parent.layer.close(index); //再执行关闭
-                                window.parent.reset();
-                            })
-                        }
-                    }).catch(function (error) {
+                    } else {
                         layer.closeAll('loading'); //关闭加载层
-                        layer.alert(error.response.data.msg,
-                            {
-                                icon: 2,
-                            }
-                        )
-                    })
-                },
-                reset: function () {
-                    let id = this.getUrlKey("id");
-                    this.initData(id)
-                },
-                getUrlKey: function (name) {
-                    return decodeURIComponent(
-                        (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
-                }
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            parent.layer.close(index); //再执行关闭
+                            window.parent.reset();
+                        })
+                    }
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(error.response.data.msg,
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
             },
-            mounted: function () {
-                let id = this.getUrlKey("id");
-                this.initData(id)
-            }
+            reset: function () {
 
-        });
-    </script>
-</div>
+            },
+            getUrlKey: function (name) {
+                return decodeURIComponent(
+                    (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
+            }
+        },
+        mounted: function () {
+            let id = this.getUrlKey("id");
+            this.initData(id)
+        }
+
+    });
+</script>
+</body>
+</html>

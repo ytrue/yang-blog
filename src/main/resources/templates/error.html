@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>error: [[${code}]]</title>
     <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
-    <link rel="stylesheet" th:href="@{/backend/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/css/bootstrap.min.css}">
 </head>
 
 <body class="gray-bg">
+
 
 <div class="middle-box text-center animated fadeInDown">
     <h1 th:text="${code}"></h1>
@@ -20,8 +21,8 @@
 </div>
 
 <!-- 全局js -->
-<script th:src="@{/backend/jquery/jquery-2.1.1.min.js}"></script>
-<script th:src="@{/backend/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/backend/js/jquery.min.js}"></script>
+<script th:src="@{/backend/js/bootstrap.min.js}"></script>
 </body>
 
 </html>
