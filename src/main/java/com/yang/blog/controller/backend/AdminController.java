@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RequestMapping("admin/auth/admin")
 @Controller
-public class AdminController extends BasicController {
+public class AdminController {
 
     @Autowired
     private IAdminService adminService;
@@ -33,10 +33,6 @@ public class AdminController extends BasicController {
         System.out.println(header);
 
         return "test";
-    }
-
-    public AdminController() {
-        super.loadUrlList.add("assign");
     }
 
     /**

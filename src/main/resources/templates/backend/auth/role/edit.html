@@ -1,10 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/head">
+</html>
+<body style="background: white">
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
+    <div class="content">
+        <div id="add-form" class="form-horizontal nice-validator n-default n-bootstrap" role="form"
+             data-toggle="validator" method="POST" action="" novalidate="novalidate">
+            <input type="hidden" v-model="id">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">角色编码:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="username" class="form-control" v-model='code' name="code" type="text">
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">角色名称:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="nick_name" class="form-control" v-model='name' name="name" type="text">
+                </div>
+            </div>
+
+            <div class="form-group layer-footer">
+                <label class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-embossed" @click='submit'>确定</button>
+                    <button type="reset" class="btn btn-default btn-embossed" @click='reset'>重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/js">
+</html>
+<script>
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+    axios.interceptors.request.use(function (config) {
+        layer.load(1, {
+            shade: [0.2, '#fff'] //0.1透明度的白色背景
+        });
+        return config;
+    }, function (err) {
+        layer.alert('未知错误，请刷新重试！');
+    });
+
+    new Vue({
+        el: "#app",
+        data: {
+            code: '',
+            name: '',
+            id: ''
+        },
+        methods: {
+            initData: function (id) {
+                let that = this;
+                axios({
+                    url: "/admin/auth/role/find/" + id,
+                    method: "get",
+                }).then(function (response) {
+                    layer.closeAll('loading'); //关闭加载层
+                    let data = response.data;
+                    that.code = data.data.code;
+                    that.name = data.data.name;
+                    that.id = data.data.id;
+                }).catch(function () {
+                    layer.closeAll('loading'); //关闭加载层
+                    //初体验
+                    layer.alert('数据交互失败！', {
+                        icon: 2,
+                    })
+                })
+            },
+            submit: function () {
+                axios({
+                    url: "/admin/auth/role/update",
+                    method: "put",
+                    headers: {
+                        //自动转化的，可以不加
+                        //'Content-Type': 'application/json;charset=UTF-8',
+                        'token': 123
+                    },
+                    data: {
+                        'id': this.id,
+                        name: this.name,
+                        code: this.code,
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    let index = parent.layer.getFrameIndex(window.name);
+
+                    if (data.code === 2) {
+                        layer.closeAll('loading'); //关闭加载层
+                        let errorMessage = data.data;
+                        let stringMessage = '';
+                        for (let i = 0; i < errorMessage.length; i++) {
+                            stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
+                        }
+
+                        layer.alert(stringMessage, {
+                            icon: 2,
+                        })
+                    } else if (data.code === 0) {
+                        layer.closeAll('loading'); //关闭加载层
+                        //初体验
+                        layer.alert('数据交互成功！', {
+                            icon: 1,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    } else if (data.code === 1) {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    }
+
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(error.response.data.msg,
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
+            },
+            reset: function () {
+                let id = this.getUrlKey("id");
+                this.initData(id)
+            },
+            getUrlKey: function (name) {
+                return decodeURIComponent(
+                    (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
+            }
+        },
+        mounted: function () {
+            let id = this.getUrlKey("id");
+            this.initData(id)
+        }
+    });
+</script>
 </body>
 </html>

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("admin/auth/menu")
-public class MenuController extends BasicController {
+public class MenuController {
 
     @Autowired
     private IPermissionService permissionService;

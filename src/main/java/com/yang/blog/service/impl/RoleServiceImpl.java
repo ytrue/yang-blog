@@ -214,8 +214,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
                         select(
                                 "id",
                                 "name",
-                                "code",
-                                "remarks"
+                                "code"
                         )
         );
         return ResponseData.success(map);
