@@ -56,11 +56,6 @@
                 axios({
                     url: "/admin/auth/role/add",
                     method: "post",
-                    headers: {
-                        //自动转化的，可以不加
-                        //'Content-Type': 'application/json;charset=UTF-8',
-                        'token': 123
-                    },
                     data: {
                         name: this.name,
                         code: this.code,

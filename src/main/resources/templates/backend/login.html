@@ -1,66 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录</title>
-    <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
-    <link rel="stylesheet" th:href="@{/backend/bootstrap/css/bootstrap.min.css}">
-    <link th:href="@{/backend/css/font-awesome.css}" rel="stylesheet">
-    <link th:href="@{/backend/css/animate.css}" rel="stylesheet">
-    <link th:href="@{/backend/css/style.css}" rel="stylesheet">
-    <script>if (window.top !== window.self) {
-        window.top.location = window.location;
-    }</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>Yang blog - 登录</title>
+    <link href="/backend/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/backend/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/backend/css/animate.css" rel="stylesheet">
+    <link href="/backend/css/style.css" rel="stylesheet">
+    <link href="/backend/css/login.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+
 </head>
 
-<body class="gray-bg">
-
-<div class="middle-box text-center loginscreen  animated fadeInDown">
-    <div class="content">
-        <form class="m-t" role="form" action="index.html">
-            <div class="form-group">
-                <input type="email" class="form-control" placeholder="用户名" required="">
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="密码" required="">
-            </div>
-            <button type="submit" class="btn btn-warning block full-width m-b">登 录</button>
-        </form>
+<body class="signin">
+<div class="signinpanel">
+    <div class="row">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-6" id="app">
+            <form>
+                <h4 class="no-margins text-center">登录</h4>
+                <p class="m-t-md text-center">Yang blog</p>
+                <input type="text" class="form-control " v-model='username' style="color: black" placeholder="用户名"/>
+                <input type="password" class="form-control m-b" v-model='password' style="color: black"
+                       placeholder="密码"/>
+                <a class="btn btn-success btn-block" @click='submit'>登录</a>
+            </form>
+        </div>
     </div>
 </div>
-
-<!-- 全局js -->
-<script th:src="@{/backend/jquery/jquery-2.1.1.min.js}"></script>
-<script th:src="@{/backend/bootstrap/js/bootstrap.min.js}"></script>
 </body>
-<script type="text/javascript">
+<script th:src="@{/backend/js/jquery.min.js}"></script>
+<script th:src="@{/backend/js/plugins/vue/vue.min.js}"></script>
+<script th:src="@{/backend/js/plugins/vue/axios.min.js}"></script>
+<script src="/backend/js/plugins/layer/layer.min.js"></script>
+<script>
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+    axios.interceptors.request.use(function (config) {
+        layer.load(1, {
+            shade: [0.2, '#fff'] //0.1透明度的白色背景
+        });
+        return config;
+    }, function (err) {
+        layer.alert('未知错误，请刷新重试！');
+    });
 
-    // function login() {
-    //var username = document.getElementById("username").value;
-    // var password = document.getElementById("password").value;
-    // // var rememberMe = document.getElementById("remember-me").value;
-    $.ajax({
-        async: false,
-        type: "POST",
-        dataType: "json",
-        url: '/admin/login',
-        contentType: "application/json",
-        data: JSON.stringify({
-            "username": "admin",
-            "password": "123456"
-            // "remember-me": rememberMe
-        }),
-        success: function (result) {
-            console.log(result)
-            /* if (result.code == 200) {
-                 alert("登陆成功");
-                 window.location.href = "../home.html";
-             } else {
-                 alert(result.message)
-             }*/
+    new Vue({
+        el: "#app",
+        data: {
+            username: '',
+            password: '',
+        },
+        methods: {
+            submit: function () {
+                axios({
+                    url: "/admin/login",
+                    method: "post",
+                    data: {
+                        username: this.username,
+                        password: this.password,
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    if (data.code === 0) {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.msg("<span style='color:black'>" + "登录成功！" + "</span>", {
+                            time: 500,
+                            icon: 6,
+                            offset: "t"
+                        }, function () {
+                            window.location.href = "/admin/"
+                        })
+                    } else {
+                        let msg = data.msg;
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert("<span style='color:black'>" + msg + "</span>", {
+                            icon: 2,
+                        })
+                    }
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert("<span style='color:black'>" + error.response.data.msg + "</span>",
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
+            },
         }
     });
-    //  }
 </script>
 </html>
