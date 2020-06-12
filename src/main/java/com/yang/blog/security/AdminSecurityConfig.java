@@ -81,6 +81,12 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().accessDeniedHandler(urlAccessDeniedHandler);
         // 不创建会话 - 即通过前端传token到后台过滤器中验证是否存在访问权限
         //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //注销
+        http.logout()
+                .logoutUrl("/admin/logout")
+                //注销之后 跳转的页面
+                .logoutSuccessUrl("/admin/login");
+
         // url权限认证处理
         registry.withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
             @Override
@@ -96,7 +102,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.and().headers().frameOptions().disable();
         // 自定义过滤器在登录时认证用户名、密码
         http.addFilterAt(adminAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class);
-               // .addFilterBefore(myAuthenticationFilter, BasicAuthenticationFilter.class);
+        // .addFilterBefore(myAuthenticationFilter, BasicAuthenticationFilter.class);
     }
 
     /**

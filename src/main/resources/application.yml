@@ -31,13 +31,48 @@ spring:
     allow-bean-definition-overriding: true
   transaction:
     rollback-on-commit-failure: true
+  #设置文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 100MB
+
+  #redis 配置
+  redis:
+    host: 47.107.127.70
+    port: 6397
+    # password: root
+    jedis:
+      pool:
+        #连接池最大连接数（使用负值表示没有限制）
+        max-active: 50
+        #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 3000
+        #连接池中的最大空闲连接
+        max-idle: 20
+        #连接池中的最小空闲连接
+        min-idle: 2
+    #连接超时时间（毫秒）
+    timeout: 3000
+
 # mybatis plus配置
 mybatis-plus:
   mapper-locations: classpath*:mybatis/mapper/*.xml
   #config-location: classpath*:mybatis/*.xml
   configuration:
     call-setters-on-nulls: true
+# 七牛云配置
+qiniu-cloud:
+  access-key: -u69iismWnBYdOkGysrL_DEkGsR_A03BwmaIfVqG
+  secret-key: RWoGxiF0wSPtPXF4KhqKC3Jorr056_Ux1fltGptS
+  bucket: yang-blog-java-php
+  domain: http://qbr6zdhq7.bkt.clouddn.com
 
+# 阿里云短信配置
+aliyun-dysmsapi:
+  access-key-id: LTAIPQ0RwPDBknkE
+  access-key-secret: UeY7zPs4HjWlnJT6qfebPZc9paTP5v
+  sign-name: 潮品羊驼
 
 logging:
   level:

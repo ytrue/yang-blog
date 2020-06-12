@@ -18,7 +18,20 @@
             window.top.location = window.location;
         }
     </script>
+    <style>
+        #captcha {
+            border-radius: 2px;
+            cursor: pointer;
+            position: absolute;
+            z-index: 3;
+            left: 0;
+            top: 0;
+        }
 
+        #validateCode {
+            padding-left: 110px;
+        }
+    </style>
 </head>
 
 <body class="signin">
@@ -33,6 +46,14 @@
                 <input type="text" class="form-control " v-model='username' style="color: black" placeholder="用户名"/>
                 <input type="password" class="form-control m-b" v-model='password' style="color: black"
                        placeholder="密码"/>
+
+                <div class="input-group">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                     <img src="/admin/captcha" width="100px"
+                          height="47px;" style="padding: 14px 0 0 0;cursor:pointer" onclick="this.src='/admin/captcha?d='+Math.random();">
+                    </span>
+                </div>
                 <a class="btn btn-success btn-block" @click='submit'>登录</a>
             </form>
         </div>
