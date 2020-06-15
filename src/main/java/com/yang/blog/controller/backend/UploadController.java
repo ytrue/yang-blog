@@ -11,6 +11,7 @@ import com.qiniu.util.Auth;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -109,5 +110,10 @@ public class UploadController {
             resultMap.put("error", errMap);
             return resultMap;
         }
+    }
+
+    @GetMapping("index")
+    public String yang(){
+        return "index";
     }
 }

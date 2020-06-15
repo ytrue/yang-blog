@@ -83,4 +83,5 @@ public class Admin {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+
 }

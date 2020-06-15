@@ -1,12 +1,13 @@
 package com.yang.blog.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
-
-import com.yang.blog.entity.Admin;
+import com.yang.blog.entity.AdminLogin;
 import com.yang.blog.security.login.AdminAuthenticationFailureHandler;
 import com.yang.blog.security.login.AdminAuthenticationSuccessHandler;
 import com.yang.blog.security.login.CusAuthenticationManager;
 import com.yang.blog.util.MultiReadHttpServletRequest;
+import com.yang.blog.util.ResponseData;
+import com.yang.blog.util.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,9 +16,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * <p> 自定义用户密码校验过滤器 </p>
@@ -54,10 +60,21 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
         try {
             MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(request);
             // 将前端传递的数据转换成jsonBean数据格式
-            Admin user = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), Admin.class);
+            AdminLogin adminLogin = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), AdminLogin.class);
+            /**
+             * 数据校验
+             */
+            Set<ConstraintViolation<AdminLogin>> validateSet = Validation.buildDefaultValidatorFactory()
+                    .getValidator()
+                    .validate(adminLogin);
 
-            authRequest = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), null);
-
+            if (!CollectionUtils.isEmpty(validateSet)) {
+                ArrayList<String> errorList = new ArrayList<>();
+                validateSet.forEach(adminLoginConstraintViolation -> errorList.add(adminLoginConstraintViolation.getMessageTemplate()));
+                ResponseUtils.out(response, ResponseData.fail(2, "error", errorList));
+                return null;
+            }
+            authRequest = new UsernamePasswordAuthenticationToken(adminLogin.getUsername(), adminLogin.getPassword(), null);
             authRequest.setDetails(authenticationDetailsSource.buildDetails(wrappedRequest));
         } catch (Exception e) {
             throw new AuthenticationServiceException(e.getMessage());

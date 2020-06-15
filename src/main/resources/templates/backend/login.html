@@ -44,13 +44,15 @@
                 <h4 class="no-margins text-center">登录</h4>
                 <p class="m-t-md text-center">Yang blog</p>
                 <input type="text" class="form-control " v-model='username' style="color: black" placeholder="用户名"/>
+                <br>
                 <input type="password" class="form-control m-b" v-model='password' style="color: black"
                        placeholder="密码"/>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="验证码" style="color: black">
+                    <input type="text" class="form-control" placeholder="验证码" v-model='captcha' style="color: black">
                     <span class="input-group-btn">
                      <img src="/admin/captcha" width="100px"
-                          height="49px;" style="padding: 15px 0 0 0;cursor:pointer;" onclick="this.src='/admin/captcha?d='+Math.random();">
+                          height="49px;" style="padding: 15px 0 0 0;cursor:pointer;"
+                          onclick="this.src='/admin/captcha?d='+Math.random();">
                     </span>
                 </div>
                 <a class="btn btn-success btn-block" @click='submit'>登录</a>
@@ -79,6 +81,7 @@
         data: {
             username: '',
             password: '',
+            captcha: '',
         },
         methods: {
             submit: function () {
@@ -88,6 +91,7 @@
                     data: {
                         username: this.username,
                         password: this.password,
+                        captcha: this.captcha,
                     }
                 }).then(function (response) {
                     let data = response.data;
@@ -100,6 +104,17 @@
                         }, function () {
                             window.location.href = "/admin/"
                         })
+                    } else if (data.code === 2) {
+                        layer.closeAll('loading'); //关闭加载层
+                        let errorMessage = data.data;
+                        let stringMessage = '';
+                        for (let i = 0; i < errorMessage.length; i++) {
+                            stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
+                        }
+                        layer.alert("<span style='color:black'>" + stringMessage + "</span>", {
+                            icon: 2,
+                        })
+
                     } else {
                         let msg = data.msg;
                         layer.closeAll('loading'); //关闭加载层
