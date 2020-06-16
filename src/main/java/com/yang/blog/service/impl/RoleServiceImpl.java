@@ -22,7 +22,6 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -139,20 +138,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         );
     }
 
-    /**
-     * 判断是否存在
-     *
-     * @param code
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean exist(String code, Integer id) {
-        QueryWrapper<Role> query = new QueryWrapper<>();
-        query.eq("code", code);
-        query.ne("id", id);
-        return count(query) == 0;
-    }
+
 
     /**
      * 添加数据
@@ -188,10 +174,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
-        //判断否存在
-        if (!exist(role.getCode(), role.getId())) {
-            return ResponseData.fail(2, "error", Collections.singletonList("此角色编码已存在！"));
-        }
+
         try {
             updateById(role);
             return ResponseData.success(null);

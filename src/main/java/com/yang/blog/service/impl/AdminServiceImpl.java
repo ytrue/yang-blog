@@ -58,20 +58,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return ResponseData.list(count(), rows);
     }
 
-    /**
-     * 判断是否存在
-     *
-     * @param username
-     * @param id
-     * @return
-     */
-    @Override
-    public Boolean exist(String username, Integer id) {
-        QueryWrapper<Admin> query = new QueryWrapper<>();
-        query.eq("username", username);
-        query.ne("id", id);
-        return count(query) == 0;
-    }
 
     /**
      * 添加数据
@@ -112,11 +98,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
-        //判断账户是否存在
-        /*if (!exist(admin.getUsername(), admin.getId())) {
-            return ResponseData.fail(2, "error", Collections.singletonList("此账户已存在！"));
-        }
-*/
+
         String userPwd = admin.getPassword();
         if (userPwd == null || userPwd.isEmpty()) {
             admin.setPassword(null);

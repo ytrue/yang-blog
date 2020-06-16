@@ -42,14 +42,6 @@ public interface IRoleService extends IService<Role> {
      */
     List<Map<String, Object>> all();
 
-    /**
-     * 判断是否存在
-     *
-     * @param code
-     * @param id
-     * @return
-     */
-    Boolean exist(String code, Integer id);
 
     /**
      * 添加

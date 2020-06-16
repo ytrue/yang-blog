@@ -5,8 +5,6 @@ import com.yang.blog.entity.Admin;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.Scene;
-import com.yang.blog.validate.VerificationJudgement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,12 +75,7 @@ public class AdminController {
             @Valid Admin admin,
             BindingResult bindingResult
     ) {
-       // return adminService.add(admin, bindingResult);
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
-        if (!errorList.isEmpty()) {
-            return ResponseData.fail(2, "error", errorList);
-        }
-        return ResponseData.success();
+        return adminService.add(admin, bindingResult);
     }
 
 
@@ -109,7 +101,7 @@ public class AdminController {
     @ResponseBody
     @PutMapping("update")
     public ResponseData<Object> update(
-            @Validated({Scene.Update.class})
+            @Validated
             @RequestBody Admin admin,
             BindingResult bindingResult
     ) {

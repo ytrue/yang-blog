@@ -2,10 +2,8 @@ package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.yang.blog.validate.IsEmptyPwd;
-import com.yang.blog.validate.Scene;
 import com.yang.blog.validate.Unique;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -17,7 +15,8 @@ import java.util.Date;
  */
 @Data
 @TableName("sys_admin")
-@Unique(table = "sys_admin", field = "username")
+@Unique(table = "sys_admin", field = "username", message = "此账号已存在！")
+@IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！")
 public class Admin extends Test {
 
     private static final long serialVersionUID = 1L;
@@ -40,9 +39,6 @@ public class Admin extends Test {
      * 登录密码
      */
     @TableField("password")
-    @NotBlank(message = "密码不得为空！")
-    @Length(min = 6, message = "密码长度至少是6位！")
-    @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！", groups = {Scene.Update.class})
     private String password;
     /**
      * 昵称

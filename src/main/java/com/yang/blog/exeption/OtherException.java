@@ -15,16 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 public class OtherException {
 
     /**
-     * 字段重复异常
+     * 捕获自定义验证的异常
      *
      * @param exception
      * @param request
      * @param response
      * @return
      */
-    @ExceptionHandler({UniqueException.class})
+    @ExceptionHandler({CustomVerificationException.class})
     public Object handleArithmeticException(
-            UniqueException exception,
+            CustomVerificationException exception,
             HttpServletRequest request,
             HttpServletResponse response
     ) {

@@ -4,7 +4,6 @@ import com.yang.blog.entity.Role;
 import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.Scene;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("admin/auth/role/")
-public class RoleController{
+public class RoleController {
 
     @Autowired
     private IRoleService roleService;
@@ -50,7 +49,7 @@ public class RoleController{
     @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated({Scene.Add.class}) Role role,
+            @Validated Role role,
             BindingResult bindingResult
     ) {
         return roleService.add(role, bindingResult);
@@ -97,7 +96,7 @@ public class RoleController{
             @RequestParam(value = "id") Long id
     ) {
         //获得数组的集合，想删除一样,获得自身的id
-        return roleService.assign(menuId,id);
+        return roleService.assign(menuId, id);
     }
 
 

@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Target({PARAMETER, ElementType.FIELD})
+@Target(ElementType.TYPE)
 @Constraint(validatedBy = IsEmptyPwdValidator.class)
 public @interface IsEmptyPwd {
 
@@ -30,7 +30,9 @@ public @interface IsEmptyPwd {
         IsEmptyPwd[] value();
     }
 
-    boolean flag() default false;
+    String filed() default "password";
+
+    String id() default "id";
 
     //提示内容
     String message() default "";

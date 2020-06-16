@@ -1,8 +1,7 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.yang.blog.validate.Scene;
+import com.yang.blog.validate.Unique;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @TableName("sys_role")
-@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+@Unique(table = "sys_role", field = "code", message = "角色编码已存在！")
 public class Role {
 
     private static final long serialVersionUID = 1L;
@@ -30,15 +29,14 @@ public class Role {
      * 角色编码
      */
     @TableField("code")
-    //@Unique(table = "sys_role", field = "code", message = "角色编码已存在！", groups = {Scene.Add.class})
-    @NotBlank(message = "角色编码不能为空", groups = {Scene.Add.class, Scene.Update.class})
+    @NotBlank(message = "角色编码不能为空")
     @Length(max = 20, message = "角色编码不能超过20个字符")
     private String code;
     /**
      * 角色名称
      */
     @TableField("name")
-    @NotBlank(message = "角色名称不能为空", groups = {Scene.Add.class, Scene.Update.class})
+    @NotBlank(message = "角色名称不能为空")
     @Length(max = 20, message = "角色编码不能超过20个字符")
     private String name;
 

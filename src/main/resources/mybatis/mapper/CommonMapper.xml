@@ -3,7 +3,11 @@
 <mapper namespace="com.yang.blog.mapper.CommonMapper">
 
     <select id="exist" resultType="int">
-        select count(id) from ${table} where ${field} = #{val}
+        select count(*) from ${table} where ${field} = #{val}
+    </select>
+
+    <select id="existNotId" resultType="int">
+         select count(*) from ${table} where ${field} = #{val} and ${id} != #{valid}
     </select>
 
 </mapper>

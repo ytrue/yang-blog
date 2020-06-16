@@ -29,7 +29,7 @@ import java.lang.annotation.*;
  *      ElementType.PARAMETER 可以给一个方法内的参数进行注解
  *      ElementType.TYPE 可以给一个类型进行注解，比如类、接口、枚举
  */
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target(ElementType.TYPE)
 @Constraint(validatedBy = UniqueValidator.class)
 public @interface Unique {
 

@@ -19,14 +19,6 @@ public interface IAdminService extends IService<Admin> {
      */
     Map<String, Object> queryPage(QueryCondition params);
 
-    /**
-     * 判断是否存在
-     *
-     * @param username
-     * @param id
-     * @return
-     */
-    Boolean exist(String username, Integer id);
 
     /**
      * 添加

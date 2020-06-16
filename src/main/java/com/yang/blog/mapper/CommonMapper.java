@@ -13,4 +13,12 @@ public interface CommonMapper extends BaseMapper {
             @Param("table") String table,
             @Param("field") String field,
             @Param("val") String val);
+
+    int existNotId(
+            @Param("table") String table,
+            @Param("field") String field,
+            @Param("val") String val,
+            @Param("id") String id,
+            @Param("valid") Integer valid
+    );
 }

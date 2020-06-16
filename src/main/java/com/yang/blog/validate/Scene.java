@@ -6,7 +6,6 @@ public class Scene {
 
     }
 
-
     public interface Update {
 
     }
