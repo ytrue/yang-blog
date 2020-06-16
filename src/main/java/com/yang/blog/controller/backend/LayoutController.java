@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Permission;
 import com.yang.blog.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：首页布局控制器
+ */
 @Controller
 public class LayoutController {
 
@@ -31,10 +34,10 @@ public class LayoutController {
         );
         List<Permission> menu = getChildManyGroup(permissionList, 0);
         //获得登录用户名
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.getUsername();
+        //UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //String username = principal.getUsername();
 
-        model.addAttribute("username", username);
+        model.addAttribute("username", 123);
         model.addAttribute("menu", menu);
         return "backend/layout";
     }

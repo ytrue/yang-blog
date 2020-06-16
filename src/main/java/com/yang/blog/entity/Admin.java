@@ -1,7 +1,6 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-
 import com.yang.blog.validate.IsEmptyPwd;
 import com.yang.blog.validate.Scene;
 import com.yang.blog.validate.Unique;
@@ -11,19 +10,15 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-
 /**
- * <p>  系统管理-用户基础信息表 </p>
- *
- * @author: zhengqing
- * @date: 2019-08-19
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：管理员实体类
  */
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
 @Data
 @TableName("sys_admin")
-public class Admin {
+@Unique(table = "sys_admin", field = "username")
+public class Admin extends Test {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,16 +33,15 @@ public class Admin {
      */
 
     @TableField("username")
-    @NotBlank(message = "账户不得为空！", groups = {Scene.Add.class, Scene.Update.class})
-    @Unique(table = "sys_admin", field = "username", message = "此账户已存在！", groups = {Scene.Add.class})
+
+    @NotBlank(message = "账户不得为空！")
     private String username;
     /**
      * 登录密码
      */
-
     @TableField("password")
-    @NotBlank(message = "密码不得为空！", groups = {Scene.Add.class})
-    @Length(min = 6, message = "密码长度至少是6位！", groups = {Scene.Add.class})
+    @NotBlank(message = "密码不得为空！")
+    @Length(min = 6, message = "密码长度至少是6位！")
     @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！", groups = {Scene.Update.class})
     private String password;
     /**
@@ -55,7 +49,7 @@ public class Admin {
      */
 
     @TableField("nick_name")
-    @NotBlank(message = "昵称不得为空！", groups = {Scene.Add.class, Scene.Update.class})
+    @NotBlank(message = "昵称不得为空！")
     private String nickName;
     /**
      * 盐值

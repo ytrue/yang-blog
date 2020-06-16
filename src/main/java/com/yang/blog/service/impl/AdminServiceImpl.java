@@ -21,7 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.BindingResult;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,10 +113,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return ResponseData.fail(2, "error", errorList);
         }
         //判断账户是否存在
-        if (!exist(admin.getUsername(), admin.getId())) {
+        /*if (!exist(admin.getUsername(), admin.getId())) {
             return ResponseData.fail(2, "error", Collections.singletonList("此账户已存在！"));
         }
-
+*/
         String userPwd = admin.getPassword();
         if (userPwd == null || userPwd.isEmpty()) {
             admin.setPassword(null);
@@ -127,7 +130,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             updateById(admin);
             return ResponseData.success();
         } catch (Exception e) {
-            return ResponseData.fail("数据修改失败！");
+            return ResponseData.fail("数据修改失败！" + e.getMessage());
         }
     }
 

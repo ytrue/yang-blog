@@ -3,7 +3,6 @@ package com.yang.blog.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yang.blog.validate.Scene;
-import com.yang.blog.validate.Unique;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,10 +10,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
- * <p>  系统管理-角色表  </p>
- *
- * @author: zhengqing
- * @date: 2019-08-20
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：角色实体类
  */
 @Data
 @TableName("sys_role")
@@ -32,7 +30,7 @@ public class Role {
      * 角色编码
      */
     @TableField("code")
-    @Unique(table = "sys_role", field = "code", message = "角色编码已存在！", groups = {Scene.Add.class})
+    //@Unique(table = "sys_role", field = "code", message = "角色编码已存在！", groups = {Scene.Add.class})
     @NotBlank(message = "角色编码不能为空", groups = {Scene.Add.class, Scene.Update.class})
     @Length(max = 20, message = "角色编码不能超过20个字符")
     private String code;

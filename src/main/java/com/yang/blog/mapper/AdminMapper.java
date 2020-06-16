@@ -8,10 +8,9 @@ import java.util.Map;
 
 
 /**
- * <p> 系统管理-用户基础信息表 Mapper 接口 </p>
- *
- * @author: zhengqing
- * @date: 2019-08-19
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：管理员Mapper接口
  */
 public interface AdminMapper extends BaseMapper<Admin> {
 

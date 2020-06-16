@@ -9,10 +9,9 @@ import java.util.Date;
 
 
 /**
- * <p>  系统管理 - 角色-权限关联表  </p>
- *
- * @author: zhengqing
- * @date: 2019-08-20
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：角色-权限关联实体类
  */
 @Data
 

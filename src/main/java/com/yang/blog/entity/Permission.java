@@ -1,26 +1,18 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.annotation.TableName;
-
-
-import com.yang.blog.validate.Scene;
-import com.yang.blog.validate.Unique;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
- * <p>  系统管理-权限权限表  </p>
- *
- * @author: zhengqing
- * @date: 2019-08-19
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：权限实体类
  */
-
 @TableName("sys_permission")
 @Data
 public class Permission {
@@ -38,7 +30,7 @@ public class Permission {
      */
 
     @TableField("url")
-    @Unique(table = "sys_permission", field = "url", message = "菜单规则已存在！", groups = {Scene.Add.class})
+    //@Unique(table = "sys_permission", field = "url", message = "菜单规则已存在！", groups = {Scene.Add.class})
     @NotBlank(message = "菜单规则不能为空")
     @Length(max = 125, message = "菜单规则不能超过125个字符")
     private String url;

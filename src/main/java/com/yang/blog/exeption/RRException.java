@@ -1,9 +1,9 @@
 package com.yang.blog.exeption;
 
 /**
- * 自定义异常
- *
- * @author Mark sunlightcs@gmail.com
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：自定义异常类
  */
 public class RRException extends RuntimeException {
     private static final long serialVersionUID = 1L;

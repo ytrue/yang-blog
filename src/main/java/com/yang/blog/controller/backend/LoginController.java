@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：登录控制器
+ */
 @Controller
 @RequestMapping("admin")
 public class LoginController {

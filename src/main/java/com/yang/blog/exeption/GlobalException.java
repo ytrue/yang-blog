@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 捕获404
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：全局异常处理类
  */
 @Controller
 @Slf4j
@@ -48,9 +50,9 @@ public class GlobalException implements ErrorController {
          * Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
          * String message = (String) request.getAttribute("javax.servlet.error.message");
          */
-
         //{timestamp=Fri May 29 09:29:14 CST 2020, status=500, error=Internal Server Error, message=/ by zero, path=/admin/auth/menu/all}
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(req, false);
+
         log.error(errorAttributes.toString());
         if (IsAjaxUtils.isAjax(request)) {
             Map<String, Object> body = new HashMap<>();

@@ -6,6 +6,7 @@ import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.validate.Scene;
+import com.yang.blog.validate.VerificationJudgement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,10 +14,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：文章栏目实体类
+ */
 @RequestMapping("admin/auth/admin")
 @Controller
 public class AdminController {
@@ -68,10 +75,15 @@ public class AdminController {
     @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated({Scene.Add.class}) Admin admin,
+            @Valid Admin admin,
             BindingResult bindingResult
     ) {
-        return adminService.add(admin, bindingResult);
+       // return adminService.add(admin, bindingResult);
+        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        if (!errorList.isEmpty()) {
+            return ResponseData.fail(2, "error", errorList);
+        }
+        return ResponseData.success();
     }
 
 

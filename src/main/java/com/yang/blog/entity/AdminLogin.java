@@ -6,6 +6,11 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
+/**
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：登录实体类
+ */
 public class AdminLogin {
     /**
      * 用户名

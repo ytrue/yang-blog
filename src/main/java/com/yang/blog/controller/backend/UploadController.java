@@ -22,7 +22,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * 七牛云图片上传
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：图片上传
  */
 @Controller
 public class UploadController {

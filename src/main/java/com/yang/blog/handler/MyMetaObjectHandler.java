@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * 定义自动填充的策略
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：自定义mybatisPlus填充类
  */
 @Component
 @Slf4j

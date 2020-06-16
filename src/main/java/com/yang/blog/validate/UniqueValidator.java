@@ -1,21 +1,24 @@
 package com.yang.blog.validate;
 
+import com.yang.blog.exeption.UniqueException;
 import com.yang.blog.mapper.CommonMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Pattern;
 
 /**
  * @author：yangyi
  * @date：2020/5/16 12:03
  * @description：验证唯一性实现类
  */
-public class UniqueValidator implements ConstraintValidator<Unique, String> {
+public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
     @Autowired
     private CommonMapper commonMapper;
+
+    private String id;
 
     private String table;
 
@@ -30,19 +33,16 @@ public class UniqueValidator implements ConstraintValidator<Unique, String> {
     public void initialize(Unique constraintAnnotation) {
         table = constraintAnnotation.table();
         field = constraintAnnotation.field();
+        id = constraintAnnotation.id();
     }
 
-    /**
-     * 实现验证
-     *
-     * @param string
-     * @param constraintValidatorContext
-     * @return
-     */
+
+    @SneakyThrows
     @Override
-    public boolean isValid(String string, ConstraintValidatorContext constraintValidatorContext) {
-        int count = commonMapper.exist(table, field, string);
-        return count <= 0;
+    public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
+
+
+        throw new UniqueException("字段重复！！！");
     }
 
 

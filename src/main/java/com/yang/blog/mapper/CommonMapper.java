@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * @author：yangyi
  * @date：2020/5/16 13:20
- * @description：公共mapper
+ * @description：公共Mapper
  */
 public interface CommonMapper extends BaseMapper {
     int exist(

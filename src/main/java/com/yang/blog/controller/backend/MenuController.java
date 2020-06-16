@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：菜单控制器
+ */
 @Controller
 @RequestMapping("admin/auth/menu")
 public class MenuController {

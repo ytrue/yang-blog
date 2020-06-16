@@ -2,39 +2,30 @@ package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import lombok.Data;
-
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
  * @author yangyi
  * @date 2020/6/15 16:27
- * @description：管理员关联角色实体类
+ * @description：文章栏目实体类
  */
-@Data
-@TableName("sys_user_role")
-public class AdminRole {
+@TableName("blog_category")
+public class Category {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * 主键ID
      */
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    /**
-     * 用户ID
-     */
 
-    @TableField("user_id")
-    private Integer userId;
-    /**
-     * 角色ID
-     */
+    @TableField("name")
+    @NotBlank(message = "标题不得为空！")
+    private String name;
 
-    @TableField("role_id")
-    private Integer roleId;
 
     /**
      * 创建时间
@@ -48,5 +39,4 @@ public class AdminRole {
      */
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-
 }

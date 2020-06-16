@@ -14,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 /**
- * 阿里云发送短信
+ * @author yangyi
+ * @date 2020/6/15 16:27
+ * @description：阿里云发送短信
  */
 @Controller
 public class SendSmsController {
