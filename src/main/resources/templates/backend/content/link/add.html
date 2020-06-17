@@ -8,11 +8,45 @@
              data-toggle="validator" method="POST" action="" novalidate="novalidate">
 
             <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">类型:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select class="form-control" name="type" v-model='type'>
+                        <option value="1">友情链接</option>
+                        <option value="2">推荐链接</option>
+                        <option value="3">个人网站</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-2">名称:</label>
                 <div class="col-xs-12 col-sm-8">
                     <input id="name" class="form-control" v-model='name' name="name" type="text">
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">url:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="url" class="form-control" v-model='url' name="url" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">描述:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="description" class="form-control" v-model='description' name="description" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">排序:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="sort" class="form-control" v-model='sort' name="sort" type="number" value="100">
+                </div>
+            </div>
+
 
             <div class="form-group layer-footer">
                 <label class="control-label col-xs-12 col-sm-2"></label>
@@ -41,15 +75,23 @@
     new Vue({
         el: "#app",
         data: {
+            type: '',
             name: '',
+            url: '',
+            description: '',
+            sort: ''
         },
         methods: {
             submit: function () {
                 axios({
-                    url: "/admin/content/category/add",
+                    url: "/admin/content/link/add",
                     method: "post",
                     data: {
+                        type: this.type,
                         name: this.name,
+                        url: this.url,
+                        description: this.description,
+                        sort: this.sort
                     }
                 }).then(function (response) {
                     let data = response.data;

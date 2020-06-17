@@ -38,6 +38,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Autowired
     private IRoleMenuService roleMenuService;
 
+    /**
+     * 分配权限
+     * @param menuId
+     * @param id
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseData<Object> assign(String menuId, Long id) {

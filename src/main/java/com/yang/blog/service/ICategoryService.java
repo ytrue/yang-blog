@@ -14,7 +14,7 @@ import java.util.Map;
  * @date 2020/6/15 16:36
  * @description：
  */
-public interface CategoryService extends IService<Category> {
+public interface ICategoryService extends IService<Category> {
     /**
      * 分页查询
      *

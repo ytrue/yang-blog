@@ -1,7 +1,7 @@
 package com.yang.blog.controller.backend;
 
-import com.yang.blog.entity.Category;
-import com.yang.blog.service.ICategoryService;
+import com.yang.blog.entity.Link;
+import com.yang.blog.service.ILinkService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,14 @@ import java.util.Map;
 
 /**
  * @author yangyi
- * @date 2020/6/15 16:38
- * @description：文章栏目控制器
+ * @date 2020/6/17 14:46
+ * @description：友情链接控制器
  */
-@RequestMapping("admin/content/category")
+@RequestMapping("admin/content/link")
 @Controller
-public class CategoryController {
-
+public class LinkController {
     @Autowired
-    private ICategoryService categoryService;
+    private ILinkService linkService;
 
     /**
      * 排序分页查询
@@ -34,26 +33,24 @@ public class CategoryController {
     @ResponseBody
     @PostMapping("index")
     public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
-        return categoryService.queryPage(queryCondition);
+        return linkService.queryPage(queryCondition);
     }
-
 
     /**
      * 添加数据
      *
-     * @param category
+     * @param link
      * @return
      */
     @ResponseBody
     @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated Category category,
+            @Validated Link link,
             BindingResult bindingResult
     ) {
-        return categoryService.add(category, bindingResult);
+        return linkService.add(link, bindingResult);
     }
-
 
     /**
      * 根据id查询数据
@@ -64,23 +61,24 @@ public class CategoryController {
     @ResponseBody
     @PostMapping("update")
     public ResponseData<Map<String, Object>> find(@RequestParam(value = "id") Long id) {
-        return categoryService.find(id);
+        return linkService.find(id);
     }
+
 
     /**
      * 修改数据
      *
-     * @param category
+     * @param link
      * @return
      */
     @ResponseBody
     @PutMapping("update")
     public ResponseData<Object> update(
             @Validated
-            @RequestBody Category category,
+            @RequestBody Link link,
             BindingResult bindingResult
     ) {
-        return categoryService.update1(category, bindingResult);
+        return linkService.update1(link, bindingResult);
     }
 
     /**
@@ -92,22 +90,21 @@ public class CategoryController {
     @ResponseBody
     @DeleteMapping("delete")
     public ResponseData<Object> delete(@RequestBody List<Long> ids) {
-        return categoryService.del(ids);
+        return linkService.del(ids);
     }
 
     @GetMapping("index")
     public String indexView() {
-        return "backend/content/category/index";
+        return "backend/content/link/index";
     }
 
     @GetMapping("add")
     public String saveView() {
-        return "backend/content/category/add";
+        return "backend/content/link/add";
     }
 
     @GetMapping("update")
     public String editView() {
-        return "backend/content/category/edit";
+        return "backend/content/link/edit";
     }
 }
-

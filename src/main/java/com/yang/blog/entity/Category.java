@@ -1,6 +1,8 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.yang.blog.validate.Unique;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -11,6 +13,8 @@ import java.util.Date;
  * @description：文章栏目实体类
  */
 @TableName("blog_category")
+@Unique(table = "blog_category", field = "name", message = "此栏目名称已存在！")
+@Data
 public class Category {
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +27,7 @@ public class Category {
     private Integer id;
 
     @TableField("name")
-    @NotBlank(message = "标题不得为空！")
+    @NotBlank(message = "栏目名称不得为空！")
     private String name;
 
 
