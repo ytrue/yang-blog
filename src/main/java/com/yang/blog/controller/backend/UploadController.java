@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -80,7 +79,7 @@ public class UploadController {
 
     /**
      * 编辑器图片上传
-     */
+     *//*
     @ResponseBody
     @PostMapping("ckeditor_upload_image")
     public Object ckeditorUpload(@RequestParam("upload") MultipartFile file) {
@@ -112,7 +111,7 @@ public class UploadController {
             resultMap.put("error", errMap);
             return resultMap;
         }
-    }
+    }*/
 
     @GetMapping("index")
     public String yang(){
