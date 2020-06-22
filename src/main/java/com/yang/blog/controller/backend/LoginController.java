@@ -1,8 +1,6 @@
 package com.yang.blog.controller.backend;
 
 import com.yang.blog.util.VerifyUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("admin")
 public class LoginController {
-
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 登录页面
@@ -49,8 +44,7 @@ public class LoginController {
         VerifyUtil randomValidateCode = new VerifyUtil();
         randomValidateCode.getRandcode(request, response);//输出验证码图片
 
-
-        System.out.println((String)request.getSession().getAttribute("RANDOMREDISKEY"));
+       // System.out.println((String)request.getSession().getAttribute("RANDOMREDISKEY"));
     }
 
 }

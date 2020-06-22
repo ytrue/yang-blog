@@ -54,6 +54,9 @@ spring:
         min-idle: 2
     #连接超时时间（毫秒）
     timeout: 3000
+  data:
+    elasticsearch:
+      cluster-nodes: 47.107.127.70:9300
 
 # mybatis plus配置
 mybatis-plus:
@@ -73,6 +76,7 @@ aliyun-dysmsapi:
   access-key-id: LTAIPQ0RwPDBknkE
   access-key-secret: UeY7zPs4HjWlnJT6qfebPZc9paTP5v
   sign-name: 潮品羊驼
+
 
 logging:
   level:
