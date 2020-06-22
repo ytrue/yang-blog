@@ -9,17 +9,20 @@
         margin: auto;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
+
     .tagsinput-primary {
         margin-bottom: 18px;
     }
+
     .tagsinput-primary .bootstrap-tagsinput {
         border-color: #1abc9c;
         margin-bottom: 0;
     }
 
-    .bootstrap-tagsinput{
+    .bootstrap-tagsinput {
         width: 100%;
     }
+
     .bootstrap-tagsinput .label-info {
         border-radius: 4px;
         background-color: #1abc9c;
@@ -51,27 +54,32 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-2">所属栏目:</label>
                 <div class="col-xs-12 col-sm-8">
-                    <input id="category_id" class="form-control" v-model='category_id' name="category_id" type="text">
+                    <!--  <input id="category_id" class="form-control" v-model='category_id' name="category_id" type="text">-->
+                    <select class="form-control" name="category_id" v-model='category_id'>
+                        <option></option>
+                        <option :value="list.id" v-for="list in categoryList">{{list.name}}</option>
+                    </select>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-2">标签:</label>
                 <div class="col-xs-12 col-sm-8">
-                    <input class="form-control tagsinput"  name="tagsinput" id="tagsinputval"  data-role="tagsinput" type="text">
+                    <input class="form-control tagsinput" name="tagsinput" id="tagsinputval" data-role="tagsinput"
+                           type="text">
                 </div>
             </div>
-
 
 
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-2">封面图:</label>
                 <div class="col-xs-12 col-sm-8">
                     <div class="input-group">
-                        <input id="c-image" class="form-control"  type="text"
+                        <input id="image" name="image" v-model='file' class="form-control" type="text"
                                aria-invalid="true">
+                        <input type="file" id="file" name="file" class="hidden" @change="upload">
                         <div class="input-group-addon no-border no-padding">
-                            <span style="position: relative;"><button type="button" id="plupload-image"
+                            <span style="position: relative;"><button type="button" @click="image"
                                                                       class="btn btn-danger plupload"
                                                                       data-input-id="c-image"
                                                                       data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp"
@@ -81,39 +89,41 @@
                                     class="fa fa-upload"></i> 上传</button></span>
                         </div>
                     </div>
-                    <ul class="row list-inline plupload-preview hidden" id="p-image" style="margin: 0">
-                        <li class="col-xs-3"><a href="/uploads/20200617/f7d80cbba92b6f993e8776a5c7a0b569.jpg"
-                                                data-url="/uploads/20200617/f7d80cbba92b6f993e8776a5c7a0b569.jpg"
-                                                target="_blank" class="thumbnail">
+                    <ul class="row list-inline plupload-preview" id="p-image" style="margin: 0">
+                        <li class="col-xs-3"><a
+                                id="upload-a"
+                                href=""
+                                target="_blank" class="thumbnail">
                             <img
-                                    src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592457561241&di=aef4f07073ad8471e9b7ffcd84241692&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F64%2F76%2F20300001349415131407760417677.jpg"
+                                    id="upload-img"
+                                    src=""
                                     class="img-responsive"></a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="form-group" >
+            <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-2">内容:</label>
                 <div class="col-xs-12 col-sm-8" id="editor" style="z-index: 9999;margin-left: 15px;">
-                    <textarea style="display:none;" ></textarea>
+                    <textarea style="display:none;"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-2">状态:</label>
+                <label class="control-label col-xs-12 col-sm-2">文章状态:</label>
                 <div class="col-xs-12 col-sm-8">
                     <div class="radio">
-                        <label><input type="radio" name="sex" value="男生" style="margin-top: 0px">男生</label>
-                        <label><input type="radio" name="sex" value="女生" style="margin-top: 0px">女生</label>
+                        <label><input type="radio" value="1" style="margin-top: 0px" checked>发布</label>
+                        <label><input type="radio" value="2" style="margin-top: 0px">草稿</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-2">状态:</label>
+                <label class="control-label col-xs-12 col-sm-2">是否允许评论:</label>
                 <div class="col-xs-12 col-sm-8">
                     <div class="radio">
-                        <label><input type="radio" name="sex" value="男生" style="margin-top: 0px">男生</label>
-                        <label><input type="radio" name="sex" value="女生" style="margin-top: 0px">女生</label>
+                        <label><input type="radio" value="1" style="margin-top: 0px" checked>是</label>
+                        <label><input type="radio" value="2" style="margin-top: 0px">否</label>
                     </div>
 
                 </div>
@@ -151,9 +161,18 @@
         el: "#app",
         data: {
             name: '',
+            title: '',
+            category_id: '',
+            categoryList: '',
+            file: ''
         },
         methods: {
             submit: function () {
+
+                alert($('#file').val());
+
+                return;
+
                 axios({
                     url: "/admin/content/category/add",
                     method: "post",
@@ -205,10 +224,73 @@
             },
             reset: function () {
                 this.name = '';
+            },
+            getCategory: function () {
+                let that = this;
+                //获得栏目
+                axios({
+                    url: "/admin/content/category/index",
+                    method: "post",
+                    data: {
+                        limit: 9999,   //页面大小
+                        page: 1,  //页码
+                    }
+                }).then(function (response) {
+                    let index = parent.layer.getFrameIndex(window.name);
+
+                    if (response.data.data !== "undefined") {
+                        //那就是成功的
+                        that.categoryList = response.data.rows;
+                        layer.closeAll('loading'); //关闭加载层
+                    } else {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    }
+                })
+            },
+            image: function () {
+                $('#file').click();
+            },
+            upload: function () {
+                let formData = new window.FormData()
+                let that = this;
+                let $$ = $;
+                formData.append('file', document.querySelector('input[type=file]').files[0]);
+                axios({
+                    url: '/admin/upload',
+                    data: formData,
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    if (data.code === 0) {
+                        that.file = data.data;
+                        //这里要显示图片
+                        $$("#p-image").show();
+                        $$('#upload-img').attr('src', data.data);
+                        $$('#upload-a').attr('href', data.data);
+                        layer.closeAll('loading'); //关闭加载层
+                    } else {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            layer.closeAll();
+                        })
+                    }
+                })
             }
         },
         mounted: function () {
-            let editor = editormd("editor", {
+            $("#p-image").hide();
+            this.getCategory()
+            editormd("editor", {
                 width: "65%",
                 height: 640,
                 path: "/backend/js/plugins/editor/lib/",
