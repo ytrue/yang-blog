@@ -1,5 +1,5 @@
 server:
-  port: 1235
+  port: 1236
 # 数据库配置
 spring:
   datasource:
@@ -57,6 +57,9 @@ spring:
   data:
     elasticsearch:
       cluster-nodes: 47.107.127.70:9300
+      cluster-name: docker-cluster
+      repositories:
+        enabled: true
 
 # mybatis plus配置
 mybatis-plus:
@@ -76,7 +79,6 @@ aliyun-dysmsapi:
   access-key-id: LTAIPQ0RwPDBknkE
   access-key-secret: UeY7zPs4HjWlnJT6qfebPZc9paTP5v
   sign-name: 潮品羊驼
-
 
 logging:
   level:

@@ -1,0 +1,20 @@
+{
+  "group_by_tag": {
+    "doc_count_error_upper_bound": 0,
+    "sum_other_doc_count": 0,
+    "buckets": [
+      {
+        "key": "fangzhu",
+        "doc_count": 3
+      },
+      {
+        "key": "meibai",
+        "doc_count": 3
+      },
+      {
+        "key": "yangyi",
+        "doc_count": 1
+      }
+    ]
+  }
+}
