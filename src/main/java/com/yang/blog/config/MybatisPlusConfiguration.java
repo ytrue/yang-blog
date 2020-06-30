@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-public class MybatisPlusConfig {
+public class MybatisPlusConfiguration {
 
     /**
      * 配置分页

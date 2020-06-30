@@ -18,7 +18,8 @@ import java.util.List;
  * @description：
  */
 @Data
-public class SecurityUser implements UserDetails {
+public class SecurityUser implements UserDetails{
+
     /**
      * 当前登录用户
      */
@@ -28,7 +29,8 @@ public class SecurityUser implements UserDetails {
      */
     private transient List<Role> roleList;
 
-    public SecurityUser() { }
+    public SecurityUser() {
+    }
 
     public SecurityUser(Admin user) {
         if (user != null) {

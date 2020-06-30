@@ -71,7 +71,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //设置一下
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry
-                registry = http.antMatcher("/admin1/**").authorizeRequests();
+                registry = http.antMatcher("/admin/**").authorizeRequests();
 
         // 禁用CSRF 开启跨域
         http.csrf().disable().cors();

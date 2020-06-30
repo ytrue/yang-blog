@@ -6,6 +6,7 @@ import com.yang.blog.validate.Unique;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Date;
 @TableName("sys_admin")
 @Unique(table = "sys_admin", field = "username", message = "此账号已存在！")
 @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！")
-public class Admin extends Test {
+public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -44,7 +44,7 @@ public class LoginController {
         VerifyUtil randomValidateCode = new VerifyUtil();
         randomValidateCode.getRandcode(request, response);//输出验证码图片
 
-       // System.out.println((String)request.getSession().getAttribute("RANDOMREDISKEY"));
+        System.out.println((String)request.getSession().getAttribute("RANDOMREDISKEY"));
     }
 
 }

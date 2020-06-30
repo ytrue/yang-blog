@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  * @description：spring mvc配置类
  */
 @Configuration
-public class SpringMvcConfig implements WebMvcConfigurer {
+public class SpringMvcConfiguration implements WebMvcConfigurer {
 
     private static final String dateFormat = "yyyy-MM-dd";
     private static final String dateTimeFormat = "yyyy-MM-dd HH:mm:ss";
