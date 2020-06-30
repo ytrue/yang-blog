@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 
-public class VerifyUtil {
+public class VerifyUtils {
     static final String RANDOMCODEKEY = "RANDOMREDISKEY";//放到session中的key
     final String randString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";//随机产生数字与字母组合的字符串
     final int width = 95;// 图片宽

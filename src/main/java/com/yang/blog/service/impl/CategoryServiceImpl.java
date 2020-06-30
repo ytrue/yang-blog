@@ -7,7 +7,7 @@ import com.yang.blog.mapper.CategoryMapper;
 import com.yang.blog.service.ICategoryService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.VerificationJudgement;
+import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -42,7 +42,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public ResponseData<Object> add(Category category, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -69,7 +69,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public ResponseData<Object> update1(Category category, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

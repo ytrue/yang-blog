@@ -1,7 +1,7 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.yang.blog.validate.Unique;
+import com.yang.blog.annotation.Unique;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

@@ -112,8 +112,8 @@
                 <label class="control-label col-xs-12 col-sm-2">文章状态:</label>
                 <div class="col-xs-12 col-sm-8">
                     <div class="radio">
-                        <label><input type="radio" value="1" style="margin-top: 0px" checked>发布</label>
-                        <label><input type="radio" value="2" style="margin-top: 0px">草稿</label>
+                        <label><input type="radio" v-model="status" value="1" style="margin-top: 0px" checked>发布</label>
+                        <label><input type="radio" v-model="status" value="2" style="margin-top: 0px">草稿</label>
                     </div>
                 </div>
             </div>
@@ -122,8 +122,8 @@
                 <label class="control-label col-xs-12 col-sm-2">是否允许评论:</label>
                 <div class="col-xs-12 col-sm-8">
                     <div class="radio">
-                        <label><input type="radio" value="1" style="margin-top: 0px" checked>是</label>
-                        <label><input type="radio" value="2" style="margin-top: 0px">否</label>
+                        <label><input type="radio" v-model="enable_comment" value="1" style="margin-top: 0px" checked>是</label>
+                        <label><input type="radio" v-model="enable_comment" value="2" style="margin-top: 0px">否</label>
                     </div>
 
                 </div>
@@ -160,24 +160,29 @@
     new Vue({
         el: "#app",
         data: {
-            name: '',
             title: '',
             category_id: '',
             categoryList: '',
-            file: ''
+            file: '',
+            status: 1,
+            enable_comment: 1,
+            MdEditor: null
         },
         methods: {
             submit: function () {
-
-                alert($('#file').val());
-
-                return;
-
+                let that = $;
                 axios({
-                    url: "/admin/content/category/add",
+                    url: "/admin/content/article/add",
                     method: "post",
                     data: {
                         name: this.name,
+                        title: this.title,
+                        categoryId: this.category_id,
+                        image: this.file,
+                        status: this.status,
+                        enableComment: this.enable_comment,
+                        tag: that('#tagsinputval').val(),
+                        content: this.MdEditor.getHTML()
                     }
                 }).then(function (response) {
                     let data = response.data;
@@ -290,7 +295,7 @@
         mounted: function () {
             $("#p-image").hide();
             this.getCategory()
-            editormd("editor", {
+            this.MdEditor = editormd("editor", {
                 width: "65%",
                 height: 640,
                 path: "/backend/js/plugins/editor/lib/",
@@ -299,6 +304,7 @@
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "./php/upload.php",
                 htmlDecode: "style,script,iframe|on*",
+                saveHTMLToTextarea: true
             });
         }
     });

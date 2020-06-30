@@ -4,7 +4,6 @@ import com.yang.blog.entity.Permission;
 import com.yang.blog.service.IPermissionService;
 import com.yang.blog.service.IRoleMenuService;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.Scene;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -61,7 +60,7 @@ public class MenuController {
     @PostMapping("add")
     public ResponseData<Object> save(
             @RequestBody
-            @Validated({Scene.Add.class}) Permission permission,
+            @Validated Permission permission,
             BindingResult bindingResult
     ) {
         return permissionService.add(permission, bindingResult);

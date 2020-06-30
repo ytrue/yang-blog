@@ -6,7 +6,7 @@ import com.yang.blog.entity.Permission;
 import com.yang.blog.mapper.PermissionMapper;
 import com.yang.blog.service.IPermissionService;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.VerificationJudgement;
+import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -80,7 +80,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      */
     @Override
     public ResponseData<Object> add(Permission permission, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -101,7 +101,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      */
     @Override
     public ResponseData<Object> update1(Permission permission, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

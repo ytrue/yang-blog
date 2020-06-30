@@ -1,12 +1,11 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.yang.blog.validate.IsEmptyPwd;
-import com.yang.blog.validate.Unique;
+import com.yang.blog.annotation.IsEmptyPwd;
+import com.yang.blog.annotation.Unique;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -18,9 +17,7 @@ import java.util.Date;
 @TableName("sys_admin")
 @Unique(table = "sys_admin", field = "username", message = "此账号已存在！")
 @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！")
-public class Admin implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Admin {
 
     /**
      * 主键ID
@@ -28,12 +25,11 @@ public class Admin implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
     /**
      * 账号
      */
-
     @TableField("username")
-
     @NotBlank(message = "账户不得为空！")
     private String username;
     /**

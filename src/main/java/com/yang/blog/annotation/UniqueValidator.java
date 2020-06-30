@@ -1,4 +1,4 @@
-package com.yang.blog.validate;
+package com.yang.blog.annotation;
 
 import com.yang.blog.exeption.CustomVerificationException;
 import com.yang.blog.mapper.CommonMapper;

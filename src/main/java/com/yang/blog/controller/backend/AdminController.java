@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -27,17 +26,6 @@ public class AdminController {
 
     @Autowired
     private IAdminService adminService;
-
-
-    @ResponseBody
-    @RequestMapping("test")
-    public String yang(HttpServletRequest request) {
-        String header = request.getHeader("X-Requested-With");
-
-        System.out.println(header);
-
-        return "test";
-    }
 
     /**
      * 排序分页查询

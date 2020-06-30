@@ -57,6 +57,7 @@ spring:
       cluster-name: docker-cluster
       repositories:
         enabled: true
+
 # mybatis plus配置
 mybatis-plus:
   mapper-locations: classpath*:mybatis/mapper/*.xml

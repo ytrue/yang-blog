@@ -1,6 +1,6 @@
 package com.yang.blog.entity;
 
-import com.yang.blog.validate.Captcha;
+import com.yang.blog.annotation.Captcha;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

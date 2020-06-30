@@ -1,4 +1,4 @@
-package com.yang.blog.validate;
+package com.yang.blog.util;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @date：2020/4/19 17:06
  * @description：错误遍历
  */
-public class VerificationJudgement {
+public class VerificationJudgementUtils {
 
     public static ArrayList<String> hasErrror(BindingResult bindingResult) {
 

@@ -14,7 +14,7 @@ import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.PasswordUtils;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.VerificationJudgement;
+import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +68,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      */
     @Override
     public ResponseData<Object> add(Admin admin, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -94,7 +94,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      */
     @Override
     public ResponseData<Object> update1(Admin admin, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

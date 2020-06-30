@@ -7,7 +7,7 @@ import com.yang.blog.mapper.LinkMapper;
 import com.yang.blog.service.ILinkService;
 import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.validate.VerificationJudgement;
+import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -45,7 +45,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements IL
 
     @Override
     public ResponseData<Object> add(Link link, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -76,7 +76,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements IL
 
     @Override
     public ResponseData<Object> update1(Link link, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgement.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

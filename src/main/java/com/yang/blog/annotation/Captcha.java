@@ -1,4 +1,4 @@
-package com.yang.blog.validate;
+package com.yang.blog.annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -14,28 +14,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * @author：yangyi
  * @date：2020/5/16 13:29
- * @description：判断密码是否为空
+ * @description：判断验证码是否正确
  */
 @Documented
 @Retention(RUNTIME)
-@Target(ElementType.TYPE)
-@Constraint(validatedBy = IsEmptyPwdValidator.class)
-public @interface IsEmptyPwd {
-
+@Target({PARAMETER, ElementType.FIELD})
+@Constraint(validatedBy = CaptchaValidator.class)
+public @interface Captcha {
     //指定多个时使用
     @Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE})
     @Retention(RUNTIME)
     @Documented
     @interface List {
-        IsEmptyPwd[] value();
+        Captcha[] value();
     }
 
-    String filed() default "password";
-
-    String id() default "id";
 
     //提示内容
-    String message() default "";
+    String message() default "验证码不正确！";
 
     Class<?>[] groups() default {};
 
