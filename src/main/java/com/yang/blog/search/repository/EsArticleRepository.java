@@ -5,5 +5,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArticleRepository extends ElasticsearchRepository<EsArticle, Long> {
+public interface EsArticleRepository extends ElasticsearchRepository<EsArticle, Long> {
 }

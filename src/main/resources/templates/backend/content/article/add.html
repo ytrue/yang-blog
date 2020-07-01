@@ -55,9 +55,9 @@
                 <label class="control-label col-xs-12 col-sm-2">所属栏目:</label>
                 <div class="col-xs-12 col-sm-8">
                     <!--  <input id="category_id" class="form-control" v-model='category_id' name="category_id" type="text">-->
-                    <select class="form-control" name="category_id" v-model='category_id'>
+                    <select id="sel" class="form-control" name="category_id" v-model='category_id' @change="changeType">
                         <option></option>
-                        <option :value="list.id" v-for="list in categoryList">{{list.name}}</option>
+                        <option :value="list.id" :text="list.name" v-for="list in categoryList">{{list.name}}</option>
                     </select>
                 </div>
             </div>
@@ -166,9 +166,13 @@
             file: '',
             status: 1,
             enable_comment: 1,
-            MdEditor: null
+            MdEditor: null,
+            category_txt: ''
         },
         methods: {
+            changeType: function () {
+                this.category_txt = sel.options[sel.selectedIndex].text;
+            },
             submit: function () {
                 let that = $;
                 axios({
@@ -182,7 +186,8 @@
                         status: this.status,
                         enableComment: this.enable_comment,
                         tag: that('#tagsinputval').val(),
-                        content: this.MdEditor.getHTML()
+                        content: this.MdEditor.getHTML(),
+                        categoryTitle: this.category_txt
                     }
                 }).then(function (response) {
                     let data = response.data;

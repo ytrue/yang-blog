@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Document(indexName = "article", type = "article", createIndex = true)
@@ -27,4 +28,10 @@ public class EsArticle {
 
     @Field(type = FieldType.Object)
     private EsCategory category;
+
+    @Field(type = FieldType.Keyword)
+    private String image;
+
+    @Field(type = FieldType.Keyword)
+    private List<String> tag;
 }
