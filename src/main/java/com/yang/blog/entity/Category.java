@@ -1,7 +1,7 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.yang.blog.annotation.Unique;
+import com.yang.blog.validator.Unique;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -22,7 +22,6 @@ public class Category {
     /**
      * 主键ID
      */
-
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 

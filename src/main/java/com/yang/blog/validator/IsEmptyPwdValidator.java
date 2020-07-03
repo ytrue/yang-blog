@@ -1,4 +1,4 @@
-package com.yang.blog.annotation;
+package com.yang.blog.validator;
 
 import com.yang.blog.exeption.CustomVerificationException;
 import com.yang.blog.util.ReflectionUtils;

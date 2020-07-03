@@ -45,7 +45,6 @@ public class AdminController {
     @ResponseBody
     @PostMapping("assign")
     public ResponseData<Object> myRole(@RequestParam Long id) {
-        System.out.println(id);
         return adminService.myRole(id);
     }
 

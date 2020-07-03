@@ -1,8 +1,8 @@
 package com.yang.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.yang.blog.annotation.IsEmptyPwd;
-import com.yang.blog.annotation.Unique;
+import com.yang.blog.validator.IsEmptyPwd;
+import com.yang.blog.validator.Unique;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

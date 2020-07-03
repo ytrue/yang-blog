@@ -1,4 +1,4 @@
-package com.yang.blog.annotation;
+package com.yang.blog.validator;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;

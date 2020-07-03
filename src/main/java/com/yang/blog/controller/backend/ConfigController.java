@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin/system/config")
 @Controller
 public class ConfigController {
+    //修改呢
 
     @GetMapping("index")
     public String indexView() {

@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @MapperScan("com.yang.blog.mapper")
 @EnableTransactionManagement
-//@EnableRedisHttpSession(redisNamespace = "login") // 自动化配置 Spring Session 使用 Redis 作为数据源
-//@EnableMongoHttpSession // 自动化配置 Spring Session 使用 MongoDB 作为数据源
 public class YangBlogApplication {
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.yang.blog.annotation;
+package com.yang.blog.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
