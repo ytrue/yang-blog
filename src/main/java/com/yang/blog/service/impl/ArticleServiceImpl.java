@@ -38,6 +38,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private EsArticleRepository esArticleRepository;
 
+    @Autowired
+    private ArticleMapper articleMapper;
+
     /**
      * 分页查询
      *
@@ -47,14 +50,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public Map<String, Object> queryPage(QueryCondition params) {
 
-        List<Map<String, Object>> rows = listMaps(
-                new QueryWrapper<Article>()
-                        //.select("id", "title", "image", "tag")
-                        .orderByDesc("id")
-                        .last(params.getPageSql())
-        );
-
-        return ResponseData.list(count(), rows);
+        //获得页码
+        Long page = params.getPage();
+        //获得每页条数
+        Long limit = params.getLimit();
+        //获得startLimit
+        Long startLimit = (page - 1) * limit;
+        //这里要设置一下分页查询
+        List<Map<String, Object>> maps = articleMapper.articleWithCategory(0L, limit);
+        return ResponseData.list(count(), maps);
     }
 
 

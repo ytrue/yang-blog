@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.blog.mapper.ArticleMapper">
+
+    <!--关联查询-->
+    <select id="articleWithCategory" resultType="java.util.Map">
+		select
+			a.id,
+			a.title,
+			a.image,
+			a.category_id,
+			a.tag,
+			a.views,
+			a.status,
+			a.enable_comment,
+			a.create_time,
+			c.name as category_name
+		from
+			blog_article as a,
+			blog_category as c
+		where
+			a.category_id = c.id
+			limit #{start},#{end};
+    </select>
+
+
+</mapper>
