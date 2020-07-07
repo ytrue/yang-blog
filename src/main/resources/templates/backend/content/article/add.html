@@ -113,7 +113,7 @@
                 <div class="col-xs-12 col-sm-8">
                     <div class="radio">
                         <label><input type="radio" v-model="status" value="1" style="margin-top: 0px" checked>发布</label>
-                        <label><input type="radio" v-model="status" value="2" style="margin-top: 0px">草稿</label>
+                        <label><input type="radio" v-model="status" value="0" style="margin-top: 0px">草稿</label>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                 <div class="col-xs-12 col-sm-8">
                     <div class="radio">
                         <label><input type="radio" v-model="enable_comment" value="1" style="margin-top: 0px" checked>是</label>
-                        <label><input type="radio" v-model="enable_comment" value="2" style="margin-top: 0px">否</label>
+                        <label><input type="radio" v-model="enable_comment" value="0" style="margin-top: 0px">否</label>
                     </div>
 
                 </div>
@@ -186,7 +186,7 @@
                         status: this.status,
                         enableComment: this.enable_comment,
                         tag: that('#tagsinputval').val(),
-                        content: this.MdEditor.getHTML(),
+                        content: this.MdEditor.getMarkdown(),
                         categoryTitle: this.category_txt
                     }
                 }).then(function (response) {
@@ -308,7 +308,7 @@
                 imageUpload: true,
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL: "./php/upload.php",
-                htmlDecode: "style,script,iframe|on*",
+                //htmlDecode: "style,script,iframe|on*",
                 saveHTMLToTextarea: true
             });
         }

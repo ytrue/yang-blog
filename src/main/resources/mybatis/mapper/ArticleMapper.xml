@@ -20,6 +20,7 @@
 			blog_category as c
 		where
 			a.category_id = c.id
+			order by id desc
 			limit #{start},#{end};
     </select>
 

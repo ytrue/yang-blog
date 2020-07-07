@@ -54,6 +54,23 @@ public class ArticleController {
         return articleService.add(article, bindingResult);
     }
 
+    /**
+     * 修改
+     *
+     * @param article
+     * @param bindingResult
+     * @return
+     */
+    @ResponseBody
+    @PutMapping("update")
+    public ResponseData<Object> update(
+            @RequestBody
+            @Valid Article article,
+            BindingResult bindingResult
+    ) {
+        return articleService.update1(article, bindingResult);
+    }
+
 
     /**
      * 根据id查询数据
@@ -62,7 +79,7 @@ public class ArticleController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = {"update", "details"})
+    @PostMapping(value = {"update", "details"})
     public ResponseData<Article> find(@RequestParam(value = "id") Long id) {
         return articleService.findById(id);
     }

@@ -1,10 +1,369 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/head">
+</html>
+<link rel="stylesheet" href="/backend/js/plugins/editor/css/editormd.css">
+<link href="/backend/js/plugins/tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+<style>
+    .box {
+        width: 500px;
+        margin: auto;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
 
+    .tagsinput-primary {
+        margin-bottom: 18px;
+    }
+
+    .tagsinput-primary .bootstrap-tagsinput {
+        border-color: #1abc9c;
+        margin-bottom: 0;
+    }
+
+    .bootstrap-tagsinput {
+        width: 100%;
+    }
+
+    .bootstrap-tagsinput .label-info {
+        border-radius: 4px;
+        background-color: #1abc9c;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        overflow: hidden;
+        margin: 0 5px 5px 0;
+        padding: 6px 10px 6px 14px;
+        transition: .25s linear;
+    }
+</style>
+<body style="background: white">
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
+    <div class="content">
+        <div id="add-form" class="form-horizontal nice-validator n-default n-bootstrap" role="form"
+             data-toggle="validator" method="POST" action="" novalidate="novalidate">
+
+            <input type="hidden" v-model="id">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">标题:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="title" class="form-control" v-model='title' name="title" type="text">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">所属栏目:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <!--  <input id="category_id" class="form-control" v-model='category_id' name="category_id" type="text">-->
+                    <select id="sel" class="form-control" name="category_id" v-model='category_id' @change="changeType">
+                        <option></option>
+                        <option :value="list.id" :text="list.name" v-for="list in categoryList">{{list.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">标签:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input class="form-control tagsinput" name="tagsinput" id="tagsinputval" data-role="tagsinput"
+                           type="text">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">封面图:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="input-group">
+                        <input id="image" name="image" v-model='file' class="form-control" type="text"
+                               aria-invalid="true">
+                        <input type="file" id="file" name="file" class="hidden" @change="upload">
+                        <div class="input-group-addon no-border no-padding">
+                            <span style="position: relative;"><button type="button" @click="image"
+                                                                      class="btn btn-danger plupload"
+                                                                      data-input-id="c-image"
+                                                                      data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp"
+                                                                      data-multiple="false" data-preview-id="p-image"
+                                                                      initialized="true"
+                                                                      style="position: relative; z-index: 1;"><i
+                                    class="fa fa-upload"></i> 上传</button></span>
+                        </div>
+                    </div>
+                    <ul class="row list-inline plupload-preview" id="p-image" style="margin: 0">
+                        <li class="col-xs-3"><a
+                                id="upload-a"
+                                href=""
+                                target="_blank" class="thumbnail">
+                            <img
+                                    id="upload-img"
+                                    src=""
+                                    class="img-responsive"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">内容:</label>
+                <div class="col-xs-12 col-sm-8" id="editor" style="z-index: 9999;margin-left: 15px;">
+                    <textarea style="display:none;" v-model="content" data="test"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">文章状态:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="radio">
+                        <label><input type="radio" v-model="status" value="1" style="margin-top: 0px" checked>发布</label>
+                        <label><input type="radio" v-model="status" value="0" style="margin-top: 0px">草稿</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">是否允许评论:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="radio">
+                        <label><input type="radio" v-model="enable_comment" value="1" style="margin-top: 0px" checked>是</label>
+                        <label><input type="radio" v-model="enable_comment" value="0" style="margin-top: 0px">否</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group layer-footer">
+                <label class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-8">
+                    <button type="submit" class="btn btn-success btn-embossed" @click='submit'>确定</button>
+                    <button type="reset" class="btn btn-default btn-embossed" @click='reset'>重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="backend/layout/js">
+</html>
+<script src="/backend/js/plugins/editor/editormd.min.js"></script>
+<script src="/backend/js/plugins/tagsinput/bootstrap-tagsinput.min.js"></script>
+<script>
+
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+    axios.interceptors.request.use(function (config) {
+        layer.load(1, {
+            shade: [0.2, '#fff'] //0.1透明度的白色背景
+        });
+        return config;
+    }, function (err) {
+        layer.alert('未知错误，请刷新重试！');
+    });
+
+
+    new Vue({
+        el: "#app",
+        data: {
+            id: '',
+            title: '',
+            category_id: '',
+            categoryList: '',
+            file: '',
+            status: 1,
+            enable_comment: 1,
+            MdEditor: null,
+            category_txt: '',
+            content: ''
+        },
+        methods: {
+            changeType: function () {
+                this.category_txt = sel.options[sel.selectedIndex].text;
+            },
+            submit: function () {
+                let that = $;
+                axios({
+                    url: "/admin/content/article/update",
+                    method: "put",
+                    data: {
+                        id: this.id,
+                        name: this.name,
+                        title: this.title,
+                        categoryId: this.category_id,
+                        image: this.file,
+                        status: this.status,
+                        enableComment: this.enable_comment,
+                        tag: that('#tagsinputval').val(),
+                        content: this.MdEditor.getMarkdown(),
+                        categoryTitle: this.category_txt
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    let index = parent.layer.getFrameIndex(window.name);
+
+                    if (data.code === 2) {
+                        layer.closeAll('loading'); //关闭加载层
+                        let errorMessage = data.data;
+                        let stringMessage = '';
+                        for (let i = 0; i < errorMessage.length; i++) {
+                            stringMessage += i + 1 + ". " + errorMessage[i] + "</br>";
+                        }
+
+                        layer.alert(stringMessage, {
+                            icon: 2,
+                        })
+                    } else if (data.code === 0) {
+                        layer.closeAll('loading'); //关闭加载层
+                        //初体验
+                        layer.alert('数据交互成功！', {
+                            icon: 1,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    } else if (data.code === 1) {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            window.parent.reset();
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    }
+
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(error.response.data.msg,
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
+            },
+            reset: function () {
+                this.name = '';
+            },
+            getCategory: function () {
+                let that = this;
+                //获得栏目
+                axios({
+                    url: "/admin/content/category/index",
+                    method: "post",
+                    data: {
+                        limit: 9999,   //页面大小
+                        page: 1,  //页码
+                    }
+                }).then(function (response) {
+                    let index = parent.layer.getFrameIndex(window.name);
+
+                    if (response.data.data !== "undefined") {
+                        //那就是成功的
+                        that.categoryList = response.data.rows;
+                        layer.closeAll('loading'); //关闭加载层
+                    } else {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            parent.layer.close(index); //再执行关闭
+                        })
+                    }
+                    let id = that.getUrlKey("id");
+                    that.initData(id)
+                }).catch(function (error) {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(error.response.data.msg,
+                        {
+                            icon: 2,
+                        }
+                    )
+                })
+            },
+            image: function () {
+                $('#file').click();
+            },
+            upload: function () {
+                let formData = new window.FormData()
+                let that = this;
+                let $$ = $;
+                formData.append('file', document.querySelector('input[type=file]').files[0]);
+                axios({
+                    url: '/admin/upload',
+                    data: formData,
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function (response) {
+                    let data = response.data;
+                    if (data.code === 0) {
+                        that.file = data.data;
+                        //这里要显示图片
+                        $$("#p-image").show();
+                        $$('#upload-img').attr('src', data.data);
+                        $$('#upload-a').attr('href', data.data);
+                        layer.closeAll('loading'); //关闭加载层
+                    } else {
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.alert(data.msg, {
+                            icon: 2,
+                        }, function () {
+                            layer.closeAll();
+                        })
+                    }
+                })
+            },
+            initData: function (id) {
+                let that = this;
+                let qs = Qs;
+                let $$ = $;
+                axios({
+                    url: "/admin/content/article/update/",
+                    method: "post",
+                    data: qs.stringify({
+                        id: id,
+                    })
+                }).then(function (response) {
+                    layer.closeAll('loading'); //关闭加载层
+                    let data = response.data;
+                    that.name = data.data.name;
+                    that.title = data.data.title;
+                    that.category_id = data.data.categoryId;
+                    that.file = data.data.image;
+                    that.status = data.data.status;
+                    that.enable_comment = data.data.enableComment;
+                    //这里要显示图片
+                    $$("#p-image").show();
+                    $$('#upload-img').attr('src', data.data.image);
+                    $$('#upload-a').attr('href', data.data.image);
+                    $$("#tagsinputval").tagsinput('add', data.data.tag);
+                    that.content = data.data.content;
+                    that.id = data.data.id;
+
+                    that.MdEditor = editormd("editor", {
+                        width: "65%",
+                        height: 640,
+                        path: "/backend/js/plugins/editor/lib/",
+                        emoji: true,
+                        imageUpload: true,
+                        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL: "./php/upload.php",
+                        //htmlDecode: "style,script,iframe|on*",
+                        saveHTMLToTextarea: true
+                    });
+                }).catch(function () {
+                    layer.closeAll('loading'); //关闭加载层
+                    //初体验
+                    layer.alert('数据交互失败！', {
+                        icon: 2,
+                    })
+                })
+            },
+            getUrlKey: function (name) {
+                return decodeURIComponent(
+                    (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
+            }
+        },
+        mounted: function () {
+            this.getCategory();
+        }
+    });
+</script>
 </body>
 </html>

@@ -9,12 +9,12 @@ window.operateEvents = {
             shade: 0.2,
             maxmin: true, //开启最大化最小化按钮
             area: ['900px', '600px'],
-            content: '/admin/content/category/update?id=' + id,
+            content: '/admin/content/article/update?id=' + id,
         });
     },
     'click .btn-del-one': function (e, value, row, index) {
         let id = row.id;
-        deleteData("/admin/content/category/delete", [id]);
+        deleteData("/admin/content/article/delete", [id]);
     },
 };
 
@@ -120,9 +120,9 @@ new Vue({
                     let status = row.status;
                     let status1;
                     if (status === 1) {
-                        status1 = ['<span class="text-primary"><i class="fa fa-circle"></i> 草稿</span> '].join('')
-                    } else if (status === 0) {
                         status1 = ['<span class="text-info"><i class="fa fa-circle"></i> 发布</span> '].join('')
+                    } else if (status === 0) {
+                        status1 = ['<span class="text-primary"><i class="fa fa-circle"></i> 草稿</span> '].join('')
                     }
                     return status1;
                 }
@@ -135,9 +135,9 @@ new Vue({
                     let enable_comment = row.enable_comment;
                     let status;
                     if (enable_comment === 1) {
-                        status = ['<span class="text-primary"><i class="fa fa-circle"></i> 禁用</span> '].join('')
-                    } else if (enable_comment === 0) {
                         status = ['<span class="text-info"><i class="fa fa-circle"></i> 启动</span> '].join('')
+                    } else if (enable_comment === 0) {
+                        status = ['<span class="text-primary"><i class="fa fa-circle"></i> 禁用</span> '].join('')
                     }
                     return status;
                 }
@@ -205,7 +205,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/content/category/add'
+                content: '/admin/content/article/add'
             });
         },
         btnEdit: function () {
@@ -232,7 +232,7 @@ new Vue({
                 shade: 0.2,
                 maxmin: true, //开启最大化最小化按钮
                 area: ['900px', '600px'],
-                content: '/admin/content/category/update?id=' + id,
+                content: '/admin/content/article/update?id=' + id,
             });
         },
         btnDel: function () {
@@ -248,7 +248,7 @@ new Vue({
             for (let i = 0; i < arrselections.length; i++) {
                 delArr.push(arrselections[i]['id'])
             }
-            deleteData("/admin/content/category/delete", delArr);
+            deleteData("/admin/content/article/delete", delArr);
         },
         btnRest: function () {
             $("#table").bootstrapTable('refresh');
