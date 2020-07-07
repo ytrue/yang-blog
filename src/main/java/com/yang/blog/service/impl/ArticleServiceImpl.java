@@ -127,7 +127,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     article.getCategoryId(),
                     article.getImage(),
                     tagList,
-                    article.getCreateTime()
+                    article.getCreateTime(),
+                    article.getStatus()
             );
             esArticleRepository.save(esArticle);
             return ResponseData.success();
@@ -212,7 +213,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     article.getCategoryId(),
                     article.getImage(),
                     tagList,
-                    article1.getCreateTime());
+                    article1.getCreateTime(),
+                    article.getStatus()
+            );
 
             esArticleRepository.save(esArticle);
 

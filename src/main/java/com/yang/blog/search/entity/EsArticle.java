@@ -35,4 +35,6 @@ public class EsArticle {
     @Field(type = FieldType.Date)
     private Date createTime;
 
+    @Field(type = FieldType.Keyword)
+    private Integer status;
 }
