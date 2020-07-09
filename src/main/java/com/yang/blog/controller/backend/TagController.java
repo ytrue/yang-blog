@@ -31,7 +31,7 @@ public class TagController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(QueryCondition queryCondition) {
+    public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
         return tagService.queryPage(queryCondition);
     }
 

@@ -35,7 +35,7 @@ public class AdminController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(QueryCondition queryCondition) {
+    public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
         return adminService.queryPage(queryCondition);
     }
 

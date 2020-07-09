@@ -33,7 +33,7 @@ public class RoleController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(QueryCondition queryCondition) {
+    public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
         return roleService.queryPage(queryCondition);
     }
 

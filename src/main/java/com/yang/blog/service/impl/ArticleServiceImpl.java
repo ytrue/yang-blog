@@ -14,7 +14,10 @@ import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.BindingResult;
@@ -23,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import static java.util.stream.Collectors.toList;
 
@@ -41,6 +43,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private DataSourceTransactionManager dataSourceTransactionManager;
+
+    @Autowired
+    private TransactionDefinition transactionDefinition;
 
     /**
      * 分页查询
@@ -194,16 +202,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             }
 
             if (!getDiffMaps.isEmpty()) {
-                getDiffMaps.forEach(new Consumer<Map<String, Object>>() {
-                    @Override
-                    public void accept(Map<String, Object> map) {
-                        long number = Long.parseLong(String.valueOf(map.get("number")));
-                        if (number == 1L) {
-                            //删除
-                            tagMapper.delete(new QueryWrapper<Tag>().eq("name", map.get("name")));
-                        } else {
-                            tagMapper.setDecByNumber(String.valueOf(map.get("name")));
-                        }
+                getDiffMaps.forEach(map -> {
+                    long number = Long.parseLong(String.valueOf(map.get("number")));
+                    if (number == 1L) {
+                        //删除
+                        tagMapper.delete(new QueryWrapper<Tag>().eq("name", map.get("name")));
+                    } else {
+                        tagMapper.setDecByNumber(String.valueOf(map.get("name")));
                     }
                 });
             }
@@ -246,6 +251,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     }
 
+
     /**
      * id删除
      *
@@ -254,15 +260,40 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      */
     @Override
     public ResponseData<Object> del(List<Long> ids) {
+        //手动开启事务
+        TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
         //先删除mysql的，再删除elasticsearch的
         try {
+            //把tag 转换成list，合并，但是不要去重，之后统计数量，去判断
+            List<String> tagList = list(new QueryWrapper<Article>().select("tag").in("id", ids)).stream().map(Article::getTag).collect(toList());
+
+            List<String> newTagList = new ArrayList<>();
+            tagList.forEach(s -> {
+                String[] tagArr = s.split(",");
+                List<String> list = new ArrayList<>(tagArr.length);
+                Collections.addAll(list, tagArr);
+                newTagList.addAll(list);
+            });
+
+            newTagList.forEach(s -> {
+                Tag tag = tagMapper.selectOne(new QueryWrapper<Tag>().eq("name", s));
+                Integer number = tag.getNumber();
+                if (number == 1) {
+                    //删除
+                    tagMapper.delete(new QueryWrapper<Tag>().eq("name", s));
+                } else {
+                    tagMapper.setDecByNumber(String.valueOf(s));
+                }
+            });
             removeByIds(ids);
+            //手动提交事务
+            dataSourceTransactionManager.commit(transactionStatus);
             //删除elasticsearch的
             ids.forEach(aLong -> esArticleRepository.deleteById(aLong));
-            //还要判断删除tag
-
             return ResponseData.success();
         } catch (Exception e) {
+            //手动回滚事务
+            dataSourceTransactionManager.rollback(transactionStatus);
             return ResponseData.fail(e.getMessage());
         }
     }
