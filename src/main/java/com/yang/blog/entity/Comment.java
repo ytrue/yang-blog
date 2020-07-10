@@ -1,15 +1,15 @@
 package com.yang.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@TableName("blog_comment")
+@Data
 public class Comment {
 
     /**
@@ -86,4 +86,9 @@ public class Comment {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+
+    public Comment(Integer id, Integer commentStatus) {
+        this.id = id;
+        this.commentStatus = commentStatus;
+    }
 }
