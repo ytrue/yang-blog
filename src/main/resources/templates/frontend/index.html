@@ -1,0 +1,135 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="frontend/header">
+</html>
+<header class="intro-header"
+        style="background-image:url(/frontend/amaze/images/header.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+          <span class="subheading">
+              我不怕千万人阻挡，只怕自己投降
+          </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="am-g am-g-fixed blog-fixed">
+    <div class="am-u-lg-8 am-u-sm-12">
+        <main class="articles-list">
+            <div>
+
+                <article class="am-g blog-entry-article">
+                    <div class="am-u-lg-6 am-u-lg-12 am-u-sm-12 blog-entry-text post-preview">
+                        <div class="topic-header">
+                            <div class="pull-left">
+                                <div class="blog-flex-center">
+                                    <div class="blog-flex0">
+                                        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1594643700213&di=3f0f706e67dad3ce50db240b420a6950&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F86%2F10%2F01300000184180121920108394217.jpg" alt=""
+                                             class="link avatar avatar-image">
+                                    </div>
+                                    <div class="author-lockup blog-flex1">
+                                        <a class="link" href="javascript:;">Yang</a>
+                                        <span class="in">in</span>
+                                        <span class="category-name">
+                                <a class="category-name" rel="tag" href="/category/About">About</a>
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="pull-right time pc_time">2017-03-12</span>
+                        </div>
+                        <h1 class="post-index-title"><a itemtype="url" href="/blog/1">
+                            我是十三
+                        </a>
+                        </h1>
+                        <div class="post-content-preview article-body">
+                            <a href="/blog/1">
+                                <img src="/admin/dist/img/rand/33.jpg" alt=""></a>
+                        </div>
+                        <div class="clearfix topic-footer">
+                            <span class="pull-left time mobile_time">2018-01</span>
+                        </div>
+                </article>
+
+
+                <ul class="am-pagination">
+                    <li class="disabled"><a
+                            href="##">&laquo;</a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li class="disabled">
+                        <a href="##">&raquo;</a>
+                    </li>
+                </ul>
+
+            </div>
+        </main>
+    </div>
+    <div class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container">
+        <section>
+            <section>
+                <div class="sidebar-header">
+                <span class="sidebar-header-title">
+                    搜索文章
+                </span>
+                </div>
+                <div class="sidebar-search">
+                    <form method="get" onsubmit="return false;" accept-charset="utf-8">
+                        <div class="search-input">
+                            <input type="text" name="keyword" id="searchbox" placeholder="输入关键字搜索">
+                            <button type="submit" class="search-submit" onclick="search()"></button>
+                            <div>
+                    </form>
+                </div>
+            </section>
+            <section>
+                <div class="sidebar-header">
+                <span class="sidebar-header-title">
+                    热门标签
+                </span>
+                </div>
+                <div class="tags ">
+
+                    <a rel="tag" href="/tag/世界上有一个很可爱的人">
+                        世界上有一个很可爱的人(1)</a>
+
+                </div>
+            </section>
+            <section>
+                <div class="sidebar-header">
+                <span class="sidebar-header-title">
+                    最新发布
+                </span>
+                </div>
+                <div class="sidebar-list">
+                    <ul class="sidebar-list-body sidebar-list-items">
+
+                        <li class="sidebar-list-item"><a href="/blog/4"
+                                                         class="tag tooltipped tooltipped-n">
+                            SpringBoot系列教程
+                        </a></li>
+
+                    </ul>
+                </div>
+            </section>
+            <section>
+                <div class="sidebar-header">
+                <span class="sidebar-header-title">
+                    点击最多
+                </span>
+                </div>
+                <main class="sidebar-lists">
+                    <ul>
+                        <li class="sidebar-list-item"><a class="tag tooltipped tooltipped-n"
+                                                         href="/blog/1">
+                            我是Yang
+                        </a></li>
+                    </ul>
+                </main>
+            </section>
+    </div>
+</div>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="frontend/footer">
+</html>
