@@ -14,7 +14,7 @@ import java.util.Random;
  * @date: 2019/10/13 0013 15:25
  */
 @Slf4j
-public class PasswordUtils {
+public class PasswordUtil {
 
     /**
      * 校验密码是否一致

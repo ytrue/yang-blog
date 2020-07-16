@@ -13,7 +13,7 @@ import java.util.Map;
  * @date 2020/6/16 17:05
  * @description：反射工具类
  */
-public class ReflectionUtils {
+public class ReflectionUtil {
 
     /**
      * 通过字段名从对象或对象的父类中得到字段的值（调用字典的get方法，可以取出复杂的对象的值）

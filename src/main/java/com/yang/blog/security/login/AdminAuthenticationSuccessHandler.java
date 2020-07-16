@@ -2,7 +2,7 @@ package com.yang.blog.security.login;
 
 
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.ResponseUtils;
+import com.yang.blog.util.ResponseUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -28,6 +28,6 @@ public class AdminAuthenticationSuccessHandler implements AuthenticationSuccessH
         HttpSession session = request.getSession();
         session.removeAttribute("RANDOMREDISKEY");
 
-        ResponseUtils.out(response,ResponseData.success());
+        ResponseUtil.out(response,ResponseData.success());
     }
 }

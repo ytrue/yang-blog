@@ -2,7 +2,7 @@ package com.yang.blog.controller.backend;
 
 import com.yang.blog.entity.Article;
 import com.yang.blog.service.IArticleService;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,13 +28,13 @@ public class ArticleController {
     /**
      * 排序分页查询
      *
-     * @param queryCondition
+     * @param queryParam
      * @return
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(@RequestBody BaseQueryParam queryCondition) {
-        return articleService.queryPage(queryCondition);
+    public Map<String, Object> index(@RequestBody QueryParam queryParam) {
+        return articleService.queryPage(queryParam);
     }
 
     /**

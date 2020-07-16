@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.dto.RoleDto;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.entity.AdminRole;
@@ -13,9 +13,10 @@ import com.yang.blog.mapper.AdminMapper;
 import com.yang.blog.service.IAdminRoleService;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.service.IRoleService;
-import com.yang.blog.util.PasswordUtils;
+import com.yang.blog.util.PasswordUtil;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.VerificationJudgementUtils;
+import com.yang.blog.util.SearchUtil;
+import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,16 +48,16 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(BaseQueryParam params) {
-
+    public Map<String, Object> queryPage(QueryParam params) {
+        QueryWrapper<Admin> queryWrapper = SearchUtil.parseWhereSql(new QueryWrapper<>(), params.getCondition());
+        int count = count(queryWrapper);
         List<Map<String, Object>> rows = listMaps(
-                new QueryWrapper<Admin>()
-                        .select("id", "username", "nick_name", "create_time")
+                queryWrapper.select("id", "username", "nick_name", "create_time")
                         .orderByDesc("id")
                         .last(params.getPageSql())
-        );
 
-        return ResponseData.list(count(), rows);
+        );
+        return ResponseData.list(count, rows);
     }
 
     /**
@@ -68,14 +69,14 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      */
     @Override
     public ResponseData<Object> add(Admin admin, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
         try {
             //密码加密
-            String salt = PasswordUtils.generateSalt(3, 3);
-            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(), salt));
+            String salt = PasswordUtil.generateSalt(3, 3);
+            admin.setPassword(PasswordUtil.encodePassword(admin.getUsername(), salt));
             admin.setSalt(salt);
 
             save(admin);
@@ -94,7 +95,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      */
     @Override
     public ResponseData<Object> update1(Admin admin, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -104,8 +105,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             admin.setPassword(null);
         } else {
             //这里要加密的
-            String salt = PasswordUtils.generateSalt(3, 3);
-            admin.setPassword(PasswordUtils.encodePassword(admin.getUsername(), salt));
+            String salt = PasswordUtil.generateSalt(3, 3);
+            admin.setPassword(PasswordUtil.encodePassword(admin.getUsername(), salt));
             admin.setSalt(salt);
         }
         try {

@@ -12,9 +12,9 @@ import com.yang.blog.service.IAdminRoleService;
 import com.yang.blog.service.IPermissionService;
 import com.yang.blog.service.IRoleMenuService;
 import com.yang.blog.service.IRoleService;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.VerificationJudgementUtils;
+import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,7 +119,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(BaseQueryParam params) {
+    public Map<String, Object> queryPage(QueryParam params) {
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Role>()
                         .select("id", "code", "name", "create_time")
@@ -155,7 +155,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      */
     @Override
     public ResponseData<Object> add(Role role, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -176,7 +176,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      */
     @Override
     public ResponseData<Object> update1(Role role, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

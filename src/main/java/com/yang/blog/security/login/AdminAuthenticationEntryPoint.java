@@ -2,11 +2,9 @@ package com.yang.blog.security.login;
 
 import com.yang.blog.util.IsAjaxUtils;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.ResponseUtils;
+import com.yang.blog.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +32,7 @@ public class AdminAuthenticationEntryPoint implements AuthenticationEntryPoint {
         if (IsAjaxUtils.isAjax(request)) {
             //返回错误提示
             log.info("AdminAuthenticationEntryPoint触发：返回json！");
-            ResponseUtils.out(response, ResponseData.fail(403, e.getMessage()));
+            ResponseUtil.out(response, ResponseData.fail(403, e.getMessage()));
         } else {
             //挑战到登录页面
             log.info("AdminAuthenticationEntryPoint触发：跳转登录页！");

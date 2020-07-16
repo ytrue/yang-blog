@@ -2,7 +2,7 @@ package com.yang.blog.security.login;
 
 import com.yang.blog.security.dto.SecurityUser;
 import com.yang.blog.service.impl.UserDetailsServiceImpl;
-import com.yang.blog.util.PasswordUtils;
+import com.yang.blog.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -35,7 +35,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
 
 
         SecurityUser userInfo = (SecurityUser) userDetailsService.loadUserByUsername(userName);
-        boolean isValid = PasswordUtils.isValidPassword(password, userInfo.getPassword(), userInfo.getCurrentUserInfo().getSalt());
+        boolean isValid = PasswordUtil.isValidPassword(password, userInfo.getPassword(), userInfo.getCurrentUserInfo().getSalt());
         // 验证密码
         if (!isValid) {
             throw new BadCredentialsException("密码错误！");

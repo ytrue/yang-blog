@@ -1,7 +1,7 @@
 package com.yang.blog.validator;
 
 import com.yang.blog.exeption.CustomVerificationException;
-import com.yang.blog.util.ReflectionUtils;
+import com.yang.blog.util.ReflectionUtil;
 import lombok.SneakyThrows;
 import org.springframework.util.StringUtils;
 
@@ -44,9 +44,9 @@ public class IsEmptyPwdValidator implements ConstraintValidator<IsEmptyPwd, Obje
     @Override
     public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 
-        Integer reflectionId = (Integer) ReflectionUtils.getValueOfGetIncludeObjectFeild(object, "id");
+        Integer reflectionId = (Integer) ReflectionUtil.getValueOfGetIncludeObjectFeild(object, "id");
 
-        String reflectionPassword = (String) ReflectionUtils.getValueOfGetIncludeObjectFeild(object, field);
+        String reflectionPassword = (String) ReflectionUtil.getValueOfGetIncludeObjectFeild(object, field);
 
         if (null == reflectionId) {
             //等于空就是新增，新增要验证一下

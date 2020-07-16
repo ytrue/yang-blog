@@ -138,7 +138,13 @@ new Vue({
                 //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 // 如果queryParamsType=limit,params包含{limit, offset, search, sort, order}
                 // 如果queryParamsType!=limit,params包含{pageSize, pageNumber, searchText, sortName, sortOrder}
+
+                let searchParam = [
+                    {column: "username", type: "like", value: "admin"},
+                ];
+
                 return {
+                    condition: JSON.stringify(searchParam),
                     limit: params.pageSize,   //页面大小
                     page: params.pageNumber,  //页码
                 };
@@ -146,7 +152,7 @@ new Vue({
             queryParamsType: '',                //如果要在oTableInit.queryParams方法获取pageNumber和pageSize的值，需要将此值设置为空字符串（*）
             sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
             pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 10,                       //每页的记录行数（*）
+            pageSize: 1,                       //每页的记录行数（*）
             pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
             strictSearch: true,
             showColumns: true,                  //是否显示所有的列
@@ -217,7 +223,6 @@ new Vue({
         btnRest: function () {
             $("#table").bootstrapTable('refresh');
         },
-
     },
     mounted: function () {
     }

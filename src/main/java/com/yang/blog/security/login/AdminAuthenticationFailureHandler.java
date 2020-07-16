@@ -1,9 +1,7 @@
 package com.yang.blog.security.login;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.ResponseUtils;
+import com.yang.blog.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * <p> 认证失败处理 - 前后端分离情况下返回json数据格式 </p>
@@ -49,7 +46,7 @@ public class AdminAuthenticationFailureHandler implements AuthenticationFailureH
             json = jsonData(5, "登录失败!");
         }
         //返回数据
-        ResponseUtils.out(response, json);
+        ResponseUtil.out(response, json);
     }
     private ResponseData<Object> jsonData(int code, String message) {
         return ResponseData.fail(code, message);

@@ -7,7 +7,7 @@ import com.yang.blog.security.login.AdminAuthenticationSuccessHandler;
 import com.yang.blog.security.login.CusAuthenticationManager;
 import com.yang.blog.util.MultiReadHttpServletRequest;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.ResponseUtils;
+import com.yang.blog.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -71,7 +71,7 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
             if (!CollectionUtils.isEmpty(validateSet)) {
                 ArrayList<String> errorList = new ArrayList<>();
                 validateSet.forEach(adminLoginConstraintViolation -> errorList.add(adminLoginConstraintViolation.getMessageTemplate()));
-                ResponseUtils.out(response, ResponseData.fail(2, "error", errorList));
+                ResponseUtil.out(response, ResponseData.fail(2, "error", errorList));
                 return null;
             }
             authRequest = new UsernamePasswordAuthenticationToken(adminLogin.getUsername(), adminLogin.getPassword(), null);

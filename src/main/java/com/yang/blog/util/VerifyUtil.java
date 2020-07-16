@@ -10,8 +10,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-
-public class VerifyUtils {
+/**
+ * <p> 图片验证码</p>
+ *
+ * @author : zhengqing
+ * @description :
+ * @date : 2019/10/12 15:42
+ */
+public class VerifyUtil {
     static final String RANDOMCODEKEY = "RANDOMREDISKEY";//放到session中的key
     final String randString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";//随机产生数字与字母组合的字符串
     final int width = 95;// 图片宽

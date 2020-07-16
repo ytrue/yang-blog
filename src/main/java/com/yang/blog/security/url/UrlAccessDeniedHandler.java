@@ -2,7 +2,7 @@ package com.yang.blog.security.url;
 
 import com.yang.blog.util.IsAjaxUtils;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.ResponseUtils;
+import com.yang.blog.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -31,7 +31,7 @@ public class UrlAccessDeniedHandler implements AccessDeniedHandler {
         if (IsAjaxUtils.isAjax(request)) {
             //返回错误提示
             log.info("UrlAccessDeniedHandler触发：返回json！");
-            ResponseUtils.out(response, ResponseData.fail(403, e.getMessage()));
+            ResponseUtil.out(response, ResponseData.fail(403, e.getMessage()));
         } else {
             request.getRequestDispatcher("/403.html").forward(request,response);
         }

@@ -1,6 +1,6 @@
 package com.yang.blog.controller.backend;
 
-import com.yang.blog.util.VerifyUtils;
+import com.yang.blog.util.VerifyUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +41,7 @@ public class LoginController {
         response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expire", 0);
-        VerifyUtils randomValidateCode = new VerifyUtils();
+        VerifyUtil randomValidateCode = new VerifyUtil();
         randomValidateCode.getRandcode(request, response);//输出验证码图片
 
         System.out.println((String)request.getSession().getAttribute("RANDOMREDISKEY"));

@@ -2,7 +2,7 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Comment;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface ICommentService extends IService<Comment> {
      * @param queryCondition
      * @return
      */
-    Map<String, Object> queryPage(BaseQueryParam queryCondition);
+    Map<String, Object> queryPage(QueryParam queryCondition);
 
     /**
      * id删除

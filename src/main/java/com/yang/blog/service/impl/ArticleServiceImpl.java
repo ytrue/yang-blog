@@ -11,9 +11,9 @@ import com.yang.blog.search.entity.EsArticle;
 import com.yang.blog.search.repository.EsArticleRepository;
 import com.yang.blog.service.IArticleService;
 import com.yang.blog.service.ITagService;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.VerificationJudgementUtils;
+import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
@@ -58,7 +58,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(BaseQueryParam params) {
+    public Map<String, Object> queryPage(QueryParam params) {
 
         //获得页码
         Long page = params.getPage();
@@ -82,7 +82,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData<Object> add(Article article, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -159,7 +159,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData<Object> update1(Article article, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

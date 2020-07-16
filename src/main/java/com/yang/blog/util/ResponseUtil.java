@@ -6,18 +6,14 @@ import javax.servlet.ServletResponse;
 import java.io.PrintWriter;
 
 /**
+ * 使用response输出JSON
+ *
  * @author：yangyi
  * @date：2020/5/17 8:09
  * @description：
  */
-public class ResponseUtils {
+public class ResponseUtil {
 
-    /**
-     * 使用response输出JSON
-     *
-     * @param response
-     * @param result
-     */
     public static void out(ServletResponse response, ResponseData<Object> result) {
         PrintWriter out = null;
         try {

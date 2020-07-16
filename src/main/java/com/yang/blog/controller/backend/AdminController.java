@@ -1,7 +1,7 @@
 package com.yang.blog.controller.backend;
 
 
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.util.ResponseData;
@@ -30,13 +30,14 @@ public class AdminController {
     /**
      * 排序分页查询
      *
-     * @param queryCondition
+     * @param queryParam
      * @return
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(@RequestBody BaseQueryParam queryCondition) {
-        return adminService.queryPage(queryCondition);
+    public Map<String, Object> index(@RequestBody QueryParam queryParam) {
+        System.out.println(queryParam);
+        return adminService.queryPage(queryParam);
     }
 
     /**

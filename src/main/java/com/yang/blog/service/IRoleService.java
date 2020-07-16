@@ -2,7 +2,7 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Role;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.validation.BindingResult;
 
@@ -33,7 +33,7 @@ public interface IRoleService extends IService<Role> {
      * @param params
      * @return
      */
-    Map<String, Object> queryPage(BaseQueryParam params);
+    Map<String, Object> queryPage(QueryParam params);
 
     /**
      * 获得所有数据

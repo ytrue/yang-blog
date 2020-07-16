@@ -2,12 +2,13 @@ package com.yang.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.entity.Category;
 import com.yang.blog.mapper.CategoryMapper;
 import com.yang.blog.service.ICategoryService;
-import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.VerificationJudgementUtils;
+import com.yang.blog.util.SearchUtil;
+import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -30,19 +31,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(BaseQueryParam params) {
+    public Map<String, Object> queryPage(QueryParam params) {
+        QueryWrapper<Category> queryWrapper = SearchUtil.parseWhereSql(new QueryWrapper<>(), params.getCondition());
+        int count = count(queryWrapper);
         List<Map<String, Object>> rows = listMaps(
-                new QueryWrapper<Category>()
+                queryWrapper
                         .select("id", "name", "create_time")
                         .orderByDesc("id")
                         .last(params.getPageSql())
         );
-        return ResponseData.list(count(), rows);
+        return ResponseData.list(count, rows);
     }
 
     @Override
     public ResponseData<Object> add(Category category, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -69,7 +72,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public ResponseData<Object> update1(Category category, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

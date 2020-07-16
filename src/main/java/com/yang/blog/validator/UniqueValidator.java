@@ -2,7 +2,7 @@ package com.yang.blog.validator;
 
 import com.yang.blog.exeption.CustomVerificationException;
 import com.yang.blog.mapper.CommonMapper;
-import com.yang.blog.util.ReflectionUtils;
+import com.yang.blog.util.ReflectionUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,8 +45,8 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
         //反射获得字段的值
-        Object reflectionField = ReflectionUtils.getValueOfGetIncludeObjectFeild(o, field);
-        Object reflectionId = ReflectionUtils.getValueOfGetIncludeObjectFeild(o, id);
+        Object reflectionField = ReflectionUtil.getValueOfGetIncludeObjectFeild(o, field);
+        Object reflectionId = ReflectionUtil.getValueOfGetIncludeObjectFeild(o, id);
         //判断id是为空，为空的话就是新增，不为空就是新增
         if (null == reflectionId) {
             int exist = commonMapper.exist(table, field, (String) reflectionField);

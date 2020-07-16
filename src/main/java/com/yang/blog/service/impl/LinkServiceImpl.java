@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Link;
 import com.yang.blog.mapper.LinkMapper;
 import com.yang.blog.service.ILinkService;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
-import com.yang.blog.util.VerificationJudgementUtils;
+import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -24,7 +24,7 @@ import java.util.Map;
 public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements ILinkService {
 
     @Override
-    public Map<String, Object> queryPage(BaseQueryParam queryCondition) {
+    public Map<String, Object> queryPage(QueryParam queryCondition) {
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Link>()
                         .select(
@@ -45,7 +45,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements IL
 
     @Override
     public ResponseData<Object> add(Link link, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }
@@ -76,7 +76,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements IL
 
     @Override
     public ResponseData<Object> update1(Link link, BindingResult bindingResult) {
-        ArrayList<String> errorList = VerificationJudgementUtils.hasErrror(bindingResult);
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
         if (!errorList.isEmpty()) {
             return ResponseData.fail(2, "error", errorList);
         }

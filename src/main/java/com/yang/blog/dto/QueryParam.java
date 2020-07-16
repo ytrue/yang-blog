@@ -8,7 +8,12 @@ import lombok.Data;
  * @description：spring 基础查询参数
  */
 @Data
-public class BaseQueryParam {
+public class QueryParam {
+
+    /**
+     * 查询条件
+     */
+    private String condition;
 
     /**
      * 页码

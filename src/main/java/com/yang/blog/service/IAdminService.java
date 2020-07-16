@@ -2,7 +2,7 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Admin;
-import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.validation.BindingResult;
 
@@ -17,7 +17,7 @@ public interface IAdminService extends IService<Admin> {
      * @param params
      * @return
      */
-    Map<String, Object> queryPage(BaseQueryParam params);
+    Map<String, Object> queryPage(QueryParam params);
 
 
     /**
