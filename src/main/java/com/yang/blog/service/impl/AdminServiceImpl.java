@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yang.blog.dto.BaseQueryParam;
+import com.yang.blog.dto.RoleDto;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.entity.AdminRole;
 import com.yang.blog.entity.Role;
@@ -12,7 +14,6 @@ import com.yang.blog.service.IAdminRoleService;
 import com.yang.blog.service.IAdminService;
 import com.yang.blog.service.IRoleService;
 import com.yang.blog.util.PasswordUtils;
-import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(QueryCondition params) {
+    public Map<String, Object> queryPage(BaseQueryParam params) {
 
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Admin>()
@@ -57,7 +58,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
         return ResponseData.list(count(), rows);
     }
-
 
     /**
      * 添加数据
@@ -147,12 +147,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public ResponseData<Object> myRole(Long id) {
         List<Map<String, Object>> notOwnedRole;
         //根据id获得自己的角色
-        List<Map<String, Object>> myRole = adminMapper.roleFindByIdAdmin(id);
+        List<RoleDto> myRole = adminMapper.roleFindByIdAdmin(id);
+
         if (myRole.isEmpty()) {
             notOwnedRole = roleService.all();
         } else {
             //通过stream流取出map中的id
-            List<Object> ids = myRole.stream().map(map -> map.get("id")).collect(Collectors.toList());
+            List<Integer> ids = myRole.stream().map(RoleDto::getId).collect(Collectors.toList());
             notOwnedRole = roleService.listMaps(
                     new QueryWrapper<Role>()
                             .notIn("id", ids)
@@ -160,7 +161,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
                             .select("id", "name", "code")
             );
         }
-        HashMap<String, List<Map<String, Object>>> rstMap = new HashMap<>();
+
+        HashMap<String, Object> rstMap = new HashMap<>();
         rstMap.put("my_role", myRole);
         rstMap.put("not_owned_role", notOwnedRole);
         return ResponseData.success(rstMap);

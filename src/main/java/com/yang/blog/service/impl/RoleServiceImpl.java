@@ -12,7 +12,7 @@ import com.yang.blog.service.IAdminRoleService;
 import com.yang.blog.service.IPermissionService;
 import com.yang.blog.service.IRoleMenuService;
 import com.yang.blog.service.IRoleService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +119,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(QueryCondition params) {
+    public Map<String, Object> queryPage(BaseQueryParam params) {
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Role>()
                         .select("id", "code", "name", "create_time")

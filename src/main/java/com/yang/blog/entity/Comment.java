@@ -10,7 +10,7 @@ import java.util.Date;
 
 @TableName("blog_comment")
 @Data
-public class Comment {
+public class Comment extends BaseEntity {
 
     /**
      * 主键
@@ -73,19 +73,6 @@ public class Comment {
     @TableField(value = "reply_create_time")
     @NotNull(message = "审核状态不得为空！")
     private Integer commentStatus;
-
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
-
 
     public Comment(Integer id, Integer commentStatus) {
         this.id = id;

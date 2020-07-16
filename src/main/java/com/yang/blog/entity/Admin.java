@@ -1,12 +1,14 @@
 package com.yang.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.yang.blog.validator.IsEmptyPwd;
 import com.yang.blog.validator.Unique;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 /**
  * @author yangyi
@@ -17,7 +19,7 @@ import java.util.Date;
 @TableName("sys_admin")
 @Unique(table = "sys_admin", field = "username", message = "此账号已存在！")
 @IsEmptyPwd(message = "密码长度至少是6位，同时有数字和字母！")
-public class Admin {
+public class Admin extends BaseEntity {
 
     /**
      * 主键ID
@@ -56,19 +58,6 @@ public class Admin {
 
     @TableField("token")
     private String token;
-
-    /**
-     * 创建时间
-     */
-
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
 
 
 }

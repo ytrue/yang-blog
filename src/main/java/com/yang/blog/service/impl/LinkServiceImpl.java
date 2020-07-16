@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Link;
 import com.yang.blog.mapper.LinkMapper;
 import com.yang.blog.service.ILinkService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements ILinkService {
 
     @Override
-    public Map<String, Object> queryPage(QueryCondition queryCondition) {
+    public Map<String, Object> queryPage(BaseQueryParam queryCondition) {
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Link>()
                         .select(

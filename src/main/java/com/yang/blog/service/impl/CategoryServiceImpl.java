@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Category;
 import com.yang.blog.mapper.CategoryMapper;
 import com.yang.blog.service.ICategoryService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(QueryCondition params) {
+    public Map<String, Object> queryPage(BaseQueryParam params) {
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Category>()
                         .select("id", "name", "create_time")

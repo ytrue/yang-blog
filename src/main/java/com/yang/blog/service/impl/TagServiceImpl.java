@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.entity.Tag;
 import com.yang.blog.mapper.TagMapper;
 import com.yang.blog.service.ITagService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements ITagS
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(QueryCondition queryCondition) {
+    public Map<String, Object> queryPage(BaseQueryParam queryCondition) {
         List<Map<String, Object>> rows = listMaps(
                 new QueryWrapper<Tag>()
                         //.select("id", "title", "image", "tag")

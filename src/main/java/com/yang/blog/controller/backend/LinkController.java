@@ -2,7 +2,7 @@ package com.yang.blog.controller.backend;
 
 import com.yang.blog.entity.Link;
 import com.yang.blog.service.ILinkService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class LinkController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
+    public Map<String, Object> index(@RequestBody BaseQueryParam queryCondition) {
         return linkService.queryPage(queryCondition);
     }
 

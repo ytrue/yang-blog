@@ -2,7 +2,7 @@ package com.yang.blog.controller.backend;
 
 import com.yang.blog.entity.Category;
 import com.yang.blog.service.ICategoryService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,7 @@ public class CategoryController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
+    public Map<String, Object> index(@RequestBody BaseQueryParam queryCondition) {
         return categoryService.queryPage(queryCondition);
     }
 

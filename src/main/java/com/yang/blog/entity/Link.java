@@ -1,11 +1,13 @@
 package com.yang.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * @author yangyi
@@ -14,9 +16,8 @@ import java.util.Date;
  */
 @TableName("blog_link")
 @Data
-public class Link {
+public class Link extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
 
     /**
      * id
@@ -58,16 +59,4 @@ public class Link {
     @TableField("sort")
     @NotNull(message = "排序不得为空！")
     private Integer sort;
-
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
 }

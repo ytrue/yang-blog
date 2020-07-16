@@ -8,7 +8,7 @@ import com.yang.blog.mapper.ArticleMapper;
 import com.yang.blog.search.entity.EsArticle;
 import com.yang.blog.service.IArticleService;
 import com.yang.blog.service.ITagService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -82,7 +82,7 @@ public class IndexController {
      * @return
      */
     @GetMapping({"index", "/"})
-    public String index(QueryCondition params, Map<String, Object> map) {
+    public String index(BaseQueryParam params, Map<String, Object> map) {
 
         return "frontend/index";
     }

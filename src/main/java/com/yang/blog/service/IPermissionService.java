@@ -2,7 +2,6 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Permission;
-import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import org.springframework.validation.BindingResult;
 

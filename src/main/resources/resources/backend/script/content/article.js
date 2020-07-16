@@ -100,7 +100,7 @@ new Vue({
                 }
             },
             {
-                field: 'category_name',
+                field: 'categoryName',
                 title: '所属栏目'
             },
             {
@@ -128,11 +128,11 @@ new Vue({
                 }
             },
             {
-                field: 'enable_comment',
+                field: 'enableComment',
                 title: '评论状态',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    let enable_comment = row.enable_comment;
+                    let enable_comment = row.enableComment;
                     let status;
                     if (enable_comment === 1) {
                         status = ['<span class="text-info"><i class="fa fa-circle"></i> 启动</span> '].join('')
@@ -143,7 +143,7 @@ new Vue({
                 }
             },
             {
-                field: 'create_time',
+                field: 'createTime',
                 title: '创建时间'
             },
             {

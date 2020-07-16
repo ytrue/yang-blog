@@ -1,10 +1,14 @@
-package com.yang.blog.util;
+package com.yang.blog.dto;
 
 import lombok.Data;
 
+/**
+ * @author：yangyi
+ * @date：2020/4/16 18:03
+ * @description：spring 基础查询参数
+ */
 @Data
-public class QueryCondition {
-
+public class BaseQueryParam {
 
     /**
      * 页码
@@ -22,13 +26,6 @@ public class QueryCondition {
      * @return String
      */
     public String getPageSql() {
-      /*  if (null == page) {
-            page = 1L;
-        }
-
-        if (null == limit) {
-            limit = 10L;
-        }*/
         return "limit " + (page - 1) * limit + "," + limit;
     }
 

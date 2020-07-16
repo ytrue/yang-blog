@@ -1,9 +1,9 @@
 package com.yang.blog.controller.backend;
 
 
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.entity.Admin;
 import com.yang.blog.service.IAdminService;
-import com.yang.blog.util.QueryCondition;
 import com.yang.blog.util.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class AdminController {
      */
     @ResponseBody
     @PostMapping("index")
-    public Map<String, Object> index(@RequestBody QueryCondition queryCondition) {
+    public Map<String, Object> index(@RequestBody BaseQueryParam queryCondition) {
         return adminService.queryPage(queryCondition);
     }
 

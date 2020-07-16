@@ -2,7 +2,7 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Tag;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface ITagService extends IService<Tag> {
      * @param queryCondition
      * @return
      */
-    Map<String, Object> queryPage(QueryCondition queryCondition);
+    Map<String, Object> queryPage(BaseQueryParam queryCondition);
 
     /**
      * id删除

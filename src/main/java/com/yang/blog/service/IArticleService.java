@@ -2,7 +2,7 @@ package com.yang.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.blog.entity.Article;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import org.springframework.validation.BindingResult;
 
@@ -17,7 +17,7 @@ public interface IArticleService extends IService<Article> {
      * @param params
      * @return
      */
-    Map<String, Object> queryPage(QueryCondition params);
+    Map<String, Object> queryPage(BaseQueryParam params);
 
     /**
      * 新增

@@ -20,6 +20,7 @@ public class ResponseData<T> {
 
     private T data;
 
+
     public ResponseData() {
     }
 
@@ -48,8 +49,6 @@ public class ResponseData<T> {
         map.put("rows", rows);
         return map;
     }
-
-
 
     public static <T> ResponseData<T> success() {
         ResponseData<T> resp = new ResponseData<T>(null);
@@ -120,12 +119,5 @@ public class ResponseData<T> {
         return this;
     }
 
-//    public static <T> ResponseData<T> verificationResults(T data) {
-//        ResponseData<T> resp = new ResponseData<T>(data);
-//        //操作成功
-//        resp.setCode(2);
-//        resp.setMsg("error");
-//        return resp;
-//    }
 }
 

@@ -2,6 +2,7 @@ package com.yang.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yang.blog.dto.ArticleWithCategory;
 import com.yang.blog.entity.Article;
 import com.yang.blog.entity.Tag;
 import com.yang.blog.mapper.ArticleMapper;
@@ -10,7 +11,7 @@ import com.yang.blog.search.entity.EsArticle;
 import com.yang.blog.search.repository.EsArticleRepository;
 import com.yang.blog.service.IArticleService;
 import com.yang.blog.service.ITagService;
-import com.yang.blog.util.QueryCondition;
+import com.yang.blog.dto.BaseQueryParam;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.VerificationJudgementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return
      */
     @Override
-    public Map<String, Object> queryPage(QueryCondition params) {
+    public Map<String, Object> queryPage(BaseQueryParam params) {
 
         //获得页码
         Long page = params.getPage();
@@ -66,8 +67,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //获得startLimit
         Long startLimit = (page - 1) * limit;
         //这里要设置一下分页查询
-        List<Map<String, Object>> maps = articleMapper.articleWithCategory(0L, limit);
-        return ResponseData.list(count(), maps);
+        List<ArticleWithCategory> articles = articleMapper.articleWithCategory(0L, limit);
+        return ResponseData.list(count(), articles);
     }
 
 

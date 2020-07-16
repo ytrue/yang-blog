@@ -1,7 +1,7 @@
 package com.yang.blog.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.yang.blog.entity.AdminLogin;
+import com.yang.blog.dto.AdminLoginParam;
 import com.yang.blog.security.login.AdminAuthenticationFailureHandler;
 import com.yang.blog.security.login.AdminAuthenticationSuccessHandler;
 import com.yang.blog.security.login.CusAuthenticationManager;
@@ -60,11 +60,11 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
         try {
             MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(request);
             // 将前端传递的数据转换成jsonBean数据格式
-            AdminLogin adminLogin = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), AdminLogin.class);
+            AdminLoginParam adminLogin = JSONObject.parseObject(wrappedRequest.getBodyJsonStrByJson(wrappedRequest), AdminLoginParam.class);
             /**
              * 数据校验
              */
-            Set<ConstraintViolation<AdminLogin>> validateSet = Validation.buildDefaultValidatorFactory()
+            Set<ConstraintViolation<AdminLoginParam>> validateSet = Validation.buildDefaultValidatorFactory()
                     .getValidator()
                     .validate(adminLogin);
 

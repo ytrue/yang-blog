@@ -1,17 +1,17 @@
-package com.yang.blog.entity;
+package com.yang.blog.dto;
 
 import com.yang.blog.validator.Captcha;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
 /**
  * @author yangyi
  * @date 2020/6/15 16:27
- * @description：登录实体类
+ * @description：登录参数
  */
-public class AdminLogin {
+@Data
+public class AdminLoginParam {
     /**
      * 用户名
      */

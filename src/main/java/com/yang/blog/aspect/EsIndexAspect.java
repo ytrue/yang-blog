@@ -10,7 +10,9 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * 判断es索引是否存在，不存在就创建
+ * @author：yangyi
+ * @date：2020/4/16 18:03
+ * @description：spring 判断elasticsearch index 是否存在
  */
 @Aspect
 @Component

@@ -1,10 +1,10 @@
 package com.yang.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @author yangyi
@@ -13,9 +13,7 @@ import java.util.Date;
  */
 @Data
 @TableName("sys_user_role")
-public class AdminRole {
-
-    private static final long serialVersionUID = 1L;
+public class AdminRole extends BaseEntity {
 
     /**
      * 主键
@@ -35,18 +33,5 @@ public class AdminRole {
 
     @TableField("role_id")
     private Integer roleId;
-
-    /**
-     * 创建时间
-     */
-
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
 
 }
