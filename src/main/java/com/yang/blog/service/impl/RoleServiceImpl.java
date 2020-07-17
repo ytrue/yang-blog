@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.entity.Permission;
 import com.yang.blog.entity.Role;
 import com.yang.blog.entity.RoleMenu;
@@ -12,8 +13,8 @@ import com.yang.blog.service.IAdminRoleService;
 import com.yang.blog.service.IPermissionService;
 import com.yang.blog.service.IRoleMenuService;
 import com.yang.blog.service.IRoleService;
-import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
+import com.yang.blog.util.SearchUtil;
 import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     /**
      * 分配权限
+     *
      * @param menuId
      * @param id
      * @return
@@ -120,8 +122,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      */
     @Override
     public Map<String, Object> queryPage(QueryParam params) {
+
+        QueryWrapper<Role> queryWrapper = SearchUtil.parseWhereSql(new QueryWrapper<>(), params.getCondition());
+        int count = count(queryWrapper);
+
         List<Map<String, Object>> rows = listMaps(
-                new QueryWrapper<Role>()
+                queryWrapper
                         .select("id", "code", "name", "create_time")
                         .orderByDesc("id")
                         .last(params.getPageSql())
@@ -143,7 +149,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
                         .orderByDesc("id")
         );
     }
-
 
 
     /**

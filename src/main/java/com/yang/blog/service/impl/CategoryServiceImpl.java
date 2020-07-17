@@ -43,6 +43,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return ResponseData.list(count, rows);
     }
 
+    /**
+     * 新增
+     *
+     * @param category
+     * @param bindingResult
+     * @return
+     */
     @Override
     public ResponseData<Object> add(Category category, BindingResult bindingResult) {
         ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
@@ -57,6 +64,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }
     }
 
+    /**
+     * id查找
+     *
+     * @param id
+     * @return
+     */
     @Override
     public ResponseData<Map<String, Object>> find(Long id) {
         Map<String, Object> map = getMap(
@@ -70,6 +83,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return ResponseData.success(map);
     }
 
+    /**
+     * 修改
+     *
+     * @param category
+     * @param bindingResult
+     * @return
+     */
     @Override
     public ResponseData<Object> update1(Category category, BindingResult bindingResult) {
         ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
@@ -85,6 +105,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }
     }
 
+    /**
+     * 删除
+     *
+     * @param ids
+     * @return
+     */
     @Override
     public ResponseData<Object> del(List<Long> ids) {
         try {

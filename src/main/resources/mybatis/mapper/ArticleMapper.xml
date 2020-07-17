@@ -17,24 +17,51 @@
 
     <!--关联查询-->
     <select id="articleWithCategory" resultMap="articleWithCategoryDto">
-		select
-			a.id,
-			a.title,
-			a.image,
-			a.category_id,
-			a.tag,
-			a.views,
-			a.status,
-			a.enable_comment,
-			a.create_time,
-			c.name as category_name
-		from
-			blog_article as a,
-			blog_category as c
-		where
-			a.category_id = c.id
-			order by id desc
-			limit #{start},#{end};
+        select
+        a.id,
+        a.title,
+        a.image,
+        a.category_id,
+        a.tag,
+        a.views,
+        a.status,
+        a.enable_comment,
+        a.create_time,
+        c.name as category_name
+        from
+        blog_article as a,
+        blog_category as c
+        where
+        a.category_id = c.id
+        <if test="conditionDtoList != null and conditionDtoList.size() > 0">
+            <foreach collection="conditionDtoList" item="conditionDto">
+                <!-- 每个遍历需要拼接的串 -->
+
+                <if test="conditionDto.column =='title' and  conditionDto.value != null and conditionDto.value != '' ">
+                    and a.title LIKE '%${conditionDto.value}%'
+                </if>
+
+                <if test="conditionDto.column =='tag' and  conditionDto.value != null and conditionDto.value != '' ">
+                    and a.tag LIKE '%${conditionDto.value}%'
+                </if>
+
+                <if test="conditionDto.column =='status' and  conditionDto.value != null and conditionDto.value != '' ">
+                    and a.status = #{conditionDto.value}
+                </if>
+
+                <if test="conditionDto.column =='enable_comment' and  conditionDto.value != null and conditionDto.value != '' ">
+                    and a.enable_comment = #{conditionDto.value}
+                </if>
+
+                <if test="conditionDto.column =='category_id' and  conditionDto.value != null and conditionDto.value != '' ">
+                    and a.category_id = #{conditionDto.value}
+                </if>
+
+            </foreach>
+        </if>
+        order by id desc
+        limit #{start},#{end};
+
     </select>
 
 

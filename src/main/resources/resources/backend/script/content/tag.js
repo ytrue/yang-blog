@@ -106,7 +106,12 @@ new Vue({
                 //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 // 如果queryParamsType=limit,params包含{limit, offset, search, sort, order}
                 // 如果queryParamsType!=limit,params包含{pageSize, pageNumber, searchText, sortName, sortOrder}
+                let name = $("#name").val();
+                let searchParam = [
+                    {column: "name", type: "like", value: name},
+                ];
                 return {
+                    condition: JSON.stringify(searchParam),
                     limit: params.pageSize,   //页面大小
                     page: params.pageNumber,  //页码
                 };
@@ -146,7 +151,12 @@ new Vue({
         btnRest: function () {
             $("#table").bootstrapTable('refresh');
         },
-
+        btnEmpty: function () {
+            $("#name").val('');
+            let table = $("#table");
+            table.bootstrapTable('refresh');
+            table.bootstrapTable('selectPage', 1);
+        }
     },
     mounted: function () {
     }

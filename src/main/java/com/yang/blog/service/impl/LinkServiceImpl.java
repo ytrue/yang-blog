@@ -2,11 +2,12 @@ package com.yang.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.entity.Link;
 import com.yang.blog.mapper.LinkMapper;
 import com.yang.blog.service.ILinkService;
-import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
+import com.yang.blog.util.SearchUtil;
 import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -25,8 +26,10 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements IL
 
     @Override
     public Map<String, Object> queryPage(QueryParam queryCondition) {
+        QueryWrapper<Link> queryWrapper = SearchUtil.parseWhereSql(new QueryWrapper<>(), queryCondition.getCondition());
+        int count = count(queryWrapper);
         List<Map<String, Object>> rows = listMaps(
-                new QueryWrapper<Link>()
+                queryWrapper
                         .select(
                                 "id",
                                 "type",
@@ -40,7 +43,7 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements IL
                         .orderByDesc("id")
                         .last(queryCondition.getPageSql())
         );
-        return ResponseData.list(count(), rows);
+        return ResponseData.list(count, rows);
     }
 
     @Override

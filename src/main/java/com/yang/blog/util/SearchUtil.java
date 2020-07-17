@@ -24,10 +24,14 @@ public class SearchUtil {
                 for (ConditionDto conditionDto : conditionDtoList) {
                     switch (conditionDto.getType()) {
                         case "eq":
-                            queryWrapper.eq(conditionDto.getColumn(), conditionDto.getValue());
+                            if (!StringUtils.isEmpty(conditionDto.getValue())) {
+                                queryWrapper.eq(conditionDto.getColumn(), conditionDto.getValue());
+                            }
                             break;
                         case "ne":
-                            queryWrapper.ne(conditionDto.getColumn(), conditionDto.getValue());
+                            if (!StringUtils.isEmpty(conditionDto.getValue())) {
+                                queryWrapper.ne(conditionDto.getColumn(), conditionDto.getValue());
+                            }
                             break;
                         case "like":
                             queryWrapper.like(conditionDto.getColumn(), conditionDto.getValue());
@@ -42,16 +46,24 @@ public class SearchUtil {
                             queryWrapper.notLike(conditionDto.getColumn(), conditionDto.getValue());
                             break;
                         case "gt":
-                            queryWrapper.gt(conditionDto.getColumn(), conditionDto.getValue());
+                            if (!StringUtils.isEmpty(conditionDto.getValue())) {
+                                queryWrapper.gt(conditionDto.getColumn(), conditionDto.getValue());
+                            }
                             break;
                         case "lt":
-                            queryWrapper.lt(conditionDto.getColumn(), conditionDto.getValue());
+                            if (!StringUtils.isEmpty(conditionDto.getValue())) {
+                                queryWrapper.lt(conditionDto.getColumn(), conditionDto.getValue());
+                            }
                             break;
                         case "ge":
-                            queryWrapper.ge(conditionDto.getColumn(), conditionDto.getValue());
+                            if (!StringUtils.isEmpty(conditionDto.getValue())) {
+                                queryWrapper.ge(conditionDto.getColumn(), conditionDto.getValue());
+                            }
                             break;
                         case "le":
-                            queryWrapper.le(conditionDto.getColumn(), conditionDto.getValue());
+                            if (!StringUtils.isEmpty(conditionDto.getValue())) {
+                                queryWrapper.le(conditionDto.getColumn(), conditionDto.getValue());
+                            }
                             break;
                     }
                 }

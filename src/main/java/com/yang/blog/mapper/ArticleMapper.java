@@ -2,6 +2,7 @@ package com.yang.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yang.blog.dto.ArticleWithCategory;
+import com.yang.blog.dto.ConditionDto;
 import com.yang.blog.entity.Article;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +17,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     List<ArticleWithCategory> articleWithCategory(
             @Param("start") Long start,
-            @Param("end") Long end
+            @Param("end") Long end,
+            @Param("conditionDtoList") List<ConditionDto> conditionDtoList
     );
 }

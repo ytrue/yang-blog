@@ -1,8 +1,10 @@
 package com.yang.blog.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.dto.ArticleWithCategory;
+import com.yang.blog.dto.ConditionDto;
 import com.yang.blog.entity.Article;
 import com.yang.blog.entity.Tag;
 import com.yang.blog.mapper.ArticleMapper;
@@ -13,6 +15,7 @@ import com.yang.blog.service.IArticleService;
 import com.yang.blog.service.ITagService;
 import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
+import com.yang.blog.util.SearchUtil;
 import com.yang.blog.util.VerificationJudgementUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -66,9 +69,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Long limit = params.getLimit();
         //获得startLimit
         Long startLimit = (page - 1) * limit;
-        //这里要设置一下分页查询
-        List<ArticleWithCategory> articles = articleMapper.articleWithCategory(0L, limit);
-        return ResponseData.list(count(), articles);
+        //获得查询集合
+        List<ConditionDto> conditionDtoList = JSON.parseArray(params.getCondition(), ConditionDto.class);
+
+        QueryWrapper<Article> queryWrapper = SearchUtil.parseWhereSql(new QueryWrapper<>(), params.getCondition());
+
+        List<ArticleWithCategory> articles = articleMapper.articleWithCategory(startLimit, limit, conditionDtoList);
+        return ResponseData.list(count(queryWrapper), articles);
     }
 
 

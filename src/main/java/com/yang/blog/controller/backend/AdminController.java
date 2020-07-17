@@ -36,7 +36,6 @@ public class AdminController {
     @ResponseBody
     @PostMapping("index")
     public Map<String, Object> index(@RequestBody QueryParam queryParam) {
-        System.out.println(queryParam);
         return adminService.queryPage(queryParam);
     }
 

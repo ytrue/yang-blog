@@ -79,6 +79,7 @@ new Vue({
         'BootstrapTable': BootstrapTable
     },
     data: {
+        categoryList: '',
         columns: [
             {
                 checkbox: true
@@ -174,7 +175,21 @@ new Vue({
                 //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 // 如果queryParamsType=limit,params包含{limit, offset, search, sort, order}
                 // 如果queryParamsType!=limit,params包含{pageSize, pageNumber, searchText, sortName, sortOrder}
+
+                let title = $("#title").val();
+                let category_id = $("#category_id").val();
+                let tag = $("#tag").val();
+                let status = $("#status").val();
+                let enable_comment = $("#enable_comment").val();
+                let searchParam = [
+                    {column: "title", type: "like", value: title},
+                    {column: "tag", type: "like", value: tag},
+                    {column: "category_id", type: "eq", value: category_id},
+                    {column: "status", type: "eq", value: status},
+                    {column: "enable_comment", type: "eq", value: enable_comment},
+                ];
                 return {
+                    condition: JSON.stringify(searchParam),
                     limit: params.pageSize,   //页面大小
                     page: params.pageNumber,  //页码
                 };
@@ -182,7 +197,7 @@ new Vue({
             queryParamsType: '',                //如果要在oTableInit.queryParams方法获取pageNumber和pageSize的值，需要将此值设置为空字符串（*）
             sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
             pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 10,                       //每页的记录行数（*）
+            pageSize: 1,                       //每页的记录行数（*）
             pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
             strictSearch: true,
             showColumns: true,                  //是否显示所有的列
@@ -253,8 +268,36 @@ new Vue({
         btnRest: function () {
             $("#table").bootstrapTable('refresh');
         },
+        getCategory: function () {
+            let that = this;
+            //获得栏目
+            axios({
+                url: "/admin/content/category/index",
+                method: "post",
+                data: {
+                    limit: 9999,   //页面大小
+                    page: 1,  //页码
+                }
+            }).then(function (response) {
+                let index = parent.layer.getFrameIndex(window.name);
 
+                if (response.data.data !== "undefined") {
+                    //那就是成功的
+                    that.categoryList = response.data.rows;
+                    layer.closeAll('loading'); //关闭加载层
+                } else {
+                    layer.closeAll('loading'); //关闭加载层
+                    layer.alert(data.msg, {
+                        icon: 2,
+                    }, function () {
+                        parent.layer.close(index); //再执行关闭
+                    })
+                }
+            })
+        },
     },
     mounted: function () {
+        //获得所有的栏目
+        this.getCategory();
     }
 })
