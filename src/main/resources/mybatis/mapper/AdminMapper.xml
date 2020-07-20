@@ -14,6 +14,15 @@
         <result column="code" property="code"/>
     </resultMap>
 
+    <resultMap type="com.yang.blog.entity.Permission" id="permission">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="icon" property="icon"/>
+        <result column="ismenu" property="ismenu"/>
+    </resultMap>
+
     <select id="roleFindByIdAdmin" resultMap="roleDto">
         select
 	        sys_role.id,
@@ -30,5 +39,21 @@
 		order by
 			id
     </select>
+
+
+    <select id="permissionFindByAdmin" resultMap="permission">
+        select
+            sys_permission.*
+        from
+            sys_admin
+
+        inner join sys_user_role on sys_admin.id = 	sys_user_role.user_id
+        inner join sys_role on sys_role.id = sys_user_role.role_id
+        inner join sys_role_permission on sys_role.id = 	sys_role_permission.role_id
+        inner join sys_permission on sys_role_permission.permission_id = 	sys_permission.id
+        where
+            sys_admin.username = #{username}
+        group by sys_permission.id;
+	</select>
 
 </mapper>

@@ -65,10 +65,14 @@
         methods: {
             initData: function (id) {
                 let that = this;
+                let qs = Qs;
                 axios({
                     //url: "/admin/auth/admin/find/" + id,
-                    url: "/admin/auth/admin/find/" + id,
-                    method: "get",
+                    url: "/admin/auth/admin/update",
+                    method: "post",
+                    data: qs.stringify({
+                        id: id,
+                    })
                 }).then(function (response) {
                     layer.closeAll('loading'); //关闭加载层
                     let data = response.data;

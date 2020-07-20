@@ -3,6 +3,7 @@ package com.yang.blog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yang.blog.dto.RoleDto;
 import com.yang.blog.entity.Admin;
+import com.yang.blog.entity.Permission;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ import java.util.List;
 public interface AdminMapper extends BaseMapper<Admin> {
 
     List<RoleDto> roleFindByIdAdmin(Long id);
+
+    List<Permission> permissionFindByAdmin(String username);
 }

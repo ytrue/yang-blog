@@ -62,8 +62,8 @@ public class RoleController {
      * @return
      */
     @ResponseBody
-    @GetMapping("find/{id}")
-    public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
+    @PostMapping(value = {"update"})
+    public ResponseData<Map<String, Object>> find(@RequestParam(value = "id") Long id) {
         return roleService.find(id);
     }
 

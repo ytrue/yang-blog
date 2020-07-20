@@ -73,8 +73,8 @@ public class AdminController {
      * @return
      */
     @ResponseBody
-    @GetMapping(value = "find/{id}")
-    public ResponseData<Map<String, Object>> find(@PathVariable("id") Long id) {
+    @PostMapping(value = {"update"})
+    public ResponseData<Map<String, Object>> find(@RequestParam(value = "id") Long id) {
         return adminService.find(id);
     }
 

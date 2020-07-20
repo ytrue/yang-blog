@@ -14,6 +14,6 @@ public class UrlAuthConfig {
     }
 
     public static List<String> authenticated() {
-        return Arrays.asList("/home", "/yangyi");
+        return null;
     }
 }

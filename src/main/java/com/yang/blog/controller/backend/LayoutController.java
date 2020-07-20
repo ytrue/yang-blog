@@ -1,9 +1,10 @@
 package com.yang.blog.controller.backend;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yang.blog.entity.Permission;
-import com.yang.blog.service.IPermissionService;
+import com.yang.blog.mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.util.List;
 public class LayoutController {
 
     @Autowired
-    private IPermissionService permissionService;
+    private AdminMapper adminMapper;
 
     /**
      * 布局首页
@@ -29,15 +30,17 @@ public class LayoutController {
      */
     @RequestMapping(value = {"/admin/index", "/admin/", "/admin"})
     public String index(Model model) {
-        List<Permission> permissionList = permissionService.list(
-                new QueryWrapper<>()
-        );
-        List<Permission> menu = getChildManyGroup(permissionList, 0);
-        //获得登录用户名
-        //UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //String username = principal.getUsername();
 
-        model.addAttribute("username", 123);
+        //获得登录用户名
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getUsername();
+        List<Permission> permissions = adminMapper.permissionFindByAdmin(username);
+        //获得该角色有的角色，在之后获得权限
+        /*List<Permission> permissionList = permissionService.list(
+                new QueryWrapper<>()
+        );*/
+        List<Permission> menu = getChildManyGroup(permissions, 0);
+        model.addAttribute("username", username);
         model.addAttribute("menu", menu);
         return "backend/layout";
     }
