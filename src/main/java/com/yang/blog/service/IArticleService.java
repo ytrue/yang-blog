@@ -40,6 +40,16 @@ public interface IArticleService extends IService<Article> {
 
 
     /**
+     * 修改
+     *
+     * @param article
+     * @param bindingResult
+     * @return
+     */
+    ResponseData<Object> update2(Article article, BindingResult bindingResult);
+
+
+    /**
      * 删除
      *
      * @param ids

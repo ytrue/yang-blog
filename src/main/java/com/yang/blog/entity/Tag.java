@@ -25,6 +25,7 @@ public class Tag extends BaseEntity {
     @NotBlank(message = "tag不得为空！")
     private String name;
 
+
     /**
      * 数量
      */

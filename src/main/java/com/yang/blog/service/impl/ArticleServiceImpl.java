@@ -5,15 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yang.blog.dto.ArticleWithCategory;
 import com.yang.blog.dto.ConditionDto;
+import com.yang.blog.dto.QueryParam;
 import com.yang.blog.entity.Article;
+import com.yang.blog.entity.ArticleTag;
 import com.yang.blog.entity.Tag;
 import com.yang.blog.mapper.ArticleMapper;
+import com.yang.blog.mapper.ArticleTagMapper;
 import com.yang.blog.mapper.TagMapper;
 import com.yang.blog.search.entity.EsArticle;
 import com.yang.blog.search.repository.EsArticleRepository;
 import com.yang.blog.service.IArticleService;
 import com.yang.blog.service.ITagService;
-import com.yang.blog.dto.QueryParam;
 import com.yang.blog.util.ResponseData;
 import com.yang.blog.util.SearchUtil;
 import com.yang.blog.util.VerificationJudgementUtil;
@@ -54,6 +56,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private TransactionDefinition transactionDefinition;
 
+    @Autowired
+    private ArticleTagMapper articleTagMapper;
+
     /**
      * 分页查询
      *
@@ -78,6 +83,39 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResponseData.list(count(queryWrapper), articles);
     }
 
+
+    /**
+     * 新的修改
+     *
+     * @param article
+     * @param bindingResult
+     * @return
+     */
+    @Override
+    public ResponseData<Object> update2(Article article, BindingResult bindingResult) {
+        ArrayList<String> errorList = VerificationJudgementUtil.hasErrror(bindingResult);
+        if (!errorList.isEmpty()) {
+            return ResponseData.fail(2, "error", errorList);
+        }
+        try {
+            //把tag转化为list
+            String tag = article.getTag();
+            String[] tagArr = tag.split(",");
+            List<String> tagList = new ArrayList<>(tagArr.length);
+            Collections.addAll(tagList, tagArr);
+
+            //查找这个id的数据
+
+
+            return null;
+        } catch (Exception exception) {
+            //手动回滚，处理try失效问题
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ResponseData.fail(exception.getMessage());
+        }
+
+
+    }
 
     /**
      * 新增
@@ -114,27 +152,41 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     }
                 }
             }
-            //获得数据库查询出来的名字
-            List<Object> dbTagByName = tagService.listMaps(query.select("name")).stream().map(map -> map.get("name")).collect(toList());
+            List<Map<String, Object>> mapList = tagService.listMaps(query.select("name", "id"));
+            //获得name
+            List<Object> dbTagByName = mapList.stream().map(map -> map.get("name")).collect(toList());
+            //获得id
+            List<Object> dbTagById = mapList.stream().map(map -> map.get("id")).collect(toList());
             //交集
-            List<String> intersection = tagList.stream().filter(dbTagByName::contains).collect(toList());
+            //List<String> intersection = tagList.stream().filter(dbTagByName::contains).collect(toList());
             // 差集
             List<String> diff = tagList.stream().filter(item -> !dbTagByName.contains(item)).collect(toList());
 
-            //交集的+1
-            intersection.forEach(s -> tagMapper.setIncByNumber(s));
-
+            //新增文章
+            save(article);
             //差集的新增
-            List<Tag> addTagList = new ArrayList<>();
             diff.forEach(s -> {
                 Tag tag1 = new Tag();
                 tag1.setNumber(1);
                 tag1.setName(s);
-                addTagList.add(tag1);
+                tagService.save(tag1);
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setBlogId(article.getId());
+                articleTag.setTagId(tag1.getId());
+                articleTagMapper.insert(articleTag);
             });
-            tagService.saveBatch(addTagList);
-            //新增文章
-            save(article);
+
+            //交集的+1
+            dbTagByName.forEach(o -> tagMapper.setIncByNumber(String.valueOf(o)));
+            //中间表新增
+            dbTagById.forEach(o -> {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setBlogId(article.getId());
+                Long aLong = Long.valueOf(String.valueOf(o));
+                articleTag.setTagId(aLong.intValue());
+                articleTagMapper.insert(articleTag);
+            });
+
 
             //获得主键，和创建时间
             //插入elasticsearch里
@@ -190,7 +242,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             QueryWrapper<Tag> query = new QueryWrapper<>();
             int tagSize = diffTagList.size();
 
-
             if (tagSize == 1) {
                 query.eq("name", diffTagList.get(0));
             } else {
@@ -203,23 +254,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 }
             }
 
-            //获得数据库查询出来的名字
-            List<Map<String, Object>> getDiffMaps = new ArrayList<>();
-            if (!diffTagList.isEmpty()) {
-                getDiffMaps = tagService.listMaps(query.select("name,number"));
-            }
+            //批量删除
+            articleTagMapper.delete(new QueryWrapper<ArticleTag>().eq("blog_id", article.getId()));
 
-            if (!getDiffMaps.isEmpty()) {
-                getDiffMaps.forEach(map -> {
-                    long number = Long.parseLong(String.valueOf(map.get("number")));
-                    if (number == 1L) {
-                        //删除
-                        tagMapper.delete(new QueryWrapper<Tag>().eq("name", map.get("name")));
-                    } else {
-                        tagMapper.setDecByNumber(String.valueOf(map.get("name")));
-                    }
-                });
-            }
+            //获得数据库查询出来的名字
+            List<Map<String, Object>> getDiffMaps = tagService.listMaps(query.select("name,number"));
+
+            getDiffMaps.forEach(map -> {
+                long number = Long.parseLong(String.valueOf(map.get("number")));
+                if (number == 1L) {
+                    //删除
+                    tagMapper.delete(new QueryWrapper<Tag>().eq("name", map.get("name")));
+                } else {
+                    tagMapper.setDecByNumber(String.valueOf(map.get("name")));
+                }
+            });
+
 
             //获得差集,之后加一
             List<String> diffTagList1 = tagList.stream().filter(item -> !tagList1.contains(item)).collect(toList());
@@ -227,14 +277,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             diffTagList1.forEach(s -> {
                 //查询数据库用没用
                 Tag tag2 = tagMapper.selectOne(new QueryWrapper<Tag>().eq("name", s));
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setBlogId(article.getId());
                 if (null != tag2) {
                     tagMapper.setIncByNumber(s);
+                    //这里要中间表的操作
+                    articleTag.setTagId(tag2.getId());
                 } else {
                     Tag tag3 = new Tag();
                     tag3.setName(s);
                     tag3.setNumber(1);
                     tagMapper.insert(tag3);
+                    //这里要中间表的操作
+                    articleTag.setTagId(tag3.getId());
                 }
+                articleTagMapper.insert(articleTag);
             });
 
             updateById(article);
@@ -256,9 +313,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return ResponseData.fail(e.getMessage());
         }
-
     }
-
 
     /**
      * id删除
@@ -294,6 +349,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 }
             });
             removeByIds(ids);
+            //删除改文章的中间数据
+            articleTagMapper.delete(new QueryWrapper<ArticleTag>().in("blog_id", ids));
             //手动提交事务
             dataSourceTransactionManager.commit(transactionStatus);
             //删除elasticsearch的
