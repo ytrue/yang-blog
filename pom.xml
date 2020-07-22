@@ -9,11 +9,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <mybatisplus.version>3.0.7.1</mybatisplus.version>
-        <mybatisplus.version>3.2.0</mybatisplus.version>
+        <mybatisplus.version>3.3.1</mybatisplus.version>
         <mysql.version>5.1.6</mysql.version>
         <swagger.version>2.9.2</swagger.version>
-
         <fastjson.version>1.2.25</fastjson.version>
     </properties>
 
@@ -69,12 +67,12 @@
             <version>${mysql.version}</version>
         </dependency>
         <!-- mybatis plus-->
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.3.1.tmp</version>
+            <version>${mybatisplus.version}</version>
         </dependency>
-
         <!--Google 的json转化工具-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
